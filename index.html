@@ -1,0 +1,1274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bhavik Dedhia | Cyber Security Lab</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --red:#e50914;--dark:#141414;--card:#1a1a2e;
+  --text:#fff;--muted:#b3b3b3;--accent:#e50914;--green:#46d369;
+  --blue:#0071eb;--gold:#f5c518;
+}
+body{background:var(--dark);color:var(--text);font-family:'Segoe UI',Arial,sans-serif;overflow-x:hidden;}
+html{scroll-behavior:smooth;}
+nav{background:rgba(20,20,20,0.97);padding:0 4%;height:68px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:999;border-bottom:1px solid #222;}
+.logo{font-size:26px;font-weight:900;color:var(--red);letter-spacing:2px;text-transform:uppercase;}
+.nav-links{display:flex;gap:24px;list-style:none;}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:14px;transition:color .2s;}
+.nav-links a:hover{color:#fff;}
+.hero{background:linear-gradient(135deg,#0a0a0a 0%,#1a0a0a 40%,#0a0a1a 100%);min-height:85vh;display:flex;flex-direction:column;justify-content:center;padding:0 6%;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23e50914' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(229,9,20,0.15);border:1px solid rgba(229,9,20,0.4);border-radius:20px;padding:6px 16px;font-size:12px;color:var(--red);font-weight:700;letter-spacing:1px;margin-bottom:24px;text-transform:uppercase;}
+.hero h1{font-size:clamp(36px,6vw,72px);font-weight:900;line-height:1.05;margin-bottom:16px;}
+.hero h1 span{color:var(--red);}
+.hero p{font-size:18px;color:var(--muted);max-width:560px;line-height:1.6;margin-bottom:32px;}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap;}
+.btn{padding:12px 28px;border-radius:4px;font-size:15px;font-weight:700;cursor:pointer;border:none;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:all .2s;}
+.btn-primary{background:var(--red);color:#fff;}
+.btn-primary:hover{background:#f40612;}
+.btn-secondary{background:rgba(255,255,255,0.1);color:#fff;border:1px solid rgba(255,255,255,0.3);}
+.btn-secondary:hover{background:rgba(255,255,255,0.2);}
+.hero-stats{display:flex;gap:40px;margin-top:48px;flex-wrap:wrap;}
+.stat{text-align:center;}
+.stat-num{font-size:32px;font-weight:900;color:var(--red);}
+.stat-label{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;}
+section{padding:60px 4%;}
+.section-label{font-size:11px;color:var(--red);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;}
+.section-title{font-size:clamp(22px,3vw,36px);font-weight:800;margin-bottom:8px;}
+.section-sub{color:var(--muted);font-size:15px;margin-bottom:36px;}
+.divider{height:1px;background:linear-gradient(90deg,transparent,#333,transparent);margin:0 4%;}
+.linkedin-section{background:linear-gradient(135deg,#0a0f1e,#0d1b2a);}
+.linkedin-card{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:40px;display:flex;gap:40px;align-items:center;flex-wrap:wrap;}
+.li-avatar{width:120px;height:120px;border-radius:50%;background:linear-gradient(135deg,#0077b5,#00a0dc);display:flex;align-items:center;justify-content:center;font-size:40px;font-weight:900;color:#fff;flex-shrink:0;}
+.li-info h2{font-size:28px;font-weight:800;margin-bottom:4px;}
+.li-info .li-title{color:var(--muted);font-size:15px;margin-bottom:16px;}
+.li-skills{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px;}
+.skill-tag{background:rgba(0,119,181,0.15);border:1px solid rgba(0,119,181,0.35);color:#5fb3d4;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:600;}
+.li-connect{background:#0077b5;color:#fff;padding:12px 28px;border-radius:6px;font-size:14px;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:all .2s;}
+.li-connect:hover{background:#00a0dc;}
+.li-stats{display:flex;gap:24px;margin-top:24px;flex-wrap:wrap;}
+.li-stat{text-align:center;background:rgba(0,119,181,0.08);padding:12px 20px;border-radius:10px;border:1px solid rgba(0,119,181,0.2);}
+.li-stat-num{font-size:20px;font-weight:800;color:#00a0dc;}
+.li-stat-label{font-size:11px;color:var(--muted);}
+.games-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:20px;}
+.game-card{background:var(--card);border:1px solid #222;border-radius:12px;overflow:hidden;transition:transform .2s,border-color .2s;}
+.game-card:hover{transform:translateY(-4px);border-color:#444;}
+.game-banner{height:130px;display:flex;align-items:center;justify-content:center;font-size:48px;}
+.game-body{padding:16px;}
+.game-title{font-size:15px;font-weight:700;margin-bottom:4px;}
+.game-desc{font-size:12px;color:var(--muted);margin-bottom:12px;line-height:1.5;}
+.game-meta{display:flex;gap:8px;flex-wrap:wrap;}
+.game-badge{font-size:10px;padding:3px 8px;border-radius:10px;font-weight:700;}
+.badge-cyber{background:rgba(229,9,20,0.15);color:#ff6b6b;border:1px solid rgba(229,9,20,0.3);}
+.badge-fun{background:rgba(70,211,105,0.15);color:#46d369;border:1px solid rgba(70,211,105,0.3);}
+.badge-hard{background:rgba(245,197,24,0.15);color:#f5c518;border:1px solid rgba(245,197,24,0.3);}
+.badge-medium{background:rgba(0,113,235,0.15);color:#6bb5ff;border:1px solid rgba(0,113,235,0.3);}
+.badge-easy{background:rgba(70,211,105,0.15);color:#46d369;border:1px solid rgba(70,211,105,0.3);}
+.play-btn{margin-top:12px;width:100%;background:var(--red);color:#fff;border:none;border-radius:6px;padding:10px;font-size:13px;font-weight:700;cursor:pointer;transition:background .2s;}
+.play-btn:hover{background:#f40612;}
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.93);z-index:9999;overflow-y:auto;}
+.modal-overlay.active{display:flex;align-items:flex-start;justify-content:center;padding:30px 12px;}
+.modal-box{background:#111;border:1px solid #333;border-radius:16px;width:100%;max-width:860px;position:relative;}
+.modal-header{padding:18px 22px;border-bottom:1px solid #222;display:flex;justify-content:space-between;align-items:center;}
+.modal-title{font-size:18px;font-weight:800;}
+.modal-close{background:rgba(255,255,255,0.1);border:none;color:#fff;width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;transition:background .2s;}
+.modal-close:hover{background:rgba(255,255,255,0.2);}
+.modal-body{padding:22px;}
+.game-area{min-height:380px;}
+/* game shared styles */
+.ps-input,.cipher-input{width:100%;background:#0a0a0a;border:2px solid #333;border-radius:8px;padding:12px 16px;font-size:16px;color:#fff;margin-bottom:12px;font-family:monospace;}
+.ps-input:focus,.cipher-input:focus{outline:none;border-color:var(--red);}
+.strength-bar{height:8px;background:#222;border-radius:4px;margin-bottom:12px;overflow:hidden;}
+.strength-fill{height:100%;border-radius:4px;transition:all .3s;}
+.ps-tips{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.ps-tip{font-size:12px;padding:6px 10px;border-radius:6px;display:flex;align-items:center;gap:6px;}
+.tip-ok{background:rgba(70,211,105,0.1);color:#46d369;border:1px solid rgba(70,211,105,0.2);}
+.tip-bad{background:rgba(229,9,20,0.1);color:#ff6b6b;border:1px solid rgba(229,9,20,0.2);}
+.email-card{background:#0d0d1a;border:1px solid #2a2a4a;border-radius:10px;padding:16px;margin-bottom:12px;}
+.email-from{font-size:11px;color:var(--muted);margin-bottom:3px;}
+.email-subject{font-size:14px;font-weight:700;margin-bottom:6px;}
+.email-preview{font-size:12px;color:var(--muted);}
+.phish-result{text-align:center;padding:12px;border-radius:8px;margin-top:10px;font-size:13px;}
+.correct-ans{background:rgba(70,211,105,0.15);border:1px solid rgba(70,211,105,0.3);color:#46d369;}
+.wrong-ans{background:rgba(229,9,20,0.15);border:1px solid rgba(229,9,20,0.3);color:#ff6b6b;}
+.cipher-display{background:#0a0a0a;border:1px solid #333;border-radius:8px;padding:16px;font-family:monospace;font-size:16px;letter-spacing:3px;margin-bottom:12px;min-height:50px;word-break:break-all;}
+.cipher-hint{font-size:13px;color:var(--muted);background:rgba(245,197,24,0.1);border:1px solid rgba(245,197,24,0.2);padding:8px 12px;border-radius:6px;margin-bottom:12px;}
+.g-btn{padding:10px 20px;border-radius:6px;border:none;cursor:pointer;font-size:13px;font-weight:700;transition:all .2s;}
+.g-btn-red{background:var(--red);color:#fff;}
+.g-btn-red:hover{background:#f40612;}
+.g-btn-dark{background:#333;color:#fff;}
+.g-btn-dark:hover{background:#444;}
+.g-btn-green{background:#46d369;color:#111;}
+.firewall-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px;}
+.fw-packet{background:#1a1a2e;border:2px solid #333;border-radius:8px;padding:10px;text-align:center;font-size:11px;}
+.fw-packet.allowed{border-color:#46d369;background:rgba(70,211,105,0.1);}
+.fw-packet.blocked{border-color:#e50914;background:rgba(229,9,20,0.1);}
+.terminal{background:#000;border:1px solid #333;border-radius:8px 8px 0 0;padding:16px;font-family:monospace;min-height:180px;max-height:260px;overflow-y:auto;}
+.terminal-line{margin-bottom:3px;font-size:13px;}
+.terminal-prompt{color:#46d369;}
+.terminal-cmd{color:#fff;}
+.terminal-output{color:#5fb3d4;}
+.terminal-error{color:#ff6b6b;}
+.typing-input{width:100%;background:#000;border:none;border:1px solid #333;border-top:none;border-radius:0 0 8px 8px;padding:10px 12px;color:#46d369;font-family:monospace;font-size:13px;}
+.typing-input:focus{outline:none;}
+.scenario-box{background:#0d0d1a;border:1px solid #2a2a4a;border-radius:10px;padding:16px;margin-bottom:12px;}
+.scenario-msg{font-size:13px;line-height:1.7;color:#ddd;margin-bottom:12px;}
+.scenario-opt{background:#1a1a2e;border:1px solid #2a2a4a;border-radius:8px;padding:10px 14px;cursor:pointer;font-size:12px;transition:all .2s;text-align:left;width:100%;color:#ddd;margin-bottom:6px;}
+.scenario-opt:hover{border-color:#444;background:#222;}
+.net-canvas{width:100%;height:300px;background:#050510;border:1px solid #1a1a3a;border-radius:10px;position:relative;overflow:hidden;}
+.net-node{position:absolute;width:48px;height:48px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;font-size:18px;border:2px solid transparent;transition:all .2s;}
+.net-label{font-size:8px;position:absolute;bottom:-16px;left:50%;transform:translateX(-50%);white-space:nowrap;color:var(--muted);}
+.net-infected{border-color:#e50914!important;animation:pulseRed 1s infinite;}
+@keyframes pulseRed{0%,100%{box-shadow:0 0 0 0 rgba(229,9,20,0.4);}50%{box-shadow:0 0 0 8px rgba(229,9,20,0);}}
+.code-block{background:#050505;border:1px solid #222;border-radius:8px;padding:12px;font-family:monospace;font-size:12px;line-height:1.8;margin-bottom:12px;max-height:280px;overflow-y:auto;}
+.code-line{display:flex;gap:10px;cursor:pointer;padding:2px 4px;border-radius:3px;transition:background .1s;}
+.code-line:hover{background:rgba(255,255,255,0.05);}
+.code-line.suspicious{background:rgba(229,9,20,0.15);border-left:3px solid #e50914;}
+.code-line.selected-sus{background:rgba(245,197,24,0.15);border-left:3px solid #f5c518;}
+.line-num{color:#555;min-width:22px;text-align:right;user-select:none;}
+.code-normal{color:#6a9955;}.code-keyword{color:#569cd6;}.code-string{color:#ce9178;}.code-danger{color:#ff6b6b;}
+.crypto-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:16px;}
+.crypto-cell{background:#1a1a2e;border:1px solid #2a2a4a;border-radius:6px;aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-family:monospace;font-size:16px;font-weight:700;cursor:pointer;transition:all .2s;user-select:none;}
+.crypto-cell:hover{border-color:#555;}
+.crypto-cell.selected{background:rgba(229,9,20,0.2);border-color:var(--red);}
+.crypto-cell.correct{background:rgba(70,211,105,0.2);border-color:#46d369;color:#46d369;}
+.sql-terminal{background:#000;border:1px solid #333;border-radius:8px;padding:14px;font-family:monospace;margin-bottom:12px;}
+.sql-query{color:#aaa;font-size:12px;margin-bottom:8px;}
+.sql-table{width:100%;border-collapse:collapse;margin-top:8px;}
+.sql-table th{background:#1a1a1a;padding:5px 8px;font-size:11px;text-align:left;border:1px solid #333;color:var(--muted);}
+.sql-table td{padding:5px 8px;font-size:11px;border:1px solid #222;}
+.sql-danger-row td{color:#ff6b6b;background:rgba(229,9,20,0.1);}
+#snakeCanvas{background:#000;border:2px solid #333;border-radius:4px;display:block;margin:0 auto;}
+/* CISSP Quiz */
+.quiz-section{background:linear-gradient(135deg,#0a0a0a,#0a0f1e);}
+.quiz-container{background:rgba(255,255,255,0.03);border:1px solid #222;border-radius:16px;padding:28px;}
+.progress-bar{height:4px;background:#222;border-radius:2px;margin-bottom:24px;overflow:hidden;}
+.progress-fill{height:100%;background:var(--red);border-radius:2px;transition:width .3s;}
+.question-domain{display:inline-block;background:rgba(229,9,20,0.1);border:1px solid rgba(229,9,20,0.25);color:#ff6b6b;font-size:11px;padding:3px 10px;border-radius:10px;margin-bottom:10px;}
+.question-text{font-size:15px;line-height:1.7;margin-bottom:20px;font-weight:500;}
+.options-grid{display:flex;flex-direction:column;gap:8px;}
+.option-btn{background:#111;border:1px solid #2a2a2a;border-radius:8px;padding:12px 16px;font-size:13px;color:#ddd;cursor:pointer;text-align:left;transition:all .2s;display:flex;gap:10px;align-items:flex-start;width:100%;}
+.option-btn:hover{border-color:#444;background:#1a1a1a;}
+.option-btn.selected{border-color:var(--blue);background:rgba(0,113,235,0.12);}
+.option-btn.correct-opt{border-color:#46d369!important;background:rgba(70,211,105,0.12)!important;color:#46d369;}
+.option-btn.wrong-opt{border-color:#e50914!important;background:rgba(229,9,20,0.12)!important;color:#ff6b6b;}
+.opt-letter{width:22px;height:22px;border-radius:50%;background:#222;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;color:#888;}
+.quiz-nav{display:flex;justify-content:space-between;align-items:center;margin-top:24px;gap:12px;flex-wrap:wrap;}
+.quiz-domains{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:8px;margin-bottom:24px;}
+.domain-card{background:#111;border:1px solid #222;border-radius:8px;padding:10px 12px;display:flex;justify-content:space-between;align-items:center;}
+.domain-name{font-size:11px;color:var(--muted);}
+.domain-count{font-size:12px;color:var(--red);font-weight:700;}
+.quiz-results{text-align:center;padding:32px 16px;}
+.score-circle{width:130px;height:130px;border-radius:50%;border:4px solid var(--red);display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto 20px;background:rgba(229,9,20,0.08);}
+.score-num{font-size:32px;font-weight:900;}
+.score-label{font-size:11px;color:var(--muted);}
+.review-item{background:#111;border:1px solid #222;border-radius:8px;padding:14px;margin-bottom:10px;text-align:left;}
+.review-q{font-size:13px;color:#ddd;margin-bottom:8px;line-height:1.6;}
+.review-yours{font-size:12px;color:#ff6b6b;margin-bottom:4px;}
+.review-correct{font-size:12px;color:#46d369;}
+footer{background:#0a0a0a;border-top:1px solid #1a1a1a;padding:36px 4%;text-align:center;}
+.footer-logo{font-size:20px;font-weight:900;color:var(--red);margin-bottom:8px;}
+.footer-sub{font-size:13px;color:var(--muted);}
+@keyframes fadeUp{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
+.fade-up{animation:fadeUp .6s ease forwards;}
+@keyframes glow{0%,100%{text-shadow:0 0 10px rgba(229,9,20,0.3);}50%{text-shadow:0 0 30px rgba(229,9,20,0.7);}}
+.glow{animation:glow 3s infinite;}
+@media(max-width:600px){
+  .hero{padding:60px 5% 40px;}
+  .games-grid{grid-template-columns:1fr;}
+  .quiz-nav{flex-direction:column;}
+  .firewall-grid{grid-template-columns:repeat(2,1fr);}
+  .ps-tips{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">BD<span style="color:#fff;font-size:11px;margin-left:4px;font-weight:400;">Cyber</span></div>
+  <ul class="nav-links">
+    <li><a href="#home">Home</a></li>
+    <li><a href="#connect">Connect</a></li>
+    <li><a href="#lab">Cyber Lab</a></li>
+    <li><a href="#quiz">CISSP Quiz</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="home" class="hero">
+  <div class="hero-badge">&#9632; Cyber Security Professional</div>
+  <h1 class="glow">Bhavik<br><span>Dedhia</span></h1>
+  <p>Certified security practitioner. Ethical hacker. CISSP aspirant. Explore the interactive cyber security lab, test your skills, and connect.</p>
+  <div class="hero-btns">
+    <a href="#lab" class="btn btn-primary">&#9654; Enter the Lab</a>
+    <a href="#quiz" class="btn btn-secondary">&#9997; Take CISSP Quiz</a>
+  </div>
+  <div class="hero-stats">
+    <div class="stat"><div class="stat-num">17</div><div class="stat-label">Cyber Games</div></div>
+    <div class="stat"><div class="stat-num">98</div><div class="stat-label">CISSP Questions</div></div>
+    <div class="stat"><div class="stat-num">8</div><div class="stat-label">CISSP Domains</div></div>
+    <div class="stat"><div class="stat-num">1</div><div class="stat-label">Elite Profile</div></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- LINKEDIN -->
+<section id="connect" class="linkedin-section">
+  <div class="section-label">Professional Network</div>
+  <div class="section-title">Connect With Me</div>
+  <div class="section-sub">Let's build the security community together.</div>
+  <div class="linkedin-card">
+    <div class="li-avatar">BD</div>
+    <div class="li-info" style="flex:1;min-width:200px;">
+      <h2>Bhavik Dedhia</h2>
+      <div class="li-title">Cyber Security Professional &bull; CISSP Aspirant &bull; Ethical Hacker</div>
+      <div class="li-skills">
+        <span class="skill-tag">Network Security</span>
+        <span class="skill-tag">Penetration Testing</span>
+        <span class="skill-tag">CISSP</span>
+        <span class="skill-tag">SOC Analysis</span>
+        <span class="skill-tag">Risk Management</span>
+        <span class="skill-tag">Cloud Security</span>
+        <span class="skill-tag">Incident Response</span>
+        <span class="skill-tag">Cryptography</span>
+      </div>
+      <a href="https://www.linkedin.com/in/bhavikrdedhia" target="_blank" class="li-connect">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        Connect on LinkedIn
+      </a>
+      <div class="li-stats">
+        <div class="li-stat"><div class="li-stat-num">500+</div><div class="li-stat-label">Connections</div></div>
+        <div class="li-stat"><div class="li-stat-num">5+</div><div class="li-stat-label">Years Exp.</div></div>
+        <div class="li-stat"><div class="li-stat-num">CISSP</div><div class="li-stat-label">Pursuing</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- GAMES LAB -->
+<section id="lab">
+  <div class="section-label">Interactive Learning</div>
+  <div class="section-title">Cyber Security Technical Lab</div>
+  <div class="section-sub">17 cyber security challenges. All run in your browser — no installs needed.</div>
+  <div class="games-grid" id="gamesGrid"></div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CISSP QUIZ -->
+<section id="quiz" class="quiz-section">
+  <div class="section-label">Certification Prep</div>
+  <div class="section-title">CISSP Practice Quiz</div>
+  <div class="section-sub">98 questions across all 8 CISSP domains. Navigate freely and review every wrong answer on submission.</div>
+  <div class="quiz-container" id="quizContainer">
+    <div id="quizStart">
+      <div style="text-align:center;margin-bottom:28px;">
+        <div style="font-size:48px;margin-bottom:14px;">&#128274;</div>
+        <h2 style="font-size:22px;margin-bottom:8px;">CISSP Practice Examination</h2>
+        <p style="color:var(--muted);max-width:480px;margin:0 auto;line-height:1.6;font-size:14px;">98 questions covering all 8 CISSP domains. No time limit. Navigate freely, then submit to see your score and review every wrong answer.</p>
+      </div>
+      <div class="quiz-domains" id="domainList"></div>
+      <div style="text-align:center;">
+        <button class="btn btn-primary" onclick="startQuiz()" style="font-size:15px;padding:13px 36px;">Start Exam &#9654;</button>
+      </div>
+    </div>
+    <div id="quizActive" style="display:none;"></div>
+    <div id="quizResults" style="display:none;"></div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">BD Cyber</div>
+  <div class="footer-sub">Bhavik Dedhia &bull; Cyber Security Professional &bull; <a href="https://www.linkedin.com/in/bhavikrdedhia" target="_blank" style="color:#0077b5;text-decoration:none;">linkedin.com/in/bhavikrdedhia</a></div>
+  <div style="font-size:11px;color:#444;margin-top:10px;">Built for learning &bull; All games run client-side</div>
+</footer>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="gameModal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div class="modal-title" id="modalTitle">Game</div>
+      <button class="modal-close" onclick="closeModal()">&#10005;</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<script>
+/* ===================== GAMES REGISTRY ===================== */
+const GAMES=[
+  {id:'password', title:'Password Strength Analyzer', desc:'Type passwords and see real-time strength analysis with entropy scoring.', icon:'&#128274;', bg:'linear-gradient(135deg,#1a0a1a,#2d0d2d)', tags:['Cyber','Easy'], render:renderPassword},
+  {id:'phishing', title:'Phishing Email Spotter',      desc:'Identify which emails are phishing attacks vs legitimate messages.',          icon:'&#128231;', bg:'linear-gradient(135deg,#0a1a0a,#0d2d0d)', tags:['Cyber','Medium'], render:renderPhishing},
+  {id:'cipher',   title:'Caesar Cipher Decoder',       desc:'Decrypt messages encrypted with Caesar cipher and learn basic cryptography.', icon:'&#128272;', bg:'linear-gradient(135deg,#1a1a0a,#2d2d0d)', tags:['Cyber','Medium'], render:renderCipher},
+  {id:'firewall', title:'Firewall Rule Simulator',     desc:'Configure firewall rules to allow legitimate traffic and block threats.',     icon:'&#128293;', bg:'linear-gradient(135deg,#0a0a1a,#0d0d2d)', tags:['Cyber','Hard'],   render:renderFirewall},
+  {id:'terminal', title:'Hackerman Terminal',          desc:'Practice common security CLI commands in a simulated terminal.',              icon:'&#128187;', bg:'linear-gradient(135deg,#001a00,#002d00)', tags:['Cyber','Medium'], render:renderTerminal},
+  {id:'social',   title:'Social Engineering Quiz',     desc:'Spot social engineering tactics: phishing, pretexting, baiting, vishing.',   icon:'&#129537;', bg:'linear-gradient(135deg,#1a000a,#2d000d)', tags:['Cyber','Hard'],   render:renderSocial},
+  {id:'network',  title:'Network Threat Map',          desc:'Identify and isolate infected nodes on a live network topology map.',        icon:'&#127760;', bg:'linear-gradient(135deg,#001020,#001a35)', tags:['Cyber','Hard'],   render:renderNetwork},
+  {id:'malware',  title:'Malware Code Hunter',         desc:'Scan source code and flag suspicious lines before they execute.',            icon:'&#128030;', bg:'linear-gradient(135deg,#100010,#200020)', tags:['Cyber','Hard'],   render:renderMalware},
+  {id:'crypto',   title:'Crypto Key Puzzle',           desc:'Find the hidden encryption key in a grid of hexadecimal characters.',       icon:'&#128081;', bg:'linear-gradient(135deg,#0a1010,#0d2020)', tags:['Cyber','Medium'], render:renderCrypto},
+  {id:'sql',      title:'SQL Injection Lab',           desc:'Learn how SQL injection works in a safe sandbox environment.',               icon:'&#128208;', bg:'linear-gradient(135deg,#1a0a00,#2d1500)', tags:['Cyber','Hard'],   render:renderSQL},
+  {id:'snake',    title:'Cyber Snake',                 desc:'Classic Snake — collect data packets, avoid firewalls!',                    icon:'&#128013;', bg:'linear-gradient(135deg,#001a10,#002d1a)', tags:['Fun','Easy'],     render:renderSnake},
+  {id:'ports',    title:'Port Scanner Challenge',      desc:'Identify open ports on target hosts from clues — test your port knowledge.',icon:'&#128270;', bg:'linear-gradient(135deg,#0a0a2a,#0d0d3d)', tags:['Cyber','Medium'], render:renderPortScanner},
+  {id:'ransom',   title:'Ransomware Defense',          desc:'Cut network connections to stop ransomware before it encrypts your backup.', icon:'&#128274;', bg:'linear-gradient(135deg,#1a0000,#300000)', tags:['Cyber','Hard'],   render:renderRansomware},
+  {id:'osint',    title:'OSINT Investigator',          desc:'Use threat intelligence clues to attribute APT campaigns to nation-states.', icon:'&#128269;', bg:'linear-gradient(135deg,#001510,#002520)', tags:['Cyber','Medium'], render:renderOSINT},
+  {id:'xss',      title:'XSS Attack Lab',              desc:'Learn Cross-Site Scripting in a safe sandbox and study defences.',           icon:'&#128029;', bg:'linear-gradient(135deg,#150a00,#251500)', tags:['Cyber','Hard'],   render:renderXSS},
+  {id:'hashcrack',title:'Hash Cracker',                desc:'Crack MD5/SHA hashes using wordlists — see why strong hashing matters.',    icon:'&#128302;', bg:'linear-gradient(135deg,#0a1500,#152200)', tags:['Cyber','Hard'],   render:renderHashCracker},
+  {id:'aptmatch', title:'APT Threat Match',            desc:'Match APT groups to their nation-state sponsors using real-world TTPs.',    icon:'&#127919;', bg:'linear-gradient(135deg,#15000a,#25000f)', tags:['Cyber','Hard'],   render:renderAPTMatch},
+];
+
+/* ===================== GAME CARDS ===================== */
+function renderGameCards(){
+  const grid=document.getElementById('gamesGrid');
+  GAMES.forEach(g=>{
+    const c=document.createElement('div');
+    c.className='game-card';
+    c.innerHTML=`
+      <div class="game-banner" style="${g.bg}"><span>${g.icon}</span></div>
+      <div class="game-body">
+        <div class="game-title">${g.title}</div>
+        <div class="game-desc">${g.desc}</div>
+        <div class="game-meta">${g.tags.map(t=>`<span class="game-badge badge-${t.toLowerCase()}">${t}</span>`).join('')}</div>
+        <button class="play-btn" onclick="openGame('${g.id}')">&#9654; Play Now</button>
+      </div>`;
+    grid.appendChild(c);
+  });
+}
+
+function openGame(id){
+  const g=GAMES.find(x=>x.id===id);
+  if(!g)return;
+  document.getElementById('modalTitle').textContent=g.title;
+  document.getElementById('modalBody').innerHTML='<div class="game-area" id="gameArea"></div>';
+  document.getElementById('gameModal').classList.add('active');
+  document.body.style.overflow='hidden';
+  g.render(document.getElementById('gameArea'));
+}
+function closeModal(){
+  document.getElementById('gameModal').classList.remove('active');
+  document.getElementById('modalBody').innerHTML='';
+  document.body.style.overflow='';
+}
+document.getElementById('gameModal').addEventListener('click',function(e){if(e.target===this)closeModal();});
+
+/* ===================== HELPER ===================== */
+function mkResult(el,correct,msg){
+  el.innerHTML=`<div class="phish-result ${correct?'correct-ans':'wrong-ans'}">${correct?'&#10003;':'&#10007;'} ${msg}</div>`;
+}
+
+/* ===================== GAME 1: PASSWORD ===================== */
+function renderPassword(el){
+  el.innerHTML=`
+    <p style="color:var(--muted);font-size:13px;margin-bottom:14px;">Type a password and watch the strength meter analyse it in real time.</p>
+    <input class="ps-input" id="pwIn" type="text" placeholder="Type a password..." autocomplete="off">
+    <div class="strength-bar"><div class="strength-fill" id="pwFill" style="width:0;background:#e50914;"></div></div>
+    <div id="pwLabel" style="font-size:13px;margin-bottom:14px;color:var(--muted);">Waiting...</div>
+    <div class="ps-tips" id="pwTips"></div>
+    <div style="margin-top:16px;background:#111;border-radius:8px;padding:12px;">
+      <div style="font-size:11px;color:var(--muted);margin-bottom:4px;">Entropy Score</div>
+      <div id="pwEnt" style="font-size:22px;font-weight:800;color:var(--red);">0 bits</div>
+    </div>`;
+  document.getElementById('pwIn').addEventListener('input',function(){
+    const pw=this.value;
+    const checks=[
+      {l:'8+ characters',ok:pw.length>=8},
+      {l:'16+ characters',ok:pw.length>=16},
+      {l:'Uppercase letters',ok:/[A-Z]/.test(pw)},
+      {l:'Lowercase letters',ok:/[a-z]/.test(pw)},
+      {l:'Numbers',ok:/[0-9]/.test(pw)},
+      {l:'Special chars',ok:/[^A-Za-z0-9]/.test(pw)},
+      {l:'No common patterns',ok:!/^(password|123456|qwerty|admin)/i.test(pw)},
+      {l:'Length > 20',ok:pw.length>20},
+    ];
+    const score=checks.filter(c=>c.ok).length;
+    const pct=Math.round(score/checks.length*100);
+    const colors=['#e50914','#e50914','#ff6600','#f5c518','#46d369','#46d369'];
+    const labels=['Very Weak','Weak','Fair','Good','Strong','Very Strong'];
+    const idx=Math.min(Math.floor(score/1.5),5);
+    document.getElementById('pwFill').style.width=pct+'%';
+    document.getElementById('pwFill').style.background=colors[idx];
+    document.getElementById('pwLabel').textContent=pw.length?labels[idx]+' ('+pct+'%)':'Waiting...';
+    document.getElementById('pwLabel').style.color=pw.length?colors[idx]:'var(--muted)';
+    const pool=((/[a-z]/.test(pw)?26:0)+(/[A-Z]/.test(pw)?26:0)+(/[0-9]/.test(pw)?10:0)+(/[^A-Za-z0-9]/.test(pw)?32:0))||1;
+    document.getElementById('pwEnt').textContent=Math.round(pw.length*Math.log2(pool))+' bits';
+    document.getElementById('pwTips').innerHTML=checks.map(c=>`<div class="ps-tip ${c.ok?'tip-ok':'tip-bad'}">${c.ok?'&#10003;':'&#10007;'} ${c.l}</div>`).join('');
+  });
+}
+
+/* ===================== GAME 2: PHISHING ===================== */
+function renderPhishing(el){
+  const emails=[
+    {from:'security@paypa1.com',subject:'Urgent: Account limited!',preview:'Click immediately to verify or your account suspends in 24h...',phish:true,reason:'Domain "paypa1" uses number 1 instead of letter l — typosquatting.'},
+    {from:'newsletter@amazon.com',subject:'Your weekly deals',preview:'Top deals on electronics and books for Prime members...',phish:false,reason:'Legitimate promotional email from amazon.com.'},
+    {from:'it-support@company-helpdesk.net',subject:'Password Reset Required',preview:'Corporate password expires today. Click to reset now...',phish:true,reason:'External domain + credential harvesting + urgency = phishing.'},
+    {from:'noreply@github.com',subject:'OAuth application added',preview:'A new OAuth app CodeSync has been authorised to your account...',phish:false,reason:'Expected GitHub notification from official domain.'},
+    {from:'admin@micros0ft-support.com',subject:'M365 subscription expiring',preview:'Expires in 2 hours — enter payment to avoid interruption...',phish:true,reason:'Misspelled domain + fake urgency + payment request.'},
+    {from:'billing@netflix.com',subject:'Payment failed — update billing',preview:'We could not process your payment. Please update billing info...',phish:false,reason:'Legitimate Netflix billing notification.'},
+  ];
+  el.innerHTML=`<p style="color:var(--muted);font-size:13px;margin-bottom:12px;">Decide if each email is <span style="color:#ff6b6b;">Phishing</span> or <span style="color:#46d369;">Legitimate</span>.</p><div id="phScore" style="font-size:18px;font-weight:700;color:var(--muted);margin-bottom:12px;">Score: 0 / 0</div><div id="phEmails"></div>`;
+  const cont=document.getElementById('phEmails');
+  let sc=0,tot=0;
+  emails.forEach((e,i)=>{
+    const d=document.createElement('div');
+    d.className='email-card';d.id='em_'+i;
+    d.innerHTML=`<div class="email-from">From: ${e.from}</div><div class="email-subject">${e.subject}</div><div class="email-preview">${e.preview}</div>
+      <div style="display:flex;gap:8px;margin-top:10px;">
+        <button onclick="phAns(${i},true,${e.phish},'${e.reason.replace(/'/g,"\\'")}')" style="flex:1;padding:7px;border-radius:6px;cursor:pointer;background:rgba(229,9,20,0.15);border:1px solid rgba(229,9,20,0.3);color:#ff6b6b;font-size:11px;font-weight:700;">&#128128; Phishing</button>
+        <button onclick="phAns(${i},false,${e.phish},'${e.reason.replace(/'/g,"\\'")}')" style="flex:1;padding:7px;border-radius:6px;cursor:pointer;background:rgba(70,211,105,0.15);border:1px solid rgba(70,211,105,0.3);color:#46d369;font-size:11px;font-weight:700;">&#10003; Legitimate</button>
+      </div><div id="pr_${i}"></div>`;
+    cont.appendChild(d);
+  });
+  window.phAns=function(i,guess,isPhish,reason){
+    const ok=guess===isPhish;
+    tot++;if(ok)sc++;
+    document.getElementById('phScore').textContent='Score: '+sc+' / '+tot;
+    document.getElementById('phScore').style.color=sc===tot?'#46d369':'#f5c518';
+    document.getElementById('em_'+i).querySelectorAll('button').forEach(b=>b.disabled=true);
+    document.getElementById('pr_'+i).innerHTML=`<div class="phish-result ${ok?'correct-ans':'wrong-ans'}" style="margin-top:8px;">${ok?'&#10003; Correct!':'&#10007; Wrong!'} ${reason}</div>`;
+  };
+}
+
+/* ===================== GAME 3: CIPHER ===================== */
+function renderCipher(el){
+  const words=['SECURITY','FIREWALL','CRYPTOGRAPHY','PENETRATION','VULNERABILITY','AUTHENTICATION','ENCRYPTION','MALWARE'];
+  const word=words[Math.floor(Math.random()*words.length)];
+  const shift=Math.floor(Math.random()*25)+1;
+  function enc(w,s){return w.split('').map(c=>{const cc=c.charCodeAt(0);return cc>=65&&cc<=90?String.fromCharCode((cc-65+s)%26+65):c;}).join('');}
+  const encoded=enc(word,shift);
+  let attempts=0;
+  el.innerHTML=`
+    <p style="color:var(--muted);font-size:13px;margin-bottom:12px;">Decrypt the Caesar cipher. Adjust the shift slider to find the original cybersecurity term.</p>
+    <div class="cipher-hint">&#128161; The shift is between 1–25. The plaintext is a cybersecurity term.</div>
+    <div style="font-size:12px;color:var(--muted);margin-bottom:5px;">Encrypted:</div>
+    <div class="cipher-display">${encoded}</div>
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px;">
+      <label style="font-size:12px;color:var(--muted);">Shift:</label>
+      <input type="range" min="1" max="25" value="1" id="shiftSlider" style="flex:1;">
+      <span id="shiftVal" style="font-size:14px;font-weight:700;min-width:22px;">1</span>
+    </div>
+    <div class="cipher-display" id="decDisp" style="color:#46d369;min-height:44px;"></div>
+    <div style="display:flex;gap:8px;margin-top:10px;">
+      <button class="g-btn g-btn-red" onclick="checkCipher()">&#10003; Submit</button>
+      <button class="g-btn g-btn-dark" onclick="renderCipher(document.getElementById('gameArea'))">&#8635; New Word</button>
+    </div>
+    <div id="cipRes" style="margin-top:10px;"></div>`;
+  document.getElementById('shiftSlider').addEventListener('input',function(){
+    document.getElementById('shiftVal').textContent=this.value;
+    document.getElementById('decDisp').textContent=enc(encoded,26-parseInt(this.value));
+  });
+  window.checkCipher=function(){
+    attempts++;
+    const s=parseInt(document.getElementById('shiftSlider').value);
+    const dec=enc(encoded,26-s);
+    if(dec===word) document.getElementById('cipRes').innerHTML=`<div class="phish-result correct-ans">&#10003; Correct! "${word}" with shift ${shift}. Solved in ${attempts} attempt(s)!</div>`;
+    else document.getElementById('cipRes').innerHTML=`<div class="phish-result wrong-ans">&#10007; Not quite. Attempt ${attempts} — keep trying!</div>`;
+  };
+}
+
+/* ===================== GAME 4: FIREWALL ===================== */
+function renderFirewall(el){
+  const packets=[
+    {src:'192.168.1.5',dst:'10.0.0.1',port:80,proto:'HTTP',threat:false,label:'Web Browse'},
+    {src:'45.33.32.156',dst:'10.0.0.1',port:22,proto:'SSH',threat:true,label:'Brute Force'},
+    {src:'192.168.1.10',dst:'8.8.8.8',port:53,proto:'DNS',threat:false,label:'DNS Query'},
+    {src:'203.0.113.42',dst:'10.0.0.5',port:443,proto:'HTTPS',threat:false,label:'Secure Web'},
+    {src:'10.0.0.99',dst:'192.168.1.1',port:21,proto:'FTP',threat:true,label:'FTP Exfil'},
+    {src:'192.168.1.20',dst:'10.0.0.2',port:3389,proto:'RDP',threat:true,label:'RDP Attack'},
+    {src:'10.10.10.5',dst:'10.0.0.1',port:443,proto:'HTTPS',threat:false,label:'Internal'},
+    {src:'198.51.100.5',dst:'10.0.0.1',port:25,proto:'SMTP',threat:true,label:'Spam Relay'},
+  ];
+  el.innerHTML=`
+    <p style="color:var(--muted);font-size:13px;margin-bottom:10px;">Analyse each packet. Click <span style="color:#46d369;">Allow</span> for legitimate traffic or <span style="color:#ff6b6b;">Block</span> for threats.</p>
+    <div id="fwSc" style="font-size:16px;font-weight:700;color:var(--muted);margin-bottom:12px;">Score: 0 / 0</div>
+    <div class="firewall-grid" id="fwGrid"></div>`;
+  let sc=0,tot=0;
+  const grid=document.getElementById('fwGrid');
+  packets.forEach((p,i)=>{
+    const d=document.createElement('div');d.className='fw-packet';d.id='fw_'+i;
+    d.innerHTML=`<div style="font-size:9px;color:var(--muted);margin-bottom:2px;">${p.proto}</div>
+      <div style="font-size:11px;font-weight:700;margin-bottom:3px;">${p.label}</div>
+      <div style="font-size:8px;color:#666;margin-bottom:1px;">Src: ${p.src}</div>
+      <div style="font-size:8px;color:#666;margin-bottom:6px;">Port: ${p.port}</div>
+      <div style="display:flex;gap:3px;">
+        <button onclick="fwD(${i},false,${p.threat})" style="flex:1;background:rgba(70,211,105,0.15);border:1px solid rgba(70,211,105,0.3);color:#46d369;border-radius:4px;padding:3px;font-size:9px;cursor:pointer;">Allow</button>
+        <button onclick="fwD(${i},true,${p.threat})" style="flex:1;background:rgba(229,9,20,0.15);border:1px solid rgba(229,9,20,0.3);color:#ff6b6b;border-radius:4px;padding:3px;font-size:9px;cursor:pointer;">Block</button>
+      </div>
+      <div id="fwr_${i}" style="font-size:9px;margin-top:3px;"></div>`;
+    grid.appendChild(d);
+  });
+  window.fwD=function(i,blocked,threat){
+    tot++;const ok=blocked===threat;if(ok)sc++;
+    document.getElementById('fwSc').textContent='Score: '+sc+' / '+tot;
+    document.getElementById('fwSc').style.color=sc===tot?'#46d369':'#f5c518';
+    document.getElementById('fw_'+i).querySelectorAll('button').forEach(b=>b.disabled=true);
+    document.getElementById('fw_'+i).classList.add(ok?(threat?'blocked':'allowed'):(threat?'allowed':'blocked'));
+    document.getElementById('fwr_'+i).innerHTML=ok?'<span style="color:#46d369;">&#10003; Correct</span>':'<span style="color:#ff6b6b;">&#10007; Wrong</span>';
+  };
+}
+
+/* ===================== GAME 5: TERMINAL ===================== */
+function renderTerminal(el){
+  const cmds={
+    'help':{out:'Commands: nmap, whois, ping, traceroute, netstat, arp, ifconfig, clear, help'},
+    'nmap -sS 192.168.1.1':{out:'Starting Nmap...\nPORT     STATE  SERVICE\n22/tcp   open   ssh\n80/tcp   open   http\n443/tcp  open   https\n3306/tcp closed mysql'},
+    'whois google.com':{out:'Domain: GOOGLE.COM\nRegistrar: MarkMonitor Inc.\nCreated: 1997-09-15\nExpires: 2028-09-14'},
+    'ping 8.8.8.8':{out:'PING 8.8.8.8\n64 bytes: icmp_seq=1 ttl=55 time=12.3ms\n64 bytes: icmp_seq=2 ttl=55 time=11.8ms\n0% packet loss'},
+    'netstat -an':{out:'Proto  Local Addr       State\nTCP    0.0.0.0:80      LISTENING\nTCP    0.0.0.0:443     LISTENING\nTCP    0.0.0.0:22      LISTENING'},
+    'ifconfig':{out:'eth0: inet 192.168.1.100  netmask 255.255.255.0\n      ether 00:0c:29:ab:cd:ef'},
+    'arp -a':{out:'? (192.168.1.1) at 00:11:22:33:44:55 [ether] on eth0'},
+    'traceroute google.com':{out:'1  192.168.1.1  1.2ms\n2  10.0.0.1  5.4ms\n3  142.250.80.14  14.8ms'},
+    'clear':{out:'__CLEAR__'},
+  };
+  let hist=[];let histIdx=-1;
+  el.innerHTML=`
+    <div class="terminal" id="termOut">
+      <div class="terminal-line"><span class="terminal-output">CyberLab Terminal v1.0 — type 'help' for commands.</span></div>
+    </div>
+    <div style="display:flex;align-items:center;background:#000;border:1px solid #333;border-top:none;border-radius:0 0 8px 8px;padding:0 10px;">
+      <span class="terminal-prompt" style="white-space:nowrap;font-size:12px;">root@cyberlab:~# </span>
+      <input class="typing-input" id="termIn" placeholder="Enter command..." autocomplete="off" spellcheck="false">
+    </div>`;
+  const out=document.getElementById('termOut');
+  const inp=document.getElementById('termIn');
+  inp.addEventListener('keydown',function(e){
+    if(e.key==='Enter'){
+      const cmd=this.value.trim();if(!cmd)return;
+      hist.unshift(cmd);histIdx=-1;
+      const ln=document.createElement('div');ln.className='terminal-line';
+      ln.innerHTML=`<span class="terminal-prompt">root@cyberlab:~# </span><span class="terminal-cmd">${cmd}</span>`;
+      out.appendChild(ln);
+      const res=cmds[cmd]||cmds[cmd.toLowerCase()];
+      if(res){
+        if(res.out==='__CLEAR__'){out.innerHTML='';this.value='';return;}
+        res.out.split('\n').forEach(l=>{const ol=document.createElement('div');ol.className='terminal-line';ol.innerHTML=`<span class="terminal-output">${l}</span>`;out.appendChild(ol);});
+      } else {
+        const el2=document.createElement('div');el2.className='terminal-line';el2.innerHTML=`<span class="terminal-error">Command not found: ${cmd}. Type 'help'.</span>`;out.appendChild(el2);
+      }
+      this.value='';out.scrollTop=out.scrollHeight;
+    } else if(e.key==='ArrowUp'){histIdx=Math.min(histIdx+1,hist.length-1);this.value=hist[histIdx]||'';}
+    else if(e.key==='ArrowDown'){histIdx=Math.max(histIdx-1,-1);this.value=histIdx>=0?hist[histIdx]:'';}
+  });
+  setTimeout(()=>inp.focus(),100);
+}
+
+/* ===================== GAME 6: SOCIAL ENGINEERING ===================== */
+function renderSocial(el){
+  const sc=[
+    {msg:'A call: "Hi, I\'m Mike from IT. I need your password to verify your account config." What do you do?',opts:['Give password to be helpful','Ask for Mike\'s ID and call back via official IT number','Say you\'re busy and hang up','Email Mike your password'],correct:1,explain:'Always verify identity via official channels. Never give passwords over the phone.'},
+    {msg:'Email from CEO@c0mpany.com: "Wire $5,000 immediately for a confidential deal. Don\'t tell anyone." What do you do?',opts:['Wire the money — CEO asked','Check sender email — c0mpany vs company','Reply asking for details','Forward to colleagues'],correct:1,explain:'CEO fraud / BEC attack. Note typo "c0mpany" — impersonation tactic.'},
+    {msg:'A USB labeled "Salary Information 2024" found in the office parking lot. What do you do?',opts:['Plug it in to find the owner','Hand to IT Security without plugging in','Keep it — finders keepers','Plug in on personal laptop only'],correct:1,explain:'Baiting attack. Malicious USB drives exploit curiosity. Never plug in unknown devices.'},
+    {msg:'"Your bank account suspends in 1 hour — call 1-800-FAKE-BANK and provide card details." What is this?',opts:['Legitimate bank alert','Vishing (voice phishing) attack','Government notice','Routine reminder'],correct:1,explain:'Vishing + Urgency. Banks never request card details this way over the phone.'},
+  ];
+  let cur=0,score=0;
+  function show(){
+    if(cur>=sc.length){
+      el.innerHTML=`<div class="quiz-results"><div class="score-circle"><div class="score-num">${score}/${sc.length}</div><div class="score-label">Score</div></div><p style="color:var(--muted);margin-top:12px;">${score===sc.length?'Perfect! You spot every trick.':score>=2?'Good awareness!':'Keep studying social engineering tactics.'}</p><button class="g-btn g-btn-red" style="margin-top:14px;" onclick="renderSocial(document.getElementById('gameArea'))">Play Again</button></div>`;
+      return;
+    }
+    const s=sc[cur];
+    el.innerHTML=`
+      <div style="display:flex;justify-content:space-between;margin-bottom:12px;"><span style="font-size:12px;color:var(--muted);">Scenario ${cur+1}/${sc.length}</span><span style="font-weight:700;color:#46d369;">Score: ${score}</span></div>
+      <div class="scenario-box"><div class="scenario-msg">${s.msg}</div>
+        ${s.opts.map((o,i)=>`<button class="scenario-opt" onclick="soA(${i})">${String.fromCharCode(65+i)}. ${o}</button>`).join('')}
+        <div id="soR"></div>
+      </div>`;
+    window.soA=function(i){
+      el.querySelectorAll('.scenario-opt').forEach(b=>b.disabled=true);
+      const ok=i===s.correct;if(ok)score++;
+      el.querySelectorAll('.scenario-opt')[i].style.background=ok?'rgba(70,211,105,0.15)':'rgba(229,9,20,0.15)';
+      el.querySelectorAll('.scenario-opt')[i].style.borderColor=ok?'#46d369':'#e50914';
+      el.querySelectorAll('.scenario-opt')[s.correct].style.background='rgba(70,211,105,0.15)';
+      el.querySelectorAll('.scenario-opt')[s.correct].style.borderColor='#46d369';
+      document.getElementById('soR').innerHTML=`<div class="phish-result ${ok?'correct-ans':'wrong-ans'}" style="margin-top:8px;">${ok?'&#10003; Correct!':'&#10007; Wrong!'} ${s.explain}</div><button class="g-btn g-btn-dark" style="margin-top:8px;" onclick="cur++;show()">Next &#8594;</button>`;
+    };
+  }
+  show();
+}
+
+/* ===================== GAME 7: NETWORK MAP ===================== */
+function renderNetwork(el){
+  const nodes=[
+    {id:'router',label:'Router',x:45,y:8,icon:'&#128257;',color:'#185FA5',infected:false},
+    {id:'server1',label:'Web Server',x:15,y:38,icon:'&#128450;',color:'#0F6E56',infected:false},
+    {id:'server2',label:'DB Server',x:75,y:38,icon:'&#128447;',color:'#0F6E56',infected:true},
+    {id:'pc1',label:'PC-001',x:5,y:68,icon:'&#128187;',color:'#444',infected:false},
+    {id:'pc2',label:'PC-002',x:28,y:68,icon:'&#128187;',color:'#444',infected:true},
+    {id:'pc3',label:'PC-003',x:52,y:68,icon:'&#128187;',color:'#444',infected:false},
+    {id:'pc4',label:'PC-004',x:76,y:68,icon:'&#128187;',color:'#444',infected:true},
+    {id:'fw',label:'Firewall',x:45,y:23,icon:'&#128293;',color:'#854F0B',infected:false},
+  ];
+  const infIds=nodes.filter(n=>n.infected).map(n=>n.id);
+  let isolated=new Set();
+  el.innerHTML=`
+    <p style="color:var(--muted);font-size:13px;margin-bottom:10px;">Click <span style="color:#ff6b6b;">infected nodes</span> (pulsing red) to isolate them.</p>
+    <div style="display:flex;gap:14px;font-size:11px;margin-bottom:10px;flex-wrap:wrap;"><span style="color:#ff6b6b;">&#9632; Infected</span><span style="color:#46d369;">&#9632; Clean</span><span style="color:#f5c518;">&#9632; Isolated</span></div>
+    <div id="ntSc" style="font-size:14px;font-weight:700;color:var(--muted);margin-bottom:10px;">Isolated: 0 / ${infIds.length}</div>
+    <div class="net-canvas" id="ntCnv"></div>
+    <div id="ntMsg" style="margin-top:10px;font-size:13px;"></div>`;
+  function draw(){
+    const cnv=document.getElementById('ntCnv');cnv.innerHTML='';
+    nodes.forEach(n=>{
+      const inf=n.infected&&!isolated.has(n.id);
+      const iso=isolated.has(n.id);
+      const d=document.createElement('div');
+      d.className='net-node'+(inf?' net-infected':'');
+      d.style.left=n.x+'%';d.style.top=n.y+'%';
+      d.style.background=iso?'rgba(245,197,24,0.15)':inf?'rgba(229,9,20,0.25)':n.color+'22';
+      d.style.borderColor=iso?'#f5c518':inf?'#e50914':n.color;
+      d.innerHTML=`<span>${n.icon}</span><div class="net-label">${n.label}</div>`;
+      if(n.infected&&!iso){
+        d.onclick=()=>{
+          isolated.add(n.id);
+          const found=infIds.filter(id=>isolated.has(id)).length;
+          document.getElementById('ntSc').textContent='Isolated: '+found+' / '+infIds.length;
+          document.getElementById('ntMsg').innerHTML=`<span style="color:#46d369;">&#10003; ${n.label} isolated!</span>`;
+          if(found===infIds.length)document.getElementById('ntMsg').innerHTML+=' <strong style="color:#46d369;">All threats neutralised!</strong>';
+          draw();
+        };
+      }
+      cnv.appendChild(d);
+    });
+  }
+  draw();
+}
+
+/* ===================== GAME 8: MALWARE HUNTER ===================== */
+function renderMalware(el){
+  const lines=[
+    {t:'import os, sys, socket',tp:'normal',sus:false},
+    {t:'import base64, subprocess',tp:'keyword',sus:false},
+    {t:'HOST = "192.168.1.1"; PORT = 4444',tp:'string',sus:false},
+    {t:'# Reverse shell connection',tp:'normal',sus:false},
+    {t:'s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)',tp:'normal',sus:false},
+    {t:'s.connect((HOST, PORT))',tp:'danger',sus:true},
+    {t:'os.dup2(s.fileno(), 0)',tp:'danger',sus:true},
+    {t:'os.dup2(s.fileno(), 1)',tp:'danger',sus:true},
+    {t:'os.dup2(s.fileno(), 2)',tp:'danger',sus:true},
+    {t:'subprocess.call(["/bin/sh", "-i"])',tp:'danger',sus:true},
+    {t:'def encrypt_files(path):',tp:'keyword',sus:false},
+    {t:'    for f in os.listdir(path):',tp:'normal',sus:false},
+    {t:'        data = open(f,"rb").read()',tp:'normal',sus:false},
+    {t:'        enc = base64.b64encode(data)',tp:'danger',sus:true},
+    {t:'        open(f+".locked","wb").write(enc)',tp:'danger',sus:true},
+    {t:'        os.remove(f)',tp:'danger',sus:true},
+    {t:'print("System check complete")',tp:'normal',sus:false},
+  ];
+  let sel=new Set();
+  el.innerHTML=`
+    <p style="color:var(--muted);font-size:13px;margin-bottom:10px;">Click suspicious/malicious lines to flag them, then submit.</p>
+    <div class="code-block" id="codeBlock"></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+      <button class="g-btn g-btn-red" onclick="subMal()">&#128030; Analyse</button>
+      <button class="g-btn g-btn-dark" onclick="sel=new Set();renderMalware(document.getElementById('gameArea'))">Reset</button>
+    </div>
+    <div id="malRes" style="margin-top:10px;"></div>`;
+  const cb=document.getElementById('codeBlock');
+  lines.forEach((l,i)=>{
+    const d=document.createElement('div');d.className='code-line';d.id='cl_'+i;
+    d.innerHTML=`<span class="line-num">${i+1}</span><span class="code-${l.tp}">${l.t}</span>`;
+    d.onclick=()=>{if(sel.has(i)){sel.delete(i);d.classList.remove('selected-sus');}else{sel.add(i);d.classList.add('selected-sus');}};
+    cb.appendChild(d);
+  });
+  window.subMal=function(){
+    const susSet=new Set(lines.map((l,i)=>l.sus?i:-1).filter(i=>i>=0));
+    let tp=0,fp=0,fn=0;
+    sel.forEach(i=>{if(susSet.has(i))tp++;else fp++;});
+    susSet.forEach(i=>{if(!sel.has(i))fn++;});
+    susSet.forEach(i=>document.getElementById('cl_'+i).classList.add('suspicious'));
+    const prec=sel.size?Math.round(tp/sel.size*100):0,recall=susSet.size?Math.round(tp/susSet.size*100):0;
+    document.getElementById('malRes').innerHTML=`<div style="background:#111;border-radius:8px;padding:14px;margin-top:8px;">
+      <div style="font-size:13px;font-weight:700;margin-bottom:8px;">Results</div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:center;">
+        <div style="background:rgba(70,211,105,0.1);border-radius:6px;padding:8px;"><div style="font-size:18px;font-weight:800;color:#46d369;">${tp}</div><div style="font-size:10px;color:var(--muted);">True Positives</div></div>
+        <div style="background:rgba(229,9,20,0.1);border-radius:6px;padding:8px;"><div style="font-size:18px;font-weight:800;color:#ff6b6b;">${fp}</div><div style="font-size:10px;color:var(--muted);">False Positives</div></div>
+        <div style="background:rgba(245,197,24,0.1);border-radius:6px;padding:8px;"><div style="font-size:18px;font-weight:800;color:#f5c518;">${fn}</div><div style="font-size:10px;color:var(--muted);">Missed</div></div>
+      </div>
+      <div style="margin-top:8px;font-size:12px;color:var(--muted);">Precision: <strong style="color:#fff;">${prec}%</strong> &bull; Recall: <strong style="color:#fff;">${recall}%</strong></div>
+      <div style="font-size:11px;color:#5fb3d4;margin-top:6px;">Red highlighted lines = actual malicious code</div>
+    </div>`;
+  };
+}
+
+/* ===================== GAME 9: CRYPTO PUZZLE ===================== */
+function renderCrypto(el){
+  const KEY='DEADBEEF';
+  const hex='0123456789ABCDEF';
+  const grid=Array.from({length:25},()=>hex[Math.floor(Math.random()*16)]);
+  const start=Math.floor(Math.random()*18);
+  const keyPos=KEY.split('').map((c,i)=>{grid[start+i]=c;return start+i;});
+  let selected=[];
+  el.innerHTML=`
+    <p style="color:var(--muted);font-size:13px;margin-bottom:10px;">Find the hidden 8-character encryption key. Click cells in order.</p>
+    <div style="background:rgba(245,197,24,0.1);border:1px solid rgba(245,197,24,0.2);border-radius:6px;padding:10px;font-size:12px;color:var(--muted);margin-bottom:12px;">&#128161; The key is a famous hex debugging magic number starting with 'D'.</div>
+    <div class="crypto-grid" id="cgrid"></div>
+    <div style="margin-bottom:10px;"><span style="font-size:12px;color:var(--muted);">Selected: </span><span id="selDisp" style="font-family:monospace;font-size:15px;font-weight:700;color:var(--red);letter-spacing:3px;">________</span></div>
+    <div style="display:flex;gap:8px;">
+      <button class="g-btn g-btn-red" onclick="checkKey()">&#10003; Submit Key</button>
+      <button class="g-btn g-btn-dark" onclick="selected=[];renderCrypto(document.getElementById('gameArea'))">Reset</button>
+    </div>
+    <div id="cRes" style="margin-top:10px;"></div>`;
+  const cg=document.getElementById('cgrid');
+  grid.forEach((c,i)=>{
+    const d=document.createElement('div');d.className='crypto-cell';d.id='cc_'+i;d.textContent=c;
+    d.onclick=()=>{
+      if(d.classList.contains('correct'))return;
+      if(selected.includes(i)){selected=selected.filter(x=>x!==i);d.classList.remove('selected');}
+      else if(selected.length<8){selected.push(i);d.classList.add('selected');}
+      document.getElementById('selDisp').textContent=selected.map(j=>grid[j]).join('').padEnd(8,'_');
+    };
+    cg.appendChild(d);
+  });
+  window.checkKey=function(){
+    const attempt=selected.map(i=>grid[i]).join('');
+    if(attempt===KEY){selected.forEach(i=>document.getElementById('cc_'+i).classList.add('correct'));document.getElementById('cRes').innerHTML=`<div class="phish-result correct-ans">&#10003; DEADBEEF found! Famous magic number used in debugging to mark uninitialised memory.</div>`;}
+    else if(attempt.length<8) document.getElementById('cRes').innerHTML=`<div class="phish-result wrong-ans">&#10007; Select 8 cells first.</div>`;
+    else document.getElementById('cRes').innerHTML=`<div class="phish-result wrong-ans">&#10007; "${attempt}" is not the key. Hint: think debugging magic numbers!</div>`;
+  };
+}
+
+/* ===================== GAME 10: SQL INJECTION ===================== */
+function renderSQL(el){
+  const users=[{id:1,user:'alice',role:'user'},{id:2,user:'bob',role:'admin'},{id:3,user:'carol',role:'user'}];
+  el.innerHTML=`
+    <p style="color:var(--muted);font-size:13px;margin-bottom:12px;">Safe sandbox — learn SQL injection by completing challenges.</p>
+    <div style="margin-bottom:18px;">
+      <div style="font-size:13px;font-weight:700;margin-bottom:8px;color:#f5c518;">&#127919; Challenge: Bypass login with SQL injection</div>
+      <div class="sql-terminal">
+        <div class="sql-query">SELECT * FROM users WHERE username='<span id="uInj">INPUT</span>' AND password='secret'</div>
+        <div style="display:flex;align-items:center;gap:8px;margin-top:8px;">
+          <span style="font-size:12px;color:var(--muted);">Username:</span>
+          <input class="cipher-input" id="sqlU" style="margin:0;padding:7px;font-size:12px;" placeholder="Try: admin' OR '1'='1" oninput="updSQL()">
+        </div>
+      </div>
+      <div id="sqlR1" style="font-size:12px;margin-top:8px;"></div>
+    </div>
+    <div>
+      <div style="font-size:13px;font-weight:700;margin-bottom:8px;color:#46d369;">&#128737; Defence: Parameterized Queries</div>
+      <div style="background:#050505;border:1px solid #1a3a1a;border-radius:8px;padding:12px;font-family:monospace;font-size:12px;color:#6a9955;">
+        <div style="color:#569cd6;"># SAFE — parameterized</div>
+        <div>cursor.execute(</div>
+        <div>&nbsp;&nbsp;"SELECT * FROM users WHERE username=<span style="color:#ce9178;">?</span> AND password=<span style="color:#ce9178;">?</span>",</div>
+        <div>&nbsp;&nbsp;(username, password)</div>
+        <div>)</div>
+      </div>
+    </div>`;
+  window.updSQL=function(){
+    const v=document.getElementById('sqlU').value;
+    document.getElementById('uInj').textContent=v||'INPUT';
+    const inj=v.includes("'")||v.includes('--')||v.toLowerCase().includes('or');
+    if(inj&&(v.toLowerCase().includes("'1'='1")||v.toLowerCase().includes('or 1=1')||v.toLowerCase().includes("or '1'"))){
+      document.getElementById('sqlR1').innerHTML=`<div style="color:#ff6b6b;font-weight:700;margin-bottom:6px;">&#9888; INJECTION SUCCESSFUL — all records returned!</div>
+        <table class="sql-table"><thead><tr><th>ID</th><th>Username</th><th>Role</th><th>Password</th></tr></thead><tbody>
+        ${users.map(u=>`<tr class="sql-danger-row"><td>${u.id}</td><td>${u.user}</td><td>${u.role}</td><td>password123</td></tr>`).join('')}
+        </tbody></table>
+        <div style="font-size:11px;color:var(--muted);margin-top:6px;">OR '1'='1 makes WHERE clause always true, returning all rows.</div>`;
+    } else if(v){
+      document.getElementById('sqlR1').innerHTML=`<div style="color:var(--muted);font-size:12px;">Try an injection payload like: admin' OR '1'='1</div>`;
+    }
+  };
+}
+
+/* ===================== GAME 11: CYBER SNAKE ===================== */
+function renderSnake(el){
+  el.innerHTML=`
+    <p style="color:var(--muted);font-size:13px;margin-bottom:10px;text-align:center;">Arrow keys / WASD to move. Collect data packets &#128190;. Avoid firewalls &#128293;!</p>
+    <canvas id="snakeCanvas" width="380" height="380"></canvas>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:6px;margin-top:12px;">
+      <button class="g-btn g-btn-dark" onclick="sDir={x:0,y:-1}">&#8679;</button>
+      <div style="display:flex;gap:6px;">
+        <button class="g-btn g-btn-dark" onclick="sDir={x:-1,y:0}">&#8678;</button>
+        <button class="g-btn g-btn-dark" onclick="sDir={x:0,y:1}">&#8681;</button>
+        <button class="g-btn g-btn-dark" onclick="sDir={x:1,y:0}">&#8680;</button>
+      </div>
+    </div>
+    <div id="snakeSc" style="text-align:center;font-size:16px;font-weight:700;margin-top:10px;color:var(--muted);">Score: 0</div>`;
+  const canvas=document.getElementById('snakeCanvas');
+  const ctx=canvas.getContext('2d');
+  const SZ=19,COLS=20,ROWS=20;
+  let snake=[{x:10,y:10}],food={x:5,y:5},obs=[{x:15,y:5},{x:3,y:12},{x:8,y:17},{x:17,y:14}];
+  window.sDir={x:1,y:0};let nDir={x:1,y:0},score=0,over=false;
+  function onKey(e){const m={'ArrowUp':{x:0,y:-1},'ArrowDown':{x:0,y:1},'ArrowLeft':{x:-1,y:0},'ArrowRight':{x:1,y:0},'w':{x:0,y:-1},'s':{x:0,y:1},'a':{x:-1,y:0},'d':{x:1,y:0}};if(m[e.key]){e.preventDefault();nDir=m[e.key];}if(over&&e.key===' ')restart();}
+  document.addEventListener('keydown',onKey);
+  function restart(){snake=[{x:10,y:10}];sDir={x:1,y:0};nDir={x:1,y:0};score=0;over=false;placeFood();loop();}
+  function placeFood(){do{food={x:Math.floor(Math.random()*COLS),y:Math.floor(Math.random()*ROWS)};}while(snake.some(s=>s.x===food.x&&s.y===food.y)||obs.some(o=>o.x===food.x&&o.y===food.y));}
+  let tid;
+  function loop(){
+    tid=setTimeout(()=>{
+      if(over)return;
+      if(Math.abs(nDir.x+sDir.x)+Math.abs(nDir.y+sDir.y)!==0)sDir={...nDir};
+      const head={x:(snake[0].x+sDir.x+COLS)%COLS,y:(snake[0].y+sDir.y+ROWS)%ROWS};
+      if(snake.some(s=>s.x===head.x&&s.y===head.y)||obs.some(o=>o.x===head.x&&o.y===head.y)){over=true;draw();return;}
+      snake.unshift(head);
+      if(head.x===food.x&&head.y===food.y){score++;document.getElementById('snakeSc').textContent='Score: '+score;placeFood();}
+      else snake.pop();
+      draw();loop();
+    },130);
+  }
+  function draw(){
+    ctx.fillStyle='#000';ctx.fillRect(0,0,380,380);
+    ctx.strokeStyle='#111';ctx.lineWidth=0.5;
+    for(let i=0;i<COLS;i++)for(let j=0;j<ROWS;j++)ctx.strokeRect(i*SZ,j*SZ,SZ,SZ);
+    obs.forEach(o=>{ctx.fillStyle='#e50914';ctx.fillRect(o.x*SZ+2,o.y*SZ+2,SZ-4,SZ-4);ctx.fillStyle='#fff';ctx.font='9px sans-serif';ctx.textAlign='center';ctx.fillText('FW',o.x*SZ+SZ/2,o.y*SZ+SZ/2+3);});
+    ctx.fillStyle='#46d369';ctx.fillRect(food.x*SZ+2,food.y*SZ+2,SZ-4,SZ-4);
+    ctx.fillStyle='#fff';ctx.font='9px sans-serif';ctx.textAlign='center';ctx.fillText('DB',food.x*SZ+SZ/2,food.y*SZ+SZ/2+3);
+    snake.forEach((s,i)=>{ctx.fillStyle=i===0?'#0071eb':'#185FA5';ctx.fillRect(s.x*SZ+1,s.y*SZ+1,SZ-2,SZ-2);});
+    if(over){ctx.fillStyle='rgba(0,0,0,0.75)';ctx.fillRect(0,130,380,110);ctx.fillStyle='#e50914';ctx.font='bold 26px sans-serif';ctx.textAlign='center';ctx.fillText('GAME OVER',190,178);ctx.fillStyle='#fff';ctx.font='15px sans-serif';ctx.fillText('Score: '+score,190,205);ctx.fillStyle='#aaa';ctx.font='12px sans-serif';ctx.fillText('Press SPACE or tap to restart',190,228);}
+  }
+  canvas.addEventListener('click',()=>{if(over)restart();});
+  placeFood();loop();
+}
+
+/* ===================== GAME 12: PORT SCANNER ===================== */
+function renderPortScanner(el){
+  const scenarios=[
+    {name:'Web Server',open:[80,443,22],all:[21,22,25,53,80,443,3306,3389,8080,8443],hint:'Hosts a public website with SSH admin access.'},
+    {name:'Database Host',open:[3306,5432,22],all:[21,22,25,53,80,443,3306,5432,8080,8443],hint:'Backend database server — no web ports needed.'},
+    {name:'Mail Server',open:[25,110,143,443,22],all:[21,22,25,53,80,110,143,443,3306,8080],hint:'Handles inbound and outbound email over multiple protocols.'},
+    {name:'Dev Machine',open:[8080,3000,22],all:[22,80,443,3000,3306,5432,8080,8443,9000,9200],hint:'Developer workstation running multiple local services.'},
+  ];
+  let si=0,score=0,selected=new Set();
+  function show(){
+    if(si>=scenarios.length){
+      el.innerHTML=`<div class="quiz-results"><div class="score-circle"><div class="score-num">${score}/${scenarios.length}</div><div class="score-label">Score</div></div><p style="color:var(--muted);margin-top:10px;">${score===scenarios.length?'Perfect port knowledge!':'Study common port numbers.'}</p><button class="g-btn g-btn-red" style="margin-top:14px;" onclick="renderPortScanner(document.getElementById('gameArea'))">Play Again</button></div>`;
+      return;
+    }
+    const sc=scenarios[si];selected=new Set();
+    el.innerHTML=`
+      <div style="display:flex;justify-content:space-between;margin-bottom:10px;"><span style="font-size:12px;color:var(--muted);">Scenario ${si+1}/${scenarios.length}</span><span style="font-weight:700;color:#46d369;">Score: ${score}</span></div>
+      <div style="background:#111;border:1px solid #333;border-radius:8px;padding:14px;margin-bottom:14px;">
+        <div style="font-size:11px;color:var(--red);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;">Target: ${sc.name}</div>
+        <div style="font-size:13px;color:#ddd;margin-bottom:4px;">&#128161; ${sc.hint}</div>
+        <div style="font-size:11px;color:var(--muted);">Select all open ports you expect:</div>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px;" id="pgrid">
+        ${sc.all.map(p=>`<button id="pb_${p}" onclick="psT(${p})" style="padding:8px 14px;border-radius:6px;font-size:12px;font-weight:700;font-family:monospace;cursor:pointer;background:#1a1a2e;border:1px solid #333;color:#aaa;transition:all .2s;">${p}</button>`).join('')}
+      </div>
+      <div style="font-size:11px;color:var(--muted);margin-bottom:10px;">21=FTP &bull; 22=SSH &bull; 25=SMTP &bull; 53=DNS &bull; 80=HTTP &bull; 110=POP3 &bull; 143=IMAP &bull; 443=HTTPS &bull; 3000=Node &bull; 3306=MySQL &bull; 5432=PG &bull; 8080=HTTP-alt</div>
+      <button class="g-btn g-btn-red" onclick="psS()">&#128270; Submit Scan</button>
+      <div id="psR" style="margin-top:10px;"></div>`;
+    window.psT=function(p){const btn=document.getElementById('pb_'+p);if(selected.has(p)){selected.delete(p);btn.style.background='#1a1a2e';btn.style.borderColor='#333';btn.style.color='#aaa';}else{selected.add(p);btn.style.background='rgba(0,113,235,0.2)';btn.style.borderColor='#0071eb';btn.style.color='#6bb5ff';}};
+    window.psS=function(){
+      const openSet=new Set(sc.open);let ok=true;
+      sc.all.forEach(p=>{const btn=document.getElementById('pb_'+p);const isOpen=openSet.has(p);const picked=selected.has(p);if(isOpen){btn.style.background='rgba(70,211,105,0.2)';btn.style.borderColor='#46d369';btn.style.color='#46d369';}else{btn.style.background='rgba(229,9,20,0.08)';btn.style.borderColor='#444';btn.style.color='#555';}if(isOpen!==picked)ok=false;btn.onclick=null;});
+      if(ok)score++;
+      document.getElementById('psR').innerHTML=`<div class="phish-result ${ok?'correct-ans':'wrong-ans'}">${ok?'&#10003; Perfect scan!':'&#10007; Not quite. Green = actual open ports.'}</div><button class="g-btn g-btn-dark" style="margin-top:8px;" onclick="si++;show()">Next &#8594;</button>`;
+    };
+  }
+  show();
+}
+
+/* ===================== GAME 13: RANSOMWARE DEFENSE ===================== */
+function renderRansomware(el){
+  const nodes=[
+    {id:'internet',label:'Internet',x:44,y:4,icon:'&#127760;',inf:false},
+    {id:'fw',label:'Firewall',x:44,y:22,icon:'&#128293;',inf:false},
+    {id:'email',label:'Email GW',x:18,y:40,icon:'&#128231;',inf:true},
+    {id:'web',label:'Web Server',x:70,y:40,icon:'&#127760;',inf:false},
+    {id:'dc',label:'Domain Ctrl',x:44,y:56,icon:'&#128450;',inf:true},
+    {id:'pc1',label:'PC-FINANCE',x:12,y:73,icon:'&#128187;',inf:true},
+    {id:'pc2',label:'PC-HR',x:38,y:73,icon:'&#128187;',inf:false},
+    {id:'backup',label:'Backup',x:74,y:73,icon:'&#128190;',inf:false},
+    {id:'db',label:'DB Server',x:58,y:56,icon:'&#128447;',inf:true},
+  ];
+  const infected=nodes.filter(n=>n.inf).map(n=>n.id);
+  let cut=new Set();
+  function draw(){
+    const cnv=document.getElementById('rwCnv');cnv.innerHTML='';
+    nodes.forEach(n=>{
+      const isInf=n.inf&&!cut.has(n.id),isCut=cut.has(n.id);
+      const d=document.createElement('div');
+      d.className='net-node'+(isInf?' net-infected':'');
+      d.style.left=n.x+'%';d.style.top=n.y+'%';
+      d.style.background=isCut?'rgba(245,197,24,0.15)':isInf?'rgba(229,9,20,0.25)':'rgba(70,211,105,0.1)';
+      d.style.borderColor=isCut?'#f5c518':isInf?'#e50914':'#46d369';
+      d.innerHTML=`<span>${n.icon}</span><div class="net-label" style="color:${isCut?'#f5c518':isInf?'#ff6b6b':'#46d369'};">${n.label}</div>`;
+      if(n.inf&&!isCut){d.style.cursor='pointer';d.onclick=()=>{cut.add(n.id);check();draw();};}
+      cnv.appendChild(d);
+    });
+  }
+  function check(){
+    const allCut=infected.every(id=>cut.has(id));
+    const msg=document.getElementById('rwMsg');
+    if(cut.has('backup')){msg.innerHTML='<div class="phish-result wrong-ans">&#10007; You isolated the Backup! Data lost. Try again.</div><button class="g-btn g-btn-red" style="margin-top:8px;" onclick="renderRansomware(document.getElementById(\'gameArea\'))">Retry</button>';return;}
+    if(allCut)msg.innerHTML='<div class="phish-result correct-ans">&#10003; All ransomware nodes isolated! Backup and clean systems are safe!</div><button class="g-btn g-btn-dark" style="margin-top:8px;" onclick="renderRansomware(document.getElementById(\'gameArea\'))">Play Again</button>';
+  }
+  el.innerHTML=`
+    <p style="color:#ff6b6b;font-size:13px;margin-bottom:10px;font-weight:700;">&#9888; Ransomware spreading! Click infected nodes (pulsing red) to isolate them. Protect the Backup!</p>
+    <div style="display:flex;gap:12px;font-size:11px;margin-bottom:10px;flex-wrap:wrap;"><span style="color:#ff6b6b;">&#9632; Infected</span><span style="color:#46d369;">&#9632; Clean</span><span style="color:#f5c518;">&#9632; Isolated</span></div>
+    <div class="net-canvas" id="rwCnv" style="height:330px;"></div>
+    <div id="rwMsg" style="margin-top:10px;"></div>`;
+  draw();
+}
+
+/* ===================== GAME 14: OSINT ===================== */
+function renderOSINT(el){
+  const cases=[
+    {title:'Operation Ghost Protocol',clues:['&#128205; Attack IPs geolocate to Eastern Europe','&#128196; Phishing lures: energy sector contracts','&#10024; Custom C2 over DNS tunneling','&#127919; Targets: EU critical infrastructure, energy','&#128274; Certificate reuse across campaigns 2021-2024'],suspects:['Lazarus Group (NK)','APT28 / Fancy Bear (RU)','APT41 (CN)','Equation Group (US)'],a:1,explain:'APT28 (Fancy Bear) is Russia\'s GRU unit known for targeting EU energy/government with spear-phishing and custom C2 frameworks.'},
+    {title:'Operation Dragon Tide',clues:['&#128205; C2 servers in Asia-Pacific','&#128196; Supply chain via software update mechanism','&#10024; Dual-purpose: espionage + financial crime','&#127919; Targets: gaming, financial, healthcare','&#128274; Cross-platform Windows and macOS implants'],suspects:['APT28 (RU)','APT29 (RU)','APT41 (CN)','Sandworm (RU)'],a:2,explain:'APT41 (China) uniquely conducts both state espionage and financial cybercrime, using cross-platform implants targeting gaming and healthcare.'},
+    {title:'Operation Dark Seoul',clues:['&#128205; Origins traced to South-East Asia','&#128196; Heavy focus on cryptocurrency exchanges','&#10024; SWIFT attacks, ransomware, wiper malware','&#127919; Targets: banks, crypto, defence','&#128274; Linked to WannaCry 2017'],suspects:['APT28 (RU)','Lazarus Group (NK)','APT10 (CN)','Turla (RU)'],a:1,explain:'Lazarus Group (North Korea/DPRK) is attributed to WannaCry, SWIFT heists, and crypto theft for regime revenue.'},
+  ];
+  let ci=0,score=0;
+  function show(){
+    if(ci>=cases.length){el.innerHTML=`<div class="quiz-results"><div class="score-circle"><div class="score-num">${score}/${cases.length}</div><div class="score-label">Score</div></div><p style="color:var(--muted);margin-top:10px;">${score===cases.length?'Elite threat analyst!':'Study APT groups and their TTPs.'}</p><button class="g-btn g-btn-red" style="margin-top:14px;" onclick="renderOSINT(document.getElementById('gameArea'))">Play Again</button></div>`;return;}
+    const c=cases[ci];
+    el.innerHTML=`
+      <div style="display:flex;justify-content:space-between;margin-bottom:10px;"><span style="font-size:12px;color:var(--muted);">Case ${ci+1}/${cases.length}</span><span style="font-weight:700;color:#46d369;">Score: ${score}</span></div>
+      <div style="background:#0d0d1a;border:1px solid #2a2a4a;border-radius:10px;padding:14px;margin-bottom:14px;">
+        <div style="font-size:13px;font-weight:800;color:var(--red);margin-bottom:10px;">&#128269; ${c.title}</div>
+        <div style="font-size:11px;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:1px;">Intelligence Clues:</div>
+        ${c.clues.map(cl=>`<div style="font-size:12px;color:#ddd;padding:4px 0;border-bottom:1px solid #1a1a2e;">${cl}</div>`).join('')}
+      </div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:8px;">Which threat actor is responsible?</div>
+      ${c.suspects.map((s,i)=>`<button class="scenario-opt" id="oa_${i}" onclick="osA(${i})">${String.fromCharCode(65+i)}. ${s}</button>`).join('')}
+      <div id="osR" style="margin-top:10px;"></div>`;
+    window.osA=function(i){
+      el.querySelectorAll('.scenario-opt').forEach(b=>b.disabled=true);
+      const ok=i===c.a;if(ok)score++;
+      el.querySelectorAll('.scenario-opt')[i].style.background=ok?'rgba(70,211,105,0.15)':'rgba(229,9,20,0.15)';
+      el.querySelectorAll('.scenario-opt')[i].style.borderColor=ok?'#46d369':'#e50914';
+      el.querySelectorAll('.scenario-opt')[c.a].style.background='rgba(70,211,105,0.15)';
+      el.querySelectorAll('.scenario-opt')[c.a].style.borderColor='#46d369';
+      document.getElementById('osR').innerHTML=`<div class="phish-result ${ok?'correct-ans':'wrong-ans'}">${ok?'&#10003; Correct!':'&#10007; Wrong!'} ${c.explain}</div><button class="g-btn g-btn-dark" style="margin-top:8px;" onclick="ci++;show()">Next &#8594;</button>`;
+    };
+  }
+  show();
+}
+
+/* ===================== GAME 15: XSS LAB ===================== */
+function renderXSS(el){
+  // NOTE: Payload strings are stored as data, not in executable context
+  const challenges=[
+    {title:'Reflected XSS — Script Tag',desc:'Inject a script payload that would trigger JavaScript execution.',field:'Search',safe:false,keyword:'alert',needsTag:true,payload:'SCRIPT tag with alert(1)',explanation:'Reflected XSS echoes user input directly to the page. Fix: HTML-encode all output.'},
+    {title:'Event Handler XSS',desc:'Inject XSS using an HTML event handler (no script tags allowed).',field:'Username',safe:false,keyword:'onerror',needsTag:false,payload:'\" onerror=\"alert(1)',explanation:'Event-based XSS uses onerror, onload, onmouseover etc. Fix: whitelist allowed HTML attributes.'},
+    {title:'Stored XSS — Sanitized Input',desc:'This field is properly sanitized. Try any payload — it will be blocked.',field:'Comment',safe:true,keyword:'',needsTag:false,payload:'N/A — field is safe',explanation:'Proper encoding converts < > and quotes to HTML entities, preventing all XSS variants.'},
+  ];
+  let ci=0,score=0;
+  function show(){
+    if(ci>=challenges.length){el.innerHTML=`<div class="quiz-results"><div class="score-circle"><div class="score-num">${score}/${challenges.length}</div><div class="score-label">Score</div></div><p style="color:var(--muted);margin-top:10px;">XSS lab complete! Always sanitize inputs and encode outputs.</p><button class="g-btn g-btn-red" style="margin-top:14px;" onclick="renderXSS(document.getElementById('gameArea'))">Restart</button></div>`;return;}
+    const c=challenges[ci];
+    el.innerHTML=`
+      <div style="display:flex;justify-content:space-between;margin-bottom:10px;"><span style="font-size:12px;color:var(--muted);">Challenge ${ci+1}/${challenges.length}</span><span style="font-weight:700;color:#46d369;">Score: ${score}</span></div>
+      <div style="background:#0d0d1a;border:1px solid #2a2a4a;border-radius:10px;padding:14px;margin-bottom:14px;">
+        <div style="font-size:13px;font-weight:800;color:#f5c518;margin-bottom:6px;">&#128029; ${c.title}</div>
+        <div style="font-size:12px;color:#ddd;margin-bottom:10px;">${c.desc}</div>
+        <div style="font-size:11px;color:var(--muted);margin-bottom:4px;">${c.field} field output preview:</div>
+        <div style="background:#050505;border:1px solid #333;border-radius:6px;padding:8px;font-family:monospace;font-size:12px;color:#aaa;margin-bottom:10px;" id="xssPreview">${c.safe?'&lt;encoded safely&gt;':'(your input reflects here)'}</div>
+        <input id="xssIn" class="cipher-input" style="margin:0;padding:9px;font-size:12px;" placeholder="Enter payload..." autocomplete="off">
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <button class="g-btn g-btn-red" onclick="xssSub()">&#128029; Inject</button>
+        <button class="g-btn g-btn-dark" onclick="document.getElementById('xssR').innerHTML='<div style=background:#111;border-radius:6px;padding:10px;font-family:monospace;font-size:12px;color:#f5c518;>Payload: ${c.payload.replace(/'/g,"\\'")} &mdash; ${c.explanation}</div>'">&#128161; Hint</button>
+      </div>
+      <div id="xssR" style="margin-top:10px;"></div>`;
+    if(!c.safe){
+      document.getElementById('xssIn').addEventListener('input',function(){
+        const prev=document.getElementById('xssPreview');
+        if(prev)prev.textContent=this.value||'(your input reflects here)';
+      });
+    }
+    window.xssSub=function(){
+      const v=document.getElementById('xssIn').value.toLowerCase();
+      let detected=false;
+      if(c.safe){detected=true;}
+      else if(c.needsTag){detected=v.includes('script')&&v.includes('alert');}
+      else{detected=v.includes('onerror')||v.includes('onload')||v.includes('onmouseover')||v.includes('alert');}
+      if(c.safe){
+        score++;
+        document.getElementById('xssR').innerHTML=`<div class="phish-result correct-ans">&#128737; Input sanitized! XSS blocked. ${c.explanation}</div><button class="g-btn g-btn-dark" style="margin-top:8px;" onclick="ci++;show()">Next &#8594;</button>`;
+        document.getElementById('xssIn').disabled=true;
+      } else if(detected){
+        score++;
+        document.getElementById('xssR').innerHTML=`<div class="phish-result wrong-ans" style="border-color:#f5c518;color:#f5c518;">&#9888; XSS payload detected! In a real app this would execute JS. ${c.explanation}</div><button class="g-btn g-btn-dark" style="margin-top:8px;" onclick="ci++;show()">Next &#8594;</button>`;
+        document.getElementById('xssIn').disabled=true;
+      } else {
+        document.getElementById('xssR').innerHTML=`<div class="phish-result wrong-ans">&#10007; Not a valid payload for this challenge. Try again or click Hint.</div>`;
+      }
+    };
+  }
+  show();
+}
+
+/* ===================== GAME 16: HASH CRACKER ===================== */
+function renderHashCracker(el){
+  const chs=[
+    {type:'MD5',hash:'5f4dcc3b5aa765d61d8327deb882cf99',answer:'password',wordlist:['admin','password','letmein','123456','qwerty','welcome','monkey','dragon'],hint:'Very common — it\'s literally in the top 10 worst passwords.'},
+    {type:'MD5',hash:'e10adc3949ba59abbe56e057f20f883e',answer:'123456',wordlist:['password','admin','123456','letmein','qwerty','abc123','iloveyou','sunshine'],hint:'6 digits, all numbers.'},
+    {type:'MD5',hash:'21232f297a57a5a743894a0e4a801fc3',answer:'admin',wordlist:['password','admin','root','letmein','qwerty','123456','test','guest'],hint:'Default credential for many admin panels.'},
+    {type:'MD5',hash:'5ebe2294ecd0e0f08eab7690d2a6ee69',answer:'secret',wordlist:['secret','password','admin','hello','test','secure','private','shadow'],hint:'Something you keep hidden.'},
+  ];
+  let ci=0,score=0;
+  function show(){
+    if(ci>=chs.length){el.innerHTML=`<div class="quiz-results"><div class="score-circle"><div class="score-num">${score}/${chs.length}</div><div class="score-label">Score</div></div><p style="color:var(--muted);margin-top:10px;">Hash cracking complete! Use bcrypt/Argon2 with salting in production.</p><button class="g-btn g-btn-red" style="margin-top:14px;" onclick="renderHashCracker(document.getElementById('gameArea'))">Play Again</button></div>`;return;}
+    const c=chs[ci];
+    el.innerHTML=`
+      <div style="display:flex;justify-content:space-between;margin-bottom:10px;"><span style="font-size:12px;color:var(--muted);">Hash ${ci+1}/${chs.length}</span><span style="font-weight:700;color:#46d369;">Score: ${score}</span></div>
+      <div style="background:#050505;border:1px solid #222;border-radius:8px;padding:14px;margin-bottom:14px;">
+        <div style="font-size:11px;color:var(--red);margin-bottom:4px;">Type: ${c.type}</div>
+        <div style="font-family:monospace;font-size:12px;color:#5fb3d4;word-break:break-all;margin-bottom:10px;">${c.hash}</div>
+        <div style="font-size:12px;color:var(--muted);">&#128161; ${c.hint}</div>
+      </div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:8px;">Click a word to attempt crack:</div>
+      <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;" id="wgrid">
+        ${c.wordlist.map(w=>`<button onclick="hcT('${w}')" id="hb_${w}" style="padding:7px 12px;border-radius:6px;font-size:12px;font-family:monospace;cursor:pointer;background:#1a1a2e;border:1px solid #333;color:#aaa;transition:all .2s;">${w}</button>`).join('')}
+      </div>
+      <div style="display:flex;gap:8px;">
+        <input id="hcM" class="cipher-input" style="margin:0;padding:9px;font-size:12px;flex:1;" placeholder="Or type manually..." autocomplete="off">
+        <button class="g-btn g-btn-red" onclick="hcT(document.getElementById('hcM').value)">Crack</button>
+      </div>
+      <div id="hcR" style="margin-top:10px;"></div>`;
+    window.hcT=function(guess){
+      if(!guess.trim())return;
+      const ok=guess.trim().toLowerCase()===c.answer;
+      const btn=document.getElementById('hb_'+guess);
+      if(btn){btn.style.background=ok?'rgba(70,211,105,0.2)':'rgba(229,9,20,0.1)';btn.style.borderColor=ok?'#46d369':'#e50914';btn.style.color=ok?'#46d369':'#555';}
+      if(ok){
+        score++;
+        document.querySelectorAll('#wgrid button').forEach(b=>b.onclick=null);
+        document.getElementById('hcM').disabled=true;
+        document.getElementById('hcR').innerHTML=`<div class="phish-result correct-ans">&#128302; Cracked! "${guess}" matched the hash. Always use bcrypt/Argon2 with salt!</div><button class="g-btn g-btn-dark" style="margin-top:8px;" onclick="ci++;show()">Next &#8594;</button>`;
+      } else {
+        document.getElementById('hcR').innerHTML=`<div class="phish-result wrong-ans">&#10007; "${guess}" did not match. Keep trying!</div>`;
+      }
+    };
+  }
+  show();
+}
+
+/* ===================== GAME 17: APT MATCH ===================== */
+function renderAPTMatch(el){
+  const rounds=[
+    {group:'APT29 / Cozy Bear',facts:['Stole COVID-19 vaccine research in 2020','SolarWinds supply chain attack','Long-term stealthy persistence favoured','Targets: government, think tanks, healthcare'],opts:['China (MSS)','Russia (SVR)','North Korea (RGB)','Iran (IRGC)'],a:1,explain:'APT29 (Cozy Bear) is Russia\'s SVR. Known for extreme stealth and SolarWinds compromise affecting 18,000+ organisations.'},
+    {group:'APT10 / Stone Panda',facts:['MSP (Managed Service Provider) attacks','Cloud Hopper campaign targeting global MSPs','Extensive intellectual property theft','Targets: aerospace, satellite, pharma'],opts:['Russia (GRU)','Iran (IRGC)','China (MSS)','USA (NSA)'],a:2,explain:'APT10 (Stone Panda) is China\'s MSS. The Cloud Hopper campaign compromised managed service providers across 12+ countries.'},
+    {group:'Sandworm',facts:['Took down Ukrainian power grid (2015 & 2016)','Deployed NotPetya — $10B+ global damage','Olympic Destroyer at 2018 Winter Olympics','Most destructive state-sponsored cyber attacks ever'],opts:['China (PLA)','Russia (GRU)','North Korea (RGB)','Iran (MOIS)'],a:1,explain:'Sandworm (Russia GRU Unit 74455) is the most destructive APT on record — responsible for NotPetya and Ukrainian grid attacks.'},
+    {group:'Lazarus Group',facts:['WannaCry ransomware (2017) — 150+ countries','SWIFT banking system heists','Massive cryptocurrency theft campaigns','Targets: banks, crypto exchanges, defence'],opts:['Russia (FSB)','China (PLA)','North Korea (RGB)','Iran (IRGC)'],a:2,explain:'Lazarus Group (North Korea/DPRK RGB) funds the regime through cybercrime — WannaCry, Sony hack, and billions in crypto theft.'},
+  ];
+  let ri=0,score=0;
+  function show(){
+    if(ri>=rounds.length){el.innerHTML=`<div class="quiz-results"><div class="score-circle"><div class="score-num">${score}/${rounds.length}</div><div class="score-label">Score</div></div><p style="color:var(--muted);margin-top:10px;">${score===rounds.length?'Expert threat analyst!':score>=2?'Strong CTI knowledge!':'Study major APT groups and their nation-state origins.'}</p><button class="g-btn g-btn-red" style="margin-top:14px;" onclick="renderAPTMatch(document.getElementById('gameArea'))">Play Again</button></div>`;return;}
+    const r=rounds[ri];
+    el.innerHTML=`
+      <div style="display:flex;justify-content:space-between;margin-bottom:10px;"><span style="font-size:12px;color:var(--muted);">Round ${ri+1}/${rounds.length}</span><span style="font-weight:700;color:#46d369;">Score: ${score}</span></div>
+      <div style="background:#0d0d1a;border:1px solid #2a2a4a;border-radius:10px;padding:14px;margin-bottom:14px;">
+        <div style="font-size:15px;font-weight:800;color:var(--red);margin-bottom:10px;">&#127919; ${r.group}</div>
+        <div style="font-size:11px;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:1px;">Known TTPs &amp; Campaigns:</div>
+        ${r.facts.map(f=>`<div style="font-size:12px;color:#ddd;padding:4px 0;border-bottom:1px solid #1a1a2e;">&#10148; ${f}</div>`).join('')}
+      </div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:8px;">Which nation-state sponsors this group?</div>
+      ${r.opts.map((o,i)=>`<button class="scenario-opt" id="aa_${i}" onclick="aptA(${i})">${String.fromCharCode(65+i)}. ${o}</button>`).join('')}
+      <div id="aptR" style="margin-top:10px;"></div>`;
+    window.aptA=function(i){
+      el.querySelectorAll('.scenario-opt').forEach(b=>b.disabled=true);
+      const ok=i===r.a;if(ok)score++;
+      el.querySelectorAll('.scenario-opt')[i].style.background=ok?'rgba(70,211,105,0.15)':'rgba(229,9,20,0.15)';
+      el.querySelectorAll('.scenario-opt')[i].style.borderColor=ok?'#46d369':'#e50914';
+      el.querySelectorAll('.scenario-opt')[r.a].style.background='rgba(70,211,105,0.15)';
+      el.querySelectorAll('.scenario-opt')[r.a].style.borderColor='#46d369';
+      document.getElementById('aptR').innerHTML=`<div class="phish-result ${ok?'correct-ans':'wrong-ans'}">${ok?'&#10003; Correct!':'&#10007; Wrong!'} ${r.explain}</div><button class="g-btn g-btn-dark" style="margin-top:8px;" onclick="ri++;show()">Next &#8594;</button>`;
+    };
+  }
+  show();
+}
+
+/* ===================== INIT GAMES ===================== */
+renderGameCards();
+
+/* ===================== CISSP QUIZ ===================== */
+const DOMAINS=['Security & Risk Management','Asset Security','Security Architecture','Communication & Network Security','Identity & Access Management','Security Assessment & Testing','Security Operations','Software Development Security'];
+
+const ALL_QUESTIONS=[
+  {d:0,q:'Which is the PRIMARY reason for implementing a security policy?',opts:['Define technical controls','Establish management intent and direction','Document security incidents','Train employees'],a:1},
+  {d:0,q:'What does the principle of least privilege mean?',opts:['Users get no access by default','Users get minimum access needed for their job','Users share access accounts','Users have unrestricted access'],a:1},
+  {d:0,q:'Which law primarily regulates healthcare data privacy in the US?',opts:['SOX','GDPR','HIPAA','FERPA'],a:2},
+  {d:0,q:'What is a Business Impact Analysis (BIA) primarily used for?',opts:['Testing network security','Identifying critical assets and recovery priorities','Training employees','Auditing financial records'],a:1},
+  {d:0,q:'Which BEST describes due diligence?',opts:['Implementing security controls','Investigating and understanding risks before acting','Documenting incidents','Training the security team'],a:1},
+  {d:0,q:'What does RPO stand for in business continuity?',opts:['Recovery Point Objective','Risk Prevention Order','Resource Planning Operation','Redundancy Protocol Option'],a:0},
+  {d:0,q:'Which risk response transfers risk to a third party?',opts:['Avoidance','Mitigation','Acceptance','Transference'],a:3},
+  {d:0,q:'What is the purpose of an NDA?',opts:['Define job responsibilities','Protect confidential information between parties','Establish service levels','Regulate data access'],a:1},
+  {d:0,q:'Which concept ensures information is accessible when needed?',opts:['Confidentiality','Integrity','Availability','Accountability'],a:2},
+  {d:0,q:'What is quantitative risk analysis based on?',opts:['Expert judgment','Numeric values and calculations','Team consensus','Historical incidents only'],a:1},
+  {d:0,q:'Single Loss Expectancy (SLE) is calculated as:',opts:['Asset Value × Exposure Factor','Threat × Vulnerability','ALE / ARO','Risk × Impact'],a:0},
+  {d:0,q:'Which is an example of a detective control?',opts:['Firewall rules','Security camera','Encryption','Badge access'],a:1},
+  {d:0,q:'What does GDPR primarily regulate?',opts:['Payment card data','Personal data of EU citizens','US healthcare data','Software development'],a:1},
+  {d:0,q:'What is the Annual Loss Expectancy (ALE)?',opts:['Asset Value × ARO','SLE × ARO','Risk × Vulnerability','Threat × Impact'],a:1},
+  {d:0,q:'What is the purpose of a data privacy impact assessment (DPIA)?',opts:['Financial risk analysis','Identifying and minimising privacy risks in data processing','Performance evaluation','Network security audit'],a:1},
+  {d:1,q:'Which data classification level typically requires the highest protection?',opts:['Public','Internal','Confidential','Top Secret'],a:3},
+  {d:1,q:'What is data remanence?',opts:['Data stored in memory','Residual data remaining after deletion','Real-time data processing','Data redundancy'],a:1},
+  {d:1,q:'Which BEST permanently destroys data on an SSD?',opts:['Degaussing','Overwriting','Physical destruction','Formatting'],a:2},
+  {d:1,q:'What does data sovereignty mean?',opts:['Data owned by the user','Data subject to laws of the country where it resides','Data shared across borders','Data encrypted at rest'],a:1},
+  {d:1,q:'Primary consideration when handling PII?',opts:['Processing speed','Privacy and confidentiality','Storage costs','Data format'],a:1},
+  {d:1,q:'Purpose of a data retention policy?',opts:['Increase storage capacity','Define how long data is kept and when destroyed','Classify data automatically','Back up critical data'],a:1},
+  {d:1,q:'Which BEST describes data at rest?',opts:['Data transmitted over a network','Data stored on a device or storage medium','Data processed in memory','Data accessed via API'],a:1},
+  {d:1,q:'A data custodian is responsible for:',opts:['Classifying data','Implementing controls and safeguarding data','Creating data policy','Approving data access'],a:1},
+  {d:1,q:'PRIMARY goal of data minimisation?',opts:['Reducing storage costs','Collecting only data necessary for a purpose','Encrypting all data','Deduplicating datasets'],a:1},
+  {d:1,q:'What is the purpose of data masking?',opts:['Encrypting data at rest','Obscuring data to protect sensitive info while preserving format','Deleting unnecessary data','Compressing data'],a:1},
+  {d:2,q:'What does the Bell-LaPadula model primarily address?',opts:['Integrity','Confidentiality','Availability','Non-repudiation'],a:1},
+  {d:2,q:'Which model uses "no write down" and "no read up"?',opts:['Biba','Clark-Wilson','Bell-LaPadula','Brewer-Nash'],a:2},
+  {d:2,q:'Purpose of a Trusted Platform Module (TPM)?',opts:['Manage network traffic','Store cryptographic keys and attestation data','Provide anti-virus','Monitor user activity'],a:1},
+  {d:2,q:'Which BEST describes defense in depth?',opts:['Using one strong control','Layering multiple security controls','Encrypting all data','Applying patches immediately'],a:1},
+  {d:2,q:'Main purpose of a security kernel?',opts:['Managing hardware drivers','Enforcing the reference monitor concept','Handling user authentication','Processing network packets'],a:1},
+  {d:2,q:'Which principle: system should fail in a secure state?',opts:['Least privilege','Fail secure / fail safe','Defense in depth','Separation of duties'],a:1},
+  {d:2,q:'What does TCB (Trusted Computing Base) refer to?',opts:['All software on a system','Hardware/software/firmware enforcing security policy','The network perimeter','The backup system'],a:1},
+  {d:2,q:'Which is a vulnerability in cloud environments?',opts:['Strong encryption','Multi-tenancy risks','Dedicated hardware','On-premise storage'],a:1},
+  {d:2,q:'What is virtualisation escape?',opts:['Shutting down a VM','Attack breaking out of a VM to the host','Moving VMs between hosts','Encrypting VM disk images'],a:1},
+  {d:2,q:'Biba integrity model protects against?',opts:['Unauthorised disclosure','Unauthorised modification','Denial of service','Replay attacks'],a:1},
+  {d:2,q:'What is the Clark-Wilson model concerned with?',opts:['Confidentiality in military systems','Data integrity through well-formed transactions','Network access control','Physical security'],a:1},
+  {d:3,q:'Which OSI layer handles logical addressing?',opts:['Data Link','Network','Transport','Session'],a:1},
+  {d:3,q:'What does a VLAN provide?',opts:['Physical network separation','Logical network segmentation','Wireless encryption','Remote access'],a:1},
+  {d:3,q:'Which protocol provides secure remote access via encrypted tunnels?',opts:['Telnet','FTP','SSH','HTTP'],a:2},
+  {d:3,q:'Purpose of NAT?',opts:['Encrypt network traffic','Map private IPs to public IPs','Detect intrusions','Authenticate users'],a:1},
+  {d:3,q:'Which wireless security protocol is most secure currently?',opts:['WEP','WPA','WPA2','WPA3'],a:3},
+  {d:3,q:'What does a stateful firewall track?',opts:['Only packet headers','The state of network connections','User credentials','DNS queries'],a:1},
+  {d:3,q:'PRIMARY purpose of an IDS?',opts:['Block malicious traffic','Detect and alert on suspicious activity','Encrypt traffic','Authenticate users'],a:1},
+  {d:3,q:'What is BGP hijacking?',opts:['Attacking web applications','Malicious manipulation of internet routing tables','Intercepting DNS queries','Flooding with packets'],a:1},
+  {d:3,q:'Which Layer 4 protocol provides connection-oriented communication?',opts:['UDP','IP','TCP','ICMP'],a:2},
+  {d:3,q:'What is a DMZ in network security?',opts:['A type of VPN','Network segment between internal and external networks','A firewall configuration','A wireless security standard'],a:1},
+  {d:3,q:'What does DNSSEC provide?',opts:['DNS encryption','Cryptographic authentication of DNS responses','DNS load balancing','Private DNS resolution'],a:1},
+  {d:3,q:'Purpose of 802.1X?',opts:['Define VLAN tagging','Provide port-based network access control','Encrypt wireless traffic','Manage IP addressing'],a:1},
+  {d:3,q:'What does TLS provide?',opts:['IP address assignment','Encrypted communication over a network','Network routing','DNS resolution'],a:1},
+  {d:3,q:'What is ARP spoofing used for?',opts:['Encrypting network traffic','Linking attacker MAC to legitimate IP to intercept traffic','Bypassing firewalls','DNS hijacking'],a:1},
+  {d:4,q:'What does SSO (Single Sign-On) provide?',opts:['Multiple passwords per system','One authentication grants access to multiple systems','Shared user accounts','Two-factor authentication'],a:1},
+  {d:4,q:'Which authentication factor is "something you are"?',opts:['Password','Smart card','Biometrics','PIN'],a:2},
+  {d:4,q:'Purpose of RADIUS?',opts:['Network monitoring','Centralised authentication, authorisation, and accounting','Data encryption','Intrusion detection'],a:1},
+  {d:4,q:'What does separation of duties prevent?',opts:['Data loss','Unauthorised access','Fraud by requiring collusion','System downtime'],a:2},
+  {d:4,q:'What is Kerberos used for?',opts:['Encrypting disk data','Network authentication using tickets','Firewall management','Intrusion detection'],a:1},
+  {d:4,q:'Which access control model assigns permissions by job function?',opts:['DAC','MAC','RBAC','ABAC'],a:2},
+  {d:4,q:'What is a federated identity?',opts:['A single account for all apps','Identity shared across trust boundaries','Biometric-only authentication','Password vault'],a:1},
+  {d:4,q:'What does MFA stand for?',opts:['Multi-Function Authentication','Multi-Factor Authentication','Managed Firewall Access','Mandatory Field Authorisation'],a:1},
+  {d:4,q:'Difference between authentication and authorisation?',opts:['They are the same','Authentication verifies identity; authorisation grants permissions','Authorisation happens first','Only authorisation is needed'],a:1},
+  {d:4,q:'What is PAM used for?',opts:['Managing user passwords','Controlling and auditing privileged account access','Providing VPN access','Encrypting databases'],a:1},
+  {d:4,q:'Type 1 authentication factor example?',opts:['Fingerprint','Password','Smart card','Retina scan'],a:1},
+  {d:4,q:'What does SAML provide?',opts:['Network routing','Markup language for security logs','XML-based standard for exchanging authentication data','Symmetric encryption'],a:2},
+  {d:4,q:'What is an Identity Provider (IdP)?',opts:['A cloud storage service','A system that creates and manages digital identities','A network monitoring tool','A type of firewall'],a:1},
+  {d:5,q:'Purpose of a penetration test?',opts:['Monitor network traffic','Simulate attacks to identify vulnerabilities','Install patches','Train employees'],a:1},
+  {d:5,q:'What is a vulnerability assessment?',opts:['An active attack simulation','Identification of weaknesses without exploitation','Network traffic analysis','User access review'],a:1},
+  {d:5,q:'What does SAST stand for?',opts:['Security Access System Testing','Static Application Security Testing','System Analysis Security Test','Software Assessment Scan Tool'],a:1},
+  {d:5,q:'What is fuzz testing?',opts:['Testing with valid inputs','Sending random or malformed data to find crashes','Testing in staging','Manual code review'],a:1},
+  {d:5,q:'Purpose of a SOC 2 audit?',opts:['Financial reporting','Assessing controls for security, availability, confidentiality','Physical security assessment','Network vulnerability scan'],a:1},
+  {d:5,q:'What does a war dialer do?',opts:['Attack wireless networks','Scan phone numbers to find modem connections','Test web app security','Analyse firewall logs'],a:1},
+  {d:5,q:'What is the OWASP Top 10?',opts:['A list of certifications','Most critical web application security risks','Top 10 security tools','10 firewall rules'],a:1},
+  {d:5,q:'What is regression testing in security?',opts:['Testing new features','Verifying previous vulnerabilities are fixed and not re-introduced','User acceptance testing','Load testing'],a:1},
+  {d:5,q:'What does a CVE number identify?',opts:['A compliance standard','A specific publicly known cybersecurity vulnerability','A network configuration','An encryption algorithm'],a:1},
+  {d:5,q:'What is threat modelling?',opts:['Training employees','Structured process to identify, prioritise, and address threats','Monitoring network traffic','Writing policies'],a:1},
+  {d:5,q:'What is a black-box penetration test?',opts:['Testing with full knowledge','Testing with no prior knowledge of target','Testing internal systems only','Testing source code only'],a:1},
+  {d:6,q:'PRIMARY purpose of an incident response plan?',opts:['Prevent all incidents','Structured process to detect, contain, recover from incidents','Document policies','Train employees'],a:1},
+  {d:6,q:'What does chain of custody refer to in forensics?',opts:['Network traffic capture','Documentation tracking evidence from collection to presentation','Incident detection','Backup and recovery'],a:1},
+  {d:6,q:'What is a honeypot?',opts:['A password manager','A decoy system designed to attract and study attackers','A type of firewall','An encryption tool'],a:1},
+  {d:6,q:'What does SIEM stand for?',opts:['Security Information and Event Management','System Integrity Evaluation Module','Software Integration Error Monitor','Secure Infrastructure Environment Manager'],a:0},
+  {d:6,q:'Purpose of log management?',opts:['Encrypt communications','Collect, store, and analyse security logs for auditing','Monitor physical access','Manage passwords'],a:1},
+  {d:6,q:'FIRST step in incident response?',opts:['Eradication','Containment','Preparation','Recovery'],a:2},
+  {d:6,q:'What does RTO stand for?',opts:['Real-Time Operations','Recovery Time Objective','Risk Tolerance Order','Redundancy Testing Option'],a:1},
+  {d:6,q:'Disaster recovery plan is primarily focused on?',opts:['Preventing disasters','Restoring IT systems after a disaster','Employee safety','Physical security'],a:1},
+  {d:6,q:'Purpose of patch management?',opts:['Monitor network traffic','Apply updates to fix vulnerabilities and improve security','Train employees','Audit access'],a:1},
+  {d:6,q:'What is a cold site in disaster recovery?',opts:['Fully operational backup site','Site with hardware but no data or connectivity','Empty site with power and connectivity only','Mobile recovery unit'],a:2},
+  {d:6,q:'Purpose of change management?',opts:['Managing HR changes','Controlling IT changes to minimise risk','Security training','Incident documentation'],a:1},
+  {d:6,q:'What does e-discovery refer to?',opts:['Discovering new technologies','Electronic process of finding and preserving digital evidence for legal proceedings','Network scanning','User behaviour analytics'],a:1},
+  {d:6,q:'What does "due care" mean in security?',opts:['Investigating before acting','Taking reasonable steps to protect assets','Documenting security events','Training all employees'],a:1},
+  {d:7,q:'What is the OWASP SAMM?',opts:['A programming language','A framework to improve software security practices','A network security standard','An encryption algorithm'],a:1},
+  {d:7,q:'What does input validation prevent?',opts:['DDoS attacks','Injection attacks like SQL injection and XSS','Brute force attacks','MITM attacks'],a:1},
+  {d:7,q:'What is a race condition vulnerability?',opts:['Network congestion','Timing-dependent flaw where behaviour depends on event sequence','Buffer overflow','Memory leak'],a:1},
+  {d:7,q:'What does DAST stand for?',opts:['Dynamic Application Security Testing','Distributed Access Security Tool','Data Analysis Security Test','Domain Authentication System Test'],a:0},
+  {d:7,q:'What is a buffer overflow attack?',opts:['Flooding network bandwidth','Writing more data than a buffer holds to overwrite memory','Intercepting network traffic','Guessing passwords'],a:1},
+  {d:7,q:'Purpose of code signing?',opts:['Encrypting source code','Verifying authenticity and integrity of software','Compressing code','Obfuscating code'],a:1},
+  {d:7,q:'What is DevSecOps?',opts:['Development methodology excluding security','Integrating security into DevOps processes','A security audit framework','A cloud deployment model'],a:1},
+  {d:7,q:'What does XSS allow an attacker to do?',opts:['Access a database directly','Inject malicious scripts into web pages viewed by users','Decrypt traffic','Bypass firewall rules'],a:1},
+  {d:7,q:'What is the SDLC?',opts:['A security framework','Structured process for planning, creating, testing, and deploying software','A network topology','A data classification scheme'],a:1},
+  {d:7,q:'Purpose of a WAF (Web Application Firewall)?',opts:['Replacing a network firewall','Filtering HTTP traffic and protecting web apps from attacks','Encrypting web traffic','Managing web server config'],a:1},
+  {d:7,q:'What is a canary token used for?',opts:['Testing encryption','A trap to detect unauthorised access or data exfiltration','Managing API keys','Compiling source code'],a:1},
+];
+
+function buildDomainList(){
+  const dl=document.getElementById('domainList');
+  DOMAINS.forEach((d,i)=>{
+    const cnt=ALL_QUESTIONS.filter(q=>q.d===i).length;
+    const div=document.createElement('div');div.className='domain-card';
+    div.innerHTML=`<span class="domain-name">${d}</span><span class="domain-count">${cnt}Q</span>`;
+    dl.appendChild(div);
+  });
+}
+buildDomainList();
+
+let QS={questions:[],answers:[],current:0,total:0};
+
+function startQuiz(){
+  const shuffled=[...ALL_QUESTIONS].sort(()=>Math.random()-0.5);
+  const total=shuffled.length;
+  QS={questions:shuffled,answers:new Array(total).fill(-1),current:0,total:total};
+  document.getElementById('quizStart').style.display='none';
+  document.getElementById('quizActive').style.display='block';
+  renderQ();
+}
+
+function renderQ(){
+  const {questions,answers,current,total}=QS;
+  const q=questions[current];
+  const pct=Math.round(current/total*100);
+  const answered=answers.filter(a=>a>=0).length;
+  const isLast=current===total-1;
+  document.getElementById('quizActive').innerHTML=`
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:8px;">
+      <span style="font-size:13px;color:var(--muted);">Question ${current+1} of ${total}</span>
+      <span style="font-size:13px;color:var(--muted);">${answered} answered</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" style="width:${pct}%;"></div></div>
+    <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">Q${current+1}</div>
+    <div class="question-domain">${DOMAINS[q.d]}</div>
+    <div class="question-text">${q.q}</div>
+    <div class="options-grid">
+      ${q.opts.map((o,i)=>`<button class="option-btn ${answers[current]===i?'selected':''}" onclick="selA(${i})"><span class="opt-letter">${String.fromCharCode(65+i)}</span><span>${o}</span></button>`).join('')}
+    </div>
+    <div class="quiz-nav">
+      <button class="btn btn-secondary" onclick="qNav(-1)" ${current===0?'disabled':''}>&#8592; Prev</button>
+      ${isLast
+        ?`<button class="btn btn-primary" onclick="submitQuiz()">Submit Exam &#9997;</button>`
+        :`<button class="btn btn-secondary" onclick="qNav(1)">Next &#8594;</button>`}
+    </div>
+    ${isLast&&answered<total?`<div style="font-size:12px;color:#f5c518;text-align:center;margin-top:10px;">&#9888; ${total-answered} unanswered — go back to complete them.</div>`:''}`;
+}
+
+window.selA=function(i){QS.answers[QS.current]=i;renderQ();};
+window.qNav=function(d){QS.current=Math.max(0,Math.min(QS.total-1,QS.current+d));renderQ();};
+
+function submitQuiz(){
+  const {questions,answers,total}=QS;
+  let correct=0;const wrong=[];
+  questions.forEach((q,i)=>{if(answers[i]===q.a)correct++;else wrong.push({q,userAns:answers[i],idx:i});});
+  const pct=Math.round(correct/total*100);
+  document.getElementById('quizActive').style.display='none';
+  document.getElementById('quizResults').style.display='block';
+  document.getElementById('quizResults').innerHTML=`
+    <div class="quiz-results">
+      <div class="score-circle">
+        <div class="score-num" style="color:${pct>=70?'#46d369':pct>=50?'#f5c518':'#e50914'}">${correct}</div>
+        <div class="score-label">out of ${total}</div>
+      </div>
+      <div style="font-size:20px;font-weight:800;margin-bottom:8px;">${pct>=70?'&#127881; Pass!':pct>=50?'&#128209; Almost There':'&#128293; Keep Studying'}</div>
+      <div style="color:var(--muted);margin-bottom:6px;">${pct}% &bull; ${correct} correct &bull; ${total-correct} wrong</div>
+      <div style="color:${pct>=70?'#46d369':'#aaa'};font-size:13px;margin-bottom:28px;">${pct>=70?'You meet the CISSP passing threshold!':'CISSP requires ~70%. Keep practising!'}</div>
+      ${wrong.length>0?`
+      <div style="text-align:left;max-width:700px;margin:0 auto;">
+        <h3 style="font-size:16px;margin-bottom:14px;color:var(--red);">&#10007; Wrong Answers — Review (${wrong.length})</h3>
+        ${wrong.map(w=>`
+          <div class="review-item">
+            <div style="font-size:10px;color:var(--muted);margin-bottom:4px;">Q${w.idx+1} &bull; ${DOMAINS[w.q.d]}</div>
+            <div class="review-q">${w.q.q}</div>
+            <div class="review-yours">&#10007; Your answer: ${w.userAns>=0?String.fromCharCode(65+w.userAns)+'. '+w.q.opts[w.userAns]:'Not answered'}</div>
+            <div class="review-correct">&#10003; Correct: ${String.fromCharCode(65+w.q.a)}. ${w.q.opts[w.q.a]}</div>
+          </div>`).join('')}
+      </div>`:'<div style="color:#46d369;font-size:15px;">&#127881; Perfect score!</div>'}
+      <button class="btn btn-primary" style="margin-top:28px;" onclick="retakeQuiz()">&#8635; Retake Quiz</button>
+    </div>`;
+}
+
+window.retakeQuiz=function(){
+  document.getElementById('quizResults').style.display='none';
+  document.getElementById('quizStart').style.display='block';
+};
+</script>
+</body>
+</html>
