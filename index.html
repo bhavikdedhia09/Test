@@ -3,7 +3,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Clinical Health Diagnostic Platform</title>
+<title>Advanced Preventive Health Diagnostic Platform</title>
 
 <style>
 
@@ -49,7 +49,6 @@ margin-top:25px;
 background:#020617;
 padding:25px;
 border-radius:10px;
-color:white;
 }
 
 table{
@@ -61,7 +60,6 @@ margin-top:10px;
 td,th{
 border:1px solid #334155;
 padding:8px;
-text-align:left;
 }
 
 .section{
@@ -73,7 +71,6 @@ margin-top:25px;
 .bad{color:#f87171}
 
 </style>
-
 </head>
 
 <body>
@@ -86,6 +83,7 @@ margin-top:25px;
 
 <input id="name" placeholder="Patient Name">
 <input id="age" type="number" placeholder="Age">
+
 <select id="gender">
 <option>Male</option>
 <option>Female</option>
@@ -94,8 +92,7 @@ margin-top:25px;
 <input id="height" type="number" placeholder="Height (cm)">
 <input id="weight" type="number" placeholder="Weight (kg)">
 <input id="waist" type="number" placeholder="Waist Circumference (cm)">
-<input id="hr" type="number" placeholder="Resting Heart Rate">
-
+<input id="hr" type="number" placeholder="Resting Heart Rate (bpm)">
 <input id="sleep" type="number" placeholder="Sleep Hours">
 
 <select id="activity">
@@ -113,6 +110,17 @@ margin-top:25px;
 </div>
 
 <script>
+
+function classifyHeartRate(hr){
+
+if(hr < 60) return "Athlete Level"
+if(hr <= 70) return "Excellent"
+if(hr <= 80) return "Good"
+if(hr <= 90) return "Elevated Risk"
+
+return "High Risk"
+
+}
 
 function generateReport(){
 
@@ -144,7 +152,37 @@ let calories=Math.round(bmr*activity)
 
 let hydration=(weight*0.035).toFixed(2)
 
-let maxHR=220-age
+let maxHR=Math.round(208-(0.7*age))
+
+let vo2=(15*(maxHR/hr)).toFixed(1)
+
+let hrClass=classifyHeartRate(hr)
+
+/* Cardiac Risk Index */
+
+let cardiacRisk=0
+
+if(bmi>25) cardiacRisk+=1
+if(waist>94) cardiacRisk+=1
+if(hr>80) cardiacRisk+=1
+if(sleep<7) cardiacRisk+=1
+if(activity<=1.2) cardiacRisk+=1
+
+let cardiacRiskLevel="Low"
+
+if(cardiacRisk==2) cardiacRiskLevel="Moderate"
+if(cardiacRisk>=3) cardiacRiskLevel="High"
+
+/* Disease Probability */
+
+let diabetes=Math.round((bmi*2 + waist)/5)
+let heart=Math.round((hr+bmi)/3)
+
+/* Biological Age */
+
+let bioAge=Math.round(age+(bmi-22)+(sleep<7?3:-2)+(hr>80?2:-1))
+
+/* Health Score */
 
 let healthScore=100
 
@@ -154,28 +192,29 @@ if(sleep<7) healthScore-=10
 if(activity<1.4) healthScore-=10
 if(waist>100) healthScore-=10
 
-let diabetes=Math.round((bmi*2 + waist)/5)
-let heart=Math.round((hr+bmi)/3)
-
-let bioAge=Math.round(age+(bmi-22)+(sleep<7?3:-2)+(hr>80?2:-1))
+/* Alerts */
 
 let alerts=[]
 
-if(bmi>27) alerts.push("Elevated metabolic risk detected")
-if(hr>85) alerts.push("High resting heart rate detected")
-if(sleep<6) alerts.push("Sleep deficiency detected")
+if(cardiacRiskLevel=="High") alerts.push("⚠ Elevated cardiovascular risk detected")
+if(sleep<6) alerts.push("⚠ Sleep deficiency detected")
+if(bmi>27) alerts.push("⚠ Metabolic risk indicators present")
+
+/* AI Insight */
 
 let insight=""
 
 if(healthScore>85){
-insight="Health indicators appear strong with balanced metabolic and cardiovascular health."
+insight="Your overall health indicators suggest strong cardiovascular and metabolic wellness."
 }
 else if(healthScore>70){
-insight="Health profile is generally good but improvements in sleep and physical activity may reduce long term risk."
+insight="Health indicators are generally good but improvements in physical activity and sleep consistency may further reduce long-term disease risk."
 }
 else{
-insight="Several lifestyle indicators suggest elevated health risk. Improving activity, weight management, and sleep consistency may improve long term health."
+insight="Several lifestyle indicators suggest increased health risk. Improving exercise, sleep, and weight management may significantly improve long-term health."
 }
+
+/* 30 Day Plan */
 
 let plan=""
 
@@ -197,7 +236,7 @@ plan+="Walk 7000 steps<br>"
 
 document.getElementById("report").innerHTML=`
 
-<h2>Health Assessment Report</h2>
+<h2>Preventive Health Diagnostic Report</h2>
 
 <b>Patient:</b> ${name}<br>
 <b>Age:</b> ${age}<br>
@@ -205,7 +244,7 @@ document.getElementById("report").innerHTML=`
 
 <div class="section">
 
-<h3>Executive Summary</h3>
+<h3>Executive Health Summary</h3>
 
 Health Intelligence Score: <b>${healthScore}/100</b>
 
@@ -215,7 +254,7 @@ Health Intelligence Score: <b>${healthScore}/100</b>
 
 <div class="section">
 
-<h3>Body Composition</h3>
+<h3>Body Composition Analysis</h3>
 
 <table>
 
@@ -255,7 +294,7 @@ Health Intelligence Score: <b>${healthScore}/100</b>
 
 <div class="section">
 
-<h3>Cardiovascular Health</h3>
+<h3>Cardiovascular Health Evaluation</h3>
 
 <table>
 
@@ -266,12 +305,22 @@ Health Intelligence Score: <b>${healthScore}/100</b>
 
 <tr>
 <td>Resting Heart Rate</td>
-<td>${hr} bpm</td>
+<td>${hr} bpm (${hrClass})</td>
 </tr>
 
 <tr>
 <td>Maximum Heart Rate</td>
 <td>${maxHR} bpm</td>
+</tr>
+
+<tr>
+<td>VO2 Max Estimate</td>
+<td>${vo2}</td>
+</tr>
+
+<tr>
+<td>Cardiac Risk Index</td>
+<td>${cardiacRisk} (${cardiacRiskLevel})</td>
 </tr>
 
 </table>
@@ -286,12 +335,12 @@ Health Intelligence Score: <b>${healthScore}/100</b>
 
 <tr>
 <td>Basal Metabolic Rate</td>
-<td>${Math.round(bmr)} kcal</td>
+<td>${Math.round(bmr)} kcal/day</td>
 </tr>
 
 <tr>
 <td>Estimated Daily Calories</td>
-<td>${calories} kcal</td>
+<td>${calories} kcal/day</td>
 </tr>
 
 <tr>
@@ -330,10 +379,10 @@ Health Intelligence Score: <b>${healthScore}/100</b>
 
 <div class="section">
 
-<h3>Biological Age</h3>
+<h3>Biological Age Assessment</h3>
 
-Chronological Age: ${age} Years<br>
-Estimated Biological Age: ${bioAge} Years
+Chronological Age: ${age} years<br>
+Estimated Biological Age: ${bioAge} years
 
 </div>
 
@@ -347,7 +396,7 @@ ${alerts.length>0 ? alerts.join("<br>") : "<span class='good'>No major alerts de
 
 <div class="section">
 
-<h3>30 Day Health Improvement Plan</h3>
+<h3>30-Day Health Improvement Plan</h3>
 
 ${plan}
 
@@ -357,8 +406,8 @@ ${plan}
 
 <p style="font-size:12px">
 
-This report provides automated preventive health insights for wellness monitoring.
-It does not replace professional medical diagnosis or consultation.
+This automated health assessment provides preventive wellness insights based on self-reported measurements.  
+It should not replace consultation with qualified healthcare professionals.
 
 </p>
 
