@@ -17,9 +17,11 @@
         label{display:block;margin-bottom:8px;font-weight:bold;color:#555}
         input,select,textarea{width:100%;padding:12px;border:2px solid #ddd;border-radius:8px;font-size:16px}
         input:focus,select:focus{outline:none;border-color:#4CAF50;box-shadow:0 0 10px rgba(76,175,80,.2)}
-        .radio-group,.checkbox-group{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
-        .radio-item,.checkbox-item{display:flex;align-items:center;gap:8px}
-        input[type="radio"],input[type="checkbox"]{width:auto}
+        .radio-group{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-top:10px}
+        .radio-item{display:flex;align-items:center;gap:8px;padding:10px;background:#fff;border:2px solid #ddd;border-radius:8px;cursor:pointer}
+        .radio-item:hover{border-color:#4CAF50}
+        .radio-item input[type="radio"]{width:20px;height:20px;margin:0}
+        .radio-item.selected{border-color:#4CAF50;background:#f0f8f0}
         .slider{width:100%;height:8px;border-radius:5px;background:#ddd;outline:none;-webkit-appearance:none}
         .slider::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:#4CAF50;cursor:pointer}
         .btn{background:linear-gradient(135deg,#4CAF50,#45a049);color:#fff;padding:15px 30px;border:none;border-radius:25px;font-size:16px;cursor:pointer;margin:10px}
@@ -39,7 +41,7 @@
         .disclaimer{background:#fff3cd;border:2px solid #ffc107;padding:20px;border-radius:10px;margin:20px;color:#664d03}
         .progress-bar{width:100%;height:20px;background:#e9ecef;border-radius:10px;overflow:hidden}
         .progress-fill{height:100%;background:linear-gradient(135deg,#4CAF50,#45a049);width:0%;transition:width .3s}
-        @media(max-width:768px){.form-row{flex-direction:column}.radio-group,.checkbox-group{grid-template-columns:1fr}.header h1{font-size:2em}}
+        @media(max-width:768px){.form-row{flex-direction:column}.radio-group{grid-template-columns:1fr}.header h1{font-size:2em}}
     </style>
 </head>
 <body>
@@ -104,11 +106,26 @@
                     <div class="form-group">
                         <label>Exercise Frequency:</label>
                         <div class="radio-group">
-                            <div class="radio-item"><input type="radio" name="exercise" value="0" id="ex0"><label for="ex0">Never</label></div>
-                            <div class="radio-item"><input type="radio" name="exercise" value="1" id="ex1"><label for="ex1">1-2/month</label></div>
-                            <div class="radio-item"><input type="radio" name="exercise" value="2" id="ex2"><label for="ex2">1-2/week</label></div>
-                            <div class="radio-item"><input type="radio" name="exercise" value="3" id="ex3"><label for="ex3">3-4/week</label></div>
-                            <div class="radio-item"><input type="radio" name="exercise" value="4" id="ex4"><label for="ex4">5+/week</label></div>
+                            <div class="radio-item" onclick="selectExercise(0)">
+                                <input type="radio" name="exercise" value="0" id="ex0">
+                                <label for="ex0">Never</label>
+                            </div>
+                            <div class="radio-item" onclick="selectExercise(1)">
+                                <input type="radio" name="exercise" value="1" id="ex1">
+                                <label for="ex1">1-2/month</label>
+                            </div>
+                            <div class="radio-item" onclick="selectExercise(2)">
+                                <input type="radio" name="exercise" value="2" id="ex2">
+                                <label for="ex2">1-2/week</label>
+                            </div>
+                            <div class="radio-item" onclick="selectExercise(3)">
+                                <input type="radio" name="exercise" value="3" id="ex3">
+                                <label for="ex3">3-4/week</label>
+                            </div>
+                            <div class="radio-item" onclick="selectExercise(4)">
+                                <input type="radio" name="exercise" value="4" id="ex4">
+                                <label for="ex4">5+/week</label>
+                            </div>
                         </div>
                     </div>
                     
@@ -135,7 +152,7 @@
             </div>
 
             <div class="card">
-                <h3>📊 Progress</h3>
+                <h3>📊 Progress Tracker</h3>
                 <div class="progress-bar">
                     <div class="progress-fill" id="progressFill"></div>
                 </div>
@@ -162,114 +179,141 @@
         let userData = {};
 
         // Slider updates
-        document.getElementById('sleep').oninput = function(){document.getElementById('sleepVal').textContent = this.value};
-        document.getElementById('stress').oninput = function(){document.getElementById('stressVal').textContent = this.value};
+        document.getElementById('sleep').oninput = function(){
+            document.getElementById('sleepVal').textContent = this.value;
+        };
+        
+        document.getElementById('stress').oninput = function(){
+            document.getElementById('stressVal').textContent = this.value;
+        };
 
-        // Fitness challenges data (compressed)
+        // Exercise selection function
+        function selectExercise(value) {
+            // Remove selected class from all items
+            document.querySelectorAll('.radio-item').forEach(item => {
+                item.classList.remove('selected');
+            });
+            
+            // Add selected class to clicked item
+            event.currentTarget.classList.add('selected');
+            
+            // Check the radio button
+            document.getElementById(`ex${value}`).checked = true;
+        }
+
+        // Fitness challenges data
         const challenges = {
             beginner: [
-                {day:1,title:"Welcome Walk",desc:"10-min gentle walk",dur:"10min"},
-                {day:2,title:"Chair Exercises",desc:"Seated arm circles & leg lifts",dur:"15min"},
-                {day:3,title:"Stretching",desc:"Basic neck, shoulder, arm stretches",dur:"15min"},
-                {day:4,title:"Stair Walking",desc:"Slow stair climbing with handrail",dur:"10min"},
-                {day:5,title:"Dancing",desc:"Gentle dancing to favorite music",dur:"15min"},
-                {day:6,title:"Garden Walk",desc:"Slow nature walk",dur:"20min"},
-                {day:7,title:"Rest Day",desc:"Light stretching & reflection",dur:"15min"},
-                {day:8,title:"Morning Energy",desc:"Light jumping jacks & arm swings",dur:"15min"},
-                {day:9,title:"House Cleaning",desc:"Active cleaning with energy",dur:"20min"},
-                {day:10,title:"Store Walk",desc:"Walk through large store",dur:"20min"},
-                {day:11,title:"Cleaning Workout",desc:"Vacuum & dust energetically",dur:"30min"},
-                {day:12,title:"Balloon Game",desc:"Keep balloon in air",dur:"15min"},
-                {day:13,title:"Pool Walking",desc:"Walk in shallow water",dur:"20min"},
-                {day:14,title:"Easy Bike",desc:"Gentle bike ride",dur:"20min"},
-                {day:15,title:"Mall Walk",desc:"Brisk mall walking",dur:"25min"},
-                {day:16,title:"Resistance Band",desc:"Light band exercises",dur:"20min"},
-                {day:17,title:"Pet Play",desc:"Active pet playtime",dur:"20min"},
-                {day:18,title:"Cooking Workout",desc:"Cook while doing calf raises",dur:"25min"},
-                {day:19,title:"Photo Walk",desc:"Walking photography session",dur:"30min"},
-                {day:20,title:"Chair Yoga",desc:"Seated yoga poses",dur:"25min"},
-                {day:21,title:"Social Walk",desc:"Walk with friend",dur:"30min"},
-                {day:22,title:"Playground Fun",desc:"Use playground equipment",dur:"20min"},
-                {day:23,title:"Tai Chi",desc:"Basic Tai Chi movements",dur:"25min"},
-                {day:24,title:"Beach Walk",desc:"Sand or waterside walking",dur:"25min"},
-                {day:25,title:"Bowling",desc:"Bowling or bowling motions",dur:"30min"},
-                {day:26,title:"Easy Hike",desc:"Flat trail nature walk",dur:"30min"},
-                {day:27,title:"Water Aerobics",desc:"Pool exercises",dur:"30min"},
-                {day:28,title:"Dance Class",desc:"Online dance tutorial",dur:"25min"},
-                {day:29,title:"Personal Best",desc:"Repeat favorite exercise",dur:"30min"},
-                {day:30,title:"Celebration",desc:"Reflective celebration walk",dur:"30min"}
+                {day:1,title:"Welcome Walk",desc:"10-minute gentle walk around your neighborhood",dur:"10 min"},
+                {day:2,title:"Chair Exercises",desc:"Seated arm circles & leg lifts",dur:"15 min"},
+                {day:3,title:"Basic Stretching",desc:"Neck, shoulder, and arm stretches",dur:"15 min"},
+                {day:4,title:"Stair Walking",desc:"Slow stair climbing with handrail support",dur:"10 min"},
+                {day:5,title:"Dance Time",desc:"Gentle dancing to your favorite music",dur:"15 min"},
+                {day:6,title:"Nature Walk",desc:"Peaceful walk in a park or garden",dur:"20 min"},
+                {day:7,title:"Rest & Reflect",desc:"Light stretching and progress reflection",dur:"15 min"},
+                {day:8,title:"Morning Energy",desc:"Light jumping jacks and arm swings",dur:"15 min"},
+                {day:9,title:"Active Cleaning",desc:"Energetic house cleaning workout",dur:"20 min"},
+                {day:10,title:"Shopping Walk",desc:"Brisk walk through a large store",dur:"20 min"},
+                {day:11,title:"Cleaning Cardio",desc:"Vacuum and dust with extra energy",dur:"30 min"},
+                {day:12,title:"Balloon Fun",desc:"Keep a balloon in the air game",dur:"15 min"},
+                {day:13,title:"Water Walking",desc:"Walking in shallow pool water",dur:"20 min"},
+                {day:14,title:"Easy Cycling",desc:"Gentle bike ride around the block",dur:"20 min"},
+                {day:15,title:"Mall Walking",desc:"Brisk walking through shopping mall",dur:"25 min"},
+                {day:16,title:"Resistance Band",desc:"Light resistance band exercises",dur:"20 min"},
+                {day:17,title:"Pet Playtime",desc:"Active play session with pets",dur:"20 min"},
+                {day:18,title:"Kitchen Workout",desc:"Cook while doing calf raises",dur:"25 min"},
+                {day:19,title:"Photo Walk",desc:"Walking photography session",dur:"30 min"},
+                {day:20,title:"Chair Yoga",desc:"Gentle seated yoga poses",dur:"25 min"},
+                {day:21,title:"Social Walk",desc:"Walk and talk with a friend",dur:"30 min"},
+                {day:22,title:"Playground Fun",desc:"Use playground equipment for exercise",dur:"20 min"},
+                {day:23,title:"Tai Chi Basics",desc:"Basic Tai Chi movements",dur:"25 min"},
+                {day:24,title:"Beach/Lake Walk",desc:"Sand or waterside walking",dur:"25 min"},
+                {day:25,title:"Bowling Motion",desc:"Bowling or bowling-like movements",dur:"30 min"},
+                {day:26,title:"Easy Trail Hike",desc:"Flat trail nature walk",dur:"30 min"},
+                {day:27,title:"Water Aerobics",desc:"Gentle pool exercises",dur:"30 min"},
+                {day:28,title:"Dance Tutorial",desc:"Follow online dance tutorial",dur:"25 min"},
+                {day:29,title:"Personal Favorite",desc:"Repeat your favorite exercise",dur:"30 min"},
+                {day:30,title:"Celebration Walk",desc:"Reflective celebration walk",dur:"30 min"}
             ],
             intermediate: [
-                {day:1,title:"Fitness Test",desc:"Push-ups, squats, plank assessment",dur:"30min"},
-                {day:2,title:"Cardio Start",desc:"25min walk + 5min jog intervals",dur:"30min"},
-                {day:3,title:"Upper Body",desc:"Push-ups, tricep dips, arm raises",dur:"25min"},
-                {day:4,title:"Lower Body",desc:"Squats, lunges, calf raises",dur:"25min"},
-                {day:5,title:"Core Work",desc:"Planks, crunches, Russian twists",dur:"20min"},
-                {day:6,title:"Cardio Mix",desc:"Jumping jacks, high knees, climbers",dur:"25min"},
-                {day:7,title:"Yoga Flow",desc:"Flexibility & relaxation yoga",dur:"30min"},
-                {day:8,title:"Hill Walk",desc:"Incline cardio challenge",dur:"35min"},
-                {day:9,title:"Circuit Training",desc:"6-station workout circuit",dur:"30min"},
-                {day:10,title:"Swimming",desc:"Lap swimming different strokes",dur:"30min"},
-                {day:11,title:"Strength Circuit",desc:"Bodyweight strength training",dur:"35min"},
-                {day:12,title:"HIIT Cardio",desc:"High intensity intervals",dur:"25min"},
-                {day:13,title:"Flexibility",desc:"Deep stretching session",dur:"30min"},
-                {day:14,title:"Sports Activity",desc:"Tennis, basketball, or similar",dur:"45min"},
-                {day:15,title:"Long Walk/Jog",desc:"Extended cardio session",dur:"40min"},
-                {day:16,title:"Full Body",desc:"Complete strength workout",dur:"35min"},
-                {day:17,title:"Bike Ride",desc:"Moderate cycling workout",dur:"40min"},
-                {day:18,title:"Core Focus",desc:"Advanced core exercises",dur:"30min"},
-                {day:19,title:"Interval Run",desc:"Run/walk intervals",dur:"35min"},
-                {day:20,title:"Strength & Cardio",desc:"Combined workout",dur:"40min"},
-                {day:21,title:"Outdoor Adventure",desc:"Hiking or outdoor activity",dur:"60min"},
-                {day:22,title:"Plyometrics",desc:"Jump training exercises",dur:"30min"},
-                {day:23,title:"Swimming Workout",desc:"Structured swim training",dur:"35min"},
-                {day:24,title:"Total Body",desc:"Full body conditioning",dur:"40min"},
-                {day:25,title:"Cardio Challenge",desc:"Personal cardio best",dur:"45min"},
-                {day:26,title:"Strength Test",desc:"Strength assessment day",dur:"35min"},
-                {day:27,title:"Active Recovery",desc:"Light movement & stretching",dur:"30min"},
-                {day:28,title:"Sport Training",desc:"Skill-based activity",dur:"45min"},
-                {day:29,title:"Fitness Challenge",desc:"Personal fitness test",dur:"40min"},
-                {day:30,title:"Celebration Workout",desc:"Favorite exercises celebration",dur:"45min"}
+                {day:1,title:"Fitness Baseline",desc:"Test push-ups, squats, plank time",dur:"30 min"},
+                {day:2,title:"Cardio Intervals",desc:"25min walk + 5min jog intervals",dur:"30 min"},
+                {day:3,title:"Upper Body Strength",desc:"Push-ups, tricep dips, arm raises",dur:"25 min"},
+                {day:4,title:"Lower Body Power",desc:"Squats, lunges, calf raises",dur:"25 min"},
+                {day:5,title:"Core Workout",desc:"Planks, crunches, Russian twists",dur:"20 min"},
+                {day:6,title:"Cardio Mix",desc:"Jumping jacks, high knees, mountain climbers",dur:"25 min"},
+                {day:7,title:"Yoga Flow",desc:"Flexibility and relaxation yoga session",dur:"30 min"},
+                {day:8,title:"Hill Challenge",desc:"Incline walking or hill climbing",dur:"35 min"},
+                {day:9,title:"Circuit Training",desc:"6-station bodyweight circuit",dur:"30 min"},
+                {day:10,title:"Swimming Laps",desc:"Different swimming strokes practice",dur:"30 min"},
+                {day:11,title:"Strength Circuit",desc:"Full bodyweight strength routine",dur:"35 min"},
+                {day:12,title:"HIIT Cardio",desc:"High intensity interval training",dur:"25 min"},
+                {day:13,title:"Deep Stretching",desc:"Comprehensive flexibility session",dur:"30 min"},
+                {day:14,title:"Sports Activity",desc:"Tennis, basketball, or similar sport",dur:"45 min"},
+                {day:15,title:"Long Cardio",desc:"Extended walking/jogging session",dur:"40 min"},
+                {day:16,title:"Full Body Strength",desc:"Complete strength training workout",dur:"35 min"},
+                {day:17,title:"Cycling Challenge",desc:"Moderate intensity bike ride",dur:"40 min"},
+                {day:18,title:"Advanced Core",desc:"Challenging core exercises",dur:"30 min"},
+                {day:19,title:"Interval Running",desc:"Run/walk interval training",dur:"35 min"},
+                {day:20,title:"Combo Workout",desc:"Strength and cardio combination",dur:"40 min"},
+                {day:21,title:"Outdoor Adventure",desc:"Hiking or outdoor activity",dur:"60 min"},
+                {day:22,title:"Plyometrics",desc:"Jump training and explosive movements",dur:"30 min"},
+                {day:23,title:"Swim Workout",desc:"Structured swimming training",dur:"35 min"},
+                {day:24,title:"Total Body Blast",desc:"Full body conditioning workout",dur:"40 min"},
+                {day:25,title:"Cardio Challenge",desc:"Personal best cardio session",dur:"45 min"},
+                {day:26,title:"Strength Assessment",desc:"Test your strength improvements",dur:"35 min"},
+                {day:27,title:"Active Recovery",desc:"Light movement and stretching",dur:"30 min"},
+                {day:28,title:"Sport Training",desc:"Skill-based athletic activity",dur:"45 min"},
+                {day:29,title:"Fitness Test",desc:"Repeat day 1 fitness test",dur:"40 min"},
+                {day:30,title:"Victory Workout",desc:"Celebration of favorite exercises",dur:"45 min"}
             ],
             advanced: [
-                {day:1,title:"Baseline Test",desc:"Max push-ups, squats, mile time",dur:"45min"},
-                {day:2,title:"HIIT Blast",desc:"High intensity circuit training",dur:"40min"},
-                {day:3,title:"Strength Focus",desc:"Heavy resistance training",dur:"50min"},
-                {day:4,title:"Endurance Run",desc:"Long distance running",dur:"60min"},
-                {day:5,title:"Power Training",desc:"Explosive movement exercises",dur:"45min"},
-                {day:6,title:"CrossFit WOD",desc:"Workout of the day challenge",dur:"40min"},
-                {day:7,title:"Active Recovery",desc:"Yoga & mobility work",dur:"45min"},
-                {day:8,title:"Sprint Intervals",desc:"High intensity sprint training",dur:"35min"},
-                {day:9,title:"Olympic Lifts",desc:"Clean, jerk, snatch practice",dur:"50min"},
-                {day:10,title:"Endurance Swim",desc:"Long distance swimming",dur:"60min"},
-                {day:11,title:"Compound Lifts",desc:"Deadlifts, squats, bench press",dur:"55min"},
-                {day:12,title:"Metabolic Circuit",desc:"High intensity metabolic training",dur:"40min"},
-                {day:13,title:"Flexibility Focus",desc:"Deep mobility & stretching",dur:"45min"},
-                {day:14,title:"Sport Specific",desc:"Advanced sport training",dur:"75min"},
-                {day:15,title:"Ultra Cardio",desc:"Extended cardio challenge",dur:"90min"},
-                {day:16,title:"Max Strength",desc:"1-rep max testing day",dur:"60min"},
-                {day:17,title:"Bike Challenge",desc:"Long distance cycling",dur:"90min"},
-                {day:18,title:"Core Destroyer",desc:"Advanced core workout",dur:"40min"},
-                {day:19,title:"Speed Work",desc:"Sprint & agility training",dur:"45min"},
-                {day:20,title:"Total Body Blast",desc:"Full body high intensity",dur:"50min"},
-                {day:21,title:"Adventure Day",desc:"Mountain climbing or similar",dur:"120min"},
-                {day:22,title:"Plyometric Power",desc:"Advanced jump training",dur:"40min"},
-                {day:23,title:"Swim Challenge",desc:"Personal best swim workout",dur:"60min"},
-                {day:24,title:"Strongman Training",desc:"Functional strength moves",dur:"60min"},
-                {day:25,title:"Cardio Beast Mode",desc:"Ultimate cardio challenge",dur:"75min"},
-                {day:26,title:"Powerlifting",desc:"Max effort lifting session",dur:"70min"},
-                {day:27,title:"Recovery & Mobility",desc:"Restoration & flexibility",dur:"60min"},
-                {day:28,title:"Competition Prep",desc:"Sport-specific training",dur:"90min"},
-                {day:29,title:"Personal Records",desc:"Beat your best performances",dur:"60min"},
-                {day:30,title:"Ultimate Challenge",desc:"Combine all favorite exercises",dur:"90min"}
+                {day:1,title:"Performance Test",desc:"Baseline: max push-ups, squats, mile time",dur:"45 min"},
+                {day:2,title:"HIIT Intensity",desc:"High intensity circuit training",dur:"40 min"},
+                {day:3,title:"Heavy Strength",desc:"Resistance training with weights",dur:"50 min"},
+                {day:4,title:"Endurance Run",desc:"Long distance running session",dur:"60 min"},
+                {day:5,title:"Power Training",desc:"Explosive movement exercises",dur:"45 min"},
+                {day:6,title:"CrossFit WOD",desc:"Workout of the day challenge",dur:"40 min"},
+                {day:7,title:"Recovery & Mobility",desc:"Yoga and deep mobility work",dur:"45 min"},
+                {day:8,title:"Sprint Training",desc:"High intensity sprint intervals",dur:"35 min"},
+                {day:9,title:"Olympic Movements",desc:"Clean, jerk, snatch technique",dur:"50 min"},
+                {day:10,title:"Distance Swimming",desc:"Long distance swim training",dur:"60 min"},
+                {day:11,title:"Compound Lifts",desc:"Deadlifts, squats, bench press",dur:"55 min"},
+                {day:12,title:"Metabolic Blast",desc:"High intensity metabolic training",dur:"40 min"},
+                {day:13,title:"Flexibility Focus",desc:"Deep mobility and stretching",dur:"45 min"},
+                {day:14,title:"Sport Specific",desc:"Advanced sport skill training",dur:"75 min"},
+                {day:15,title:"Ultra Cardio",desc:"Extended cardiovascular challenge",dur:"90 min"},
+                {day:16,title:"Max Strength Day",desc:"One-rep max testing session",dur:"60 min"},
+                {day:17,title:"Cycling Challenge",desc:"Long distance bike training",dur:"90 min"},
+                {day:18,title:"Core Destroyer",desc:"Advanced core strength workout",dur:"40 min"},
+                {day:19,title:"Speed & Agility",desc:"Sprint and agility training",dur:"45 min"},
+                {day:20,title:"Total Body Beast",desc:"Full body high intensity workout",dur:"50 min"},
+                {day:21,title:"Adventure Challenge",desc:"Mountain climbing or extreme outdoor activity",dur:"120 min"},
+                {day:22,title:"Plyometric Power",desc:"Advanced jump and power training",dur:"40 min"},
+                {day:23,title:"Swim Challenge",desc:"Personal best swimming workout",dur:"60 min"},
+                {day:24,title:"Strongman Training",desc:"Functional strength movements",dur:"60 min"},
+                {day:25,title:"Cardio Beast Mode",desc:"Ultimate cardiovascular challenge",dur:"75 min"},
+                {day:26,title:"Powerlifting Session",desc:"Maximum effort lifting workout",dur:"70 min"},
+                {day:27,title:"Recovery Protocol",desc:"Restoration and flexibility work",dur:"60 min"},
+                {day:28,title:"Competition Prep",desc:"Sport-specific competition training",dur:"90 min"},
+                {day:29,title:"Personal Records",desc:"Attempt to beat all personal bests",dur:"60 min"},
+                {day:30,title:"Ultimate Challenge",desc:"Combine all your favorite exercises",dur:"90 min"}
             ]
         };
 
         // Form submission
-        document.getElementById('healthForm').onsubmit = function(e) {
+        document.getElementById('healthForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
-            // Collect form data
+            // Get exercise value
+            const exerciseRadio = document.querySelector('input[name="exercise"]:checked');
+            
+            if (!exerciseRadio) {
+                alert('Please select your exercise frequency!');
+                return;
+            }
+
+            // Collect all form data
             userData = {
                 name: document.getElementById('name').value,
                 age: parseInt(document.getElementById('age').value),
@@ -277,108 +321,129 @@
                 height: parseInt(document.getElementById('height').value),
                 weight: parseFloat(document.getElementById('weight').value),
                 fitnessLevel: document.getElementById('fitnessLevel').value,
-                exercise: document.querySelector('input[name="exercise"]:checked')?.value || '0',
+                exercise: parseInt(exerciseRadio.value),
                 sleep: parseInt(document.getElementById('sleep').value),
                 stress: parseInt(document.getElementById('stress').value)
             };
 
+            console.log('User Data:', userData); // Debug log
             generateResults();
-        };
+        });
 
         function generateResults() {
-            // Calculate BMI and health score
+            // Calculate BMI
             const bmi = userData.weight / ((userData.height / 100) ** 2);
-            const exerciseScore = parseInt(userData.exercise) * 20;
-            const sleepScore = userData.sleep >= 7 && userData.sleep <= 9 ? 100 : Math.max(0, 100 - Math.abs(userData.sleep - 8) * 10);
-            const stressScore = Math.max(0, 100 - (userData.stress - 1) * 10);
-            const bmiScore = bmi >= 18.5 && bmi <= 24.9 ? 100 : Math.max(0, 100 - Math.abs(bmi - 22) * 5);
             
+            // Calculate individual scores
+            const exerciseScore = userData.exercise * 20;
+            const sleepScore = (userData.sleep >= 7 && userData.sleep <= 9) ? 100 : Math.max(0, 100 - Math.abs(userData.sleep - 8) * 10);
+            const stressScore = Math.max(0, 100 - (userData.stress - 1) * 10);
+            const bmiScore = (bmi >= 18.5 && bmi <= 24.9) ? 100 : Math.max(0, 100 - Math.abs(bmi - 22) * 5);
+            
+            // Calculate overall score
             const overallScore = Math.round((exerciseScore + sleepScore + stressScore + bmiScore) / 4);
 
-            // Update UI
+            // Update score display
             document.getElementById('overallScore').textContent = overallScore;
-            document.getElementById('scoreDesc').textContent = 
-                overallScore >= 80 ? 'Excellent Health!' :
-                overallScore >= 60 ? 'Good Health' :
-                overallScore >= 40 ? 'Fair Health' : 'Needs Improvement';
+            
+            let scoreDescription;
+            if (overallScore >= 80) scoreDescription = 'Excellent Health! 🌟';
+            else if (overallScore >= 60) scoreDescription = 'Good Health 👍';
+            else if (overallScore >= 40) scoreDescription = 'Fair Health ⚠️';
+            else scoreDescription = 'Needs Improvement 🔄';
+            
+            document.getElementById('scoreDesc').textContent = scoreDescription;
 
-            // Generate assessments
+            // Generate detailed assessments
             const assessments = [
                 {
-                    title: 'BMI Assessment',
+                    title: '📊 BMI Assessment',
                     value: bmi.toFixed(1),
-                    status: bmi < 18.5 ? 'Underweight' : bmi <= 24.9 ? 'Normal' : bmi <= 29.9 ? 'Overweight' : 'Obese',
-                    statusClass: bmi < 18.5 || bmi > 29.9 ? 'status-poor' : bmi <= 24.9 ? 'status-excellent' : 'status-fair'
+                    status: bmi < 18.5 ? 'Underweight' : bmi <= 24.9 ? 'Normal Weight' : bmi <= 29.9 ? 'Overweight' : 'Obese',
+                    statusClass: (bmi < 18.5 || bmi > 29.9) ? 'status-poor' : bmi <= 24.9 ? 'status-excellent' : 'status-fair'
                 },
                 {
-                    title: 'Exercise Level',
-                    value: ['Sedentary', 'Low', 'Moderate', 'Active', 'Very Active'][userData.exercise],
+                    title: '🏃‍♂️ Exercise Level',
+                    value: ['Sedentary', 'Minimal', 'Light', 'Moderate', 'Very Active'][userData.exercise],
                     status: userData.exercise >= 3 ? 'Excellent' : userData.exercise >= 2 ? 'Good' : 'Needs Improvement',
                     statusClass: userData.exercise >= 3 ? 'status-excellent' : userData.exercise >= 2 ? 'status-good' : 'status-poor'
                 },
                 {
-                    title: 'Sleep Quality',
+                    title: '😴 Sleep Quality',
                     value: userData.sleep + ' hours',
-                    status: userData.sleep >= 7 && userData.sleep <= 9 ? 'Optimal' : 'Suboptimal',
-                    statusClass: userData.sleep >= 7 && userData.sleep <= 9 ? 'status-excellent' : 'status-fair'
+                    status: (userData.sleep >= 7 && userData.sleep <= 9) ? 'Optimal' : 'Suboptimal',
+                    statusClass: (userData.sleep >= 7 && userData.sleep <= 9) ? 'status-excellent' : 'status-fair'
                 },
                 {
-                    title: 'Stress Level',
+                    title: '🧘‍♀️ Stress Level',
                     value: userData.stress + '/10',
-                    status: userData.stress <= 3 ? 'Low' : userData.stress <= 6 ? 'Moderate' : 'High',
+                    status: userData.stress <= 3 ? 'Low Stress' : userData.stress <= 6 ? 'Moderate Stress' : 'High Stress',
                     statusClass: userData.stress <= 3 ? 'status-excellent' : userData.stress <= 6 ? 'status-good' : 'status-poor'
                 }
             ];
 
-            document.getElementById('assessmentGrid').innerHTML = assessments.map(a => `
+            // Display assessments
+            document.getElementById('assessmentGrid').innerHTML = assessments.map(assessment => `
                 <div class="card">
-                    <h4>${a.title}</h4>
-                    <div class="${a.statusClass}">${a.status}</div>
-                    <p><strong>${a.value}</strong></p>
+                    <h4>${assessment.title}</h4>
+                    <div class="${assessment.statusClass}" style="margin: 10px 0;">${assessment.status}</div>
+                    <p style="font-size: 1.2em;"><strong>${assessment.value}</strong></p>
                 </div>
             `).join('');
 
-            // Generate recommendations
+            // Generate personalized recommendations
             const recommendations = [];
-            if (bmi < 18.5 || bmi > 25) recommendations.push('🎯 Work on achieving healthy weight range (BMI 18.5-24.9)');
-            if (userData.exercise < 3) recommendations.push('🏃‍♂️ Increase physical activity to at least 3-4 times per week');
-            if (userData.sleep < 7 || userData.sleep > 9) recommendations.push('😴 Aim for 7-9 hours of quality sleep nightly');
-            if (userData.stress > 6) recommendations.push('🧘‍♀️ Practice stress management techniques like meditation or yoga');
+            if (bmi < 18.5) recommendations.push('🎯 Consider healthy weight gain strategies');
+            if (bmi > 25) recommendations.push('🎯 Focus on gradual, sustainable weight loss');
+            if (userData.exercise < 3) recommendations.push('🏃‍♂️ Increase physical activity to 3-4 times per week');
+            if (userData.sleep < 7) recommendations.push('😴 Aim for 7-9 hours of quality sleep');
+            if (userData.sleep > 9) recommendations.push('😴 Consider if you need less sleep or better sleep quality');
+            if (userData.stress > 6) recommendations.push('🧘‍♀️ Practice stress management techniques');
+            
+            // Add general recommendations
             recommendations.push('💧 Stay hydrated with 8+ glasses of water daily');
-            recommendations.push('🥗 Follow a balanced diet rich in fruits, vegetables, and whole grains');
+            recommendations.push('🥗 Eat a balanced diet rich in fruits and vegetables');
+            recommendations.push('🚭 Avoid smoking and limit alcohol consumption');
 
             document.getElementById('recommendationsList').innerHTML = `
-                <h3>📋 Personalized Recommendations</h3>
-                ${recommendations.map(r => `<div style="margin:10px 0;padding:10px;background:#f8f9fa;border-left:4px solid #4CAF50;border-radius:5px">${r}</div>`).join('')}
+                <h3>📋 Your Personalized Recommendations</h3>
+                ${recommendations.map(rec => `
+                    <div style="margin: 10px 0; padding: 15px; background: #f8f9fa; border-left: 4px solid #4CAF50; border-radius: 5px;">
+                        ${rec}
+                    </div>
+                `).join('')}
             `;
 
-            // Generate challenge
+            // Generate 30-day challenge
             generateChallenge();
 
-            // Show results
+            // Show results section
             document.getElementById('formSection').style.display = 'none';
             document.getElementById('resultsSection').style.display = 'block';
         }
 
         function generateChallenge() {
             const challengeData = challenges[userData.fitnessLevel] || challenges.beginner;
-            const weeks = [[], [], [], []];
             
+            // Group challenges by weeks
+            const weeks = [[], [], [], []];
             challengeData.forEach((day, index) => {
-                weeks[Math.floor(index / 7)].push(day);
+                const weekIndex = Math.floor(index / 7);
+                weeks[weekIndex].push(day);
             });
 
+            // Generate HTML for challenge
             document.getElementById('challengeGrid').innerHTML = weeks.map((week, weekIndex) => `
                 <div class="card">
-                    <div style="background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;padding:15px;border-radius:8px;margin-bottom:15px;text-align:center;font-weight:bold">
-                        Week ${weekIndex + 1}
+                    <div style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 15px; border-radius: 8px; margin-bottom: 15px; text-align: center; font-weight: bold;">
+                        Week ${weekIndex + 1} - ${userData.fitnessLevel.charAt(0).toUpperCase() + userData.fitnessLevel.slice(1)} Level
                     </div>
                     ${week.map(day => `
                         <div class="day-item" onclick="toggleDay(${day.day})" id="day${day.day}">
-                            <div style="font-weight:bold;color:#4CAF50;margin-bottom:5px">Day ${day.day}</div>
-                            <div style="font-weight:bold;color:#333;margin-bottom:5px">${day.title}</div>
-                            <div style="color:#666;font-size:0.9em;margin-bottom:5px">${day.desc}</div>
-                            <div style="color:#FF6B6B;font-weight:bold;font-size:0.9em">${day.dur}</div>
+                            <div style="font-weight: bold; color: #4CAF50; margin-bottom: 5px;">Day ${day.day}</div>
+                            <div style="font-weight: bold; color: #333; margin-bottom: 5px;">${day.title}</div>
+                            <div style="color: #666; font-size: 0.9em; margin-bottom: 5px;">${day.desc}</div>
+                            <div style="color: #FF6B6B; font-weight: bold; font-size: 0.9em;">Duration: ${day.dur}</div>
                         </div>
                     `).join('')}
                 </div>
@@ -388,27 +453,24 @@
         }
 
         function toggleDay(day) {
+            const dayElement = document.getElementById(`day${day}`);
+            
             if (completedDays.has(day)) {
                 completedDays.delete(day);
-                document.getElementById(`day${day}`).classList.remove('completed');
+                dayElement.classList.remove('completed');
             } else {
                 completedDays.add(day);
-                document.getElementById(`day${day}`).classList.add('completed');
+                dayElement.classList.add('completed');
             }
+            
             updateProgress();
         }
 
         function updateProgress() {
             const progress = (completedDays.size / 30) * 100;
             document.getElementById('progressFill').style.width = progress + '%';
-            document.getElementById('progressText').textContent = `${completedDays.size} of 30 days completed (${Math.round(progress)}%)`;
+            document.getElementById('progressText').textContent = 
+                `${completedDays.size} of 30 days completed (${Math.round(progress)}%)`;
         }
 
-        function showForm() {
-            document.getElementById('resultsSection').style.display = 'none';
-            document.getElementById('formSection').style.display = 'block';
-            completedDays.clear();
-        }
-    </script>
-</body>
-</html>
+        function show
