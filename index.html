@@ -1,15 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>Elite Preventive Health Intelligence Platform</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Preventive Health Assessment Platform</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 
@@ -18,20 +17,20 @@
 body{
 font-family:Inter;
 margin:0;
-background:#f3f6fb;
+background:#f4f7fb;
 }
 
 header{
 background:linear-gradient(90deg,#0f172a,#2563eb);
 color:white;
-padding:25px;
+padding:24px;
+text-align:center;
 font-size:24px;
 font-weight:700;
-text-align:center;
 }
 
 .container{
-max-width:1200px;
+max-width:1100px;
 margin:auto;
 padding:30px;
 }
@@ -39,9 +38,9 @@ padding:30px;
 .card{
 background:white;
 padding:25px;
-border-radius:12px;
-box-shadow:0 10px 25px rgba(0,0,0,0.07);
-margin-bottom:30px;
+border-radius:10px;
+box-shadow:0 10px 20px rgba(0,0,0,0.08);
+margin-bottom:25px;
 }
 
 .grid{
@@ -52,24 +51,19 @@ gap:15px;
 
 input,select{
 padding:10px;
-border-radius:6px;
 border:1px solid #cbd5e1;
+border-radius:6px;
 width:100%;
 }
 
 button{
 background:#2563eb;
 color:white;
-padding:14px 22px;
+padding:14px 20px;
 border:none;
 border-radius:8px;
 margin-top:20px;
 cursor:pointer;
-font-weight:600;
-}
-
-button:hover{
-background:#1e40af;
 }
 
 .metricGrid{
@@ -81,13 +75,13 @@ margin-top:20px;
 
 .metric{
 background:#eef2ff;
-padding:20px;
-border-radius:10px;
+padding:18px;
+border-radius:8px;
 text-align:center;
 }
 
 .metricValue{
-font-size:30px;
+font-size:28px;
 font-weight:700;
 color:#1e3a8a;
 }
@@ -96,7 +90,6 @@ color:#1e3a8a;
 font-size:20px;
 margin-top:30px;
 font-weight:600;
-color:#0f172a;
 }
 
 .programDay{
@@ -104,14 +97,6 @@ background:#ecfdf5;
 padding:10px;
 margin:6px 0;
 border-left:5px solid #10b981;
-border-radius:6px;
-}
-
-.executiveBox{
-background:#f8fafc;
-padding:20px;
-border-left:5px solid #2563eb;
-border-radius:8px;
 }
 
 </style>
@@ -120,7 +105,7 @@ border-radius:8px;
 
 <body>
 
-<header>Elite Preventive Health Intelligence Platform</header>
+<header>Preventive Health Intelligence System</header>
 
 <div class="container">
 
@@ -133,12 +118,6 @@ border-radius:8px;
 <input id="name" placeholder="Full Name">
 <input id="age" placeholder="Age">
 
-<select id="gender">
-<option value="">Gender</option>
-<option>Male</option>
-<option>Female</option>
-</select>
-
 <input id="height" placeholder="Height (cm)">
 <input id="weight" placeholder="Weight (kg)">
 <input id="waist" placeholder="Waist Circumference (cm)">
@@ -150,15 +129,13 @@ border-radius:8px;
 <input id="restHR" placeholder="Resting Heart Rate">
 
 <select id="smoking">
-<option value="">Smoking</option>
-<option>No</option>
+<option>No Smoking</option>
 <option>Occasional</option>
 <option>Daily</option>
 </select>
 
 <select id="alcohol">
-<option value="">Alcohol</option>
-<option>No</option>
+<option>No Alcohol</option>
 <option>Moderate</option>
 <option>High</option>
 </select>
@@ -177,217 +154,185 @@ border-radius:8px;
 
 function analyzeHealth(){
 
-let name=nameVal("name")
-let age=numberVal("age")
-let gender=nameVal("gender")
-let height=numberVal("height")
-let weight=numberVal("weight")
-let waist=numberVal("waist")
-let steps=numberVal("steps")
-let sleep=numberVal("sleep")
-let stress=numberVal("stress")
-let water=numberVal("water")
-let restHR=numberVal("restHR")
-let smoking=nameVal("smoking")
-let alcohol=nameVal("alcohol")
+let name=document.getElementById("name").value
+let age=parseFloat(document.getElementById("age").value)
+let height=parseFloat(document.getElementById("height").value)/100
+let weight=parseFloat(document.getElementById("weight").value)
+let waist=parseFloat(document.getElementById("waist").value)
 
-if(!name||!age||!height||!weight||!restHR){
-alert("Please complete required health inputs")
+let steps=parseFloat(document.getElementById("steps").value)
+let sleep=parseFloat(document.getElementById("sleep").value)
+let stress=parseFloat(document.getElementById("stress").value)
+let water=parseFloat(document.getElementById("water").value)
+let restHR=parseFloat(document.getElementById("restHR").value)
+
+if(!name || !age || !height || !weight){
+alert("Please fill required fields")
 return
 }
 
-height=height/100
-
 let bmi=weight/(height*height)
 
-let whr=waist/(height*100)
+let bodyFat=(1.2*bmi)+(0.23*age)-5.4
 
-let hrMax=220-age
-let vo2=15.3*(hrMax/restHR)
+let fatMass=weight*(bodyFat/100)
 
-let diabetesRisk=Math.min(100,Math.round((bmi*1.5)+(age*0.6)+(whr*20)))
+let leanMass=weight-fatMass
 
-let cardioRisk=Math.min(100,Math.round((stress*3)+(bmi)+(restHR/2)))
+let waistHeightRatio=waist/(height*100)
 
-let score=calculateHealthScore(bmi,steps,sleep,stress,water,smoking,alcohol)
+let bmr=(10*weight)+(6.25*(height*100))-(5*age)+5
 
-let summary=healthSummary(score)
+let dailyCalories=bmr*1.4
 
-let recommendations=generateRecommendations(bmi,sleep,stress,steps,smoking)
+let healthScore=calculateScore(bmi,steps,sleep,stress,water)
 
-let fitnessProgram=generateProgram(score)
+let program=fitnessProgram()
 
-displayReport(
-name,age,gender,bmi,vo2,diabetesRisk,cardioRisk,
-score,summary,recommendations,fitnessProgram
-)
+displayReport(name,bmi,bodyFat,leanMass,fatMass,waistHeightRatio,bmr,dailyCalories,healthScore,program)
 
 }
 
-function calculateHealthScore(bmi,steps,sleep,stress,water,smoking,alcohol){
+function calculateScore(bmi,steps,sleep,stress,water){
 
 let score=100
 
-if(bmi<18.5||bmi>30)score-=20
-else if(bmi>25)score-=10
-
-if(steps<5000)score-=10
-else if(steps>10000)score+=5
-
+if(bmi>25)score-=10
+if(steps<6000)score-=10
 if(sleep<6)score-=10
 if(stress>7)score-=10
-
 if(water<2)score-=5
 
-if(smoking==="Daily")score-=15
-if(smoking==="Occasional")score-=8
-
-if(alcohol==="High")score-=10
-if(alcohol==="Moderate")score-=5
-
-score=Math.max(0,Math.min(100,score))
-
-return Math.round(score)
+return score
 
 }
 
-function healthSummary(score){
+function fitnessProgram(){
 
-if(score>85) return "Excellent Health Condition"
-if(score>70) return "Good Health"
-if(score>55) return "Moderate Health"
-if(score>40) return "Needs Improvement"
-return "High Health Risk"
+let tasks=[
 
-}
+"30-minute brisk walking session",
+"Mobility yoga and stretching routine",
+"Bodyweight strength training circuit",
+"Core stability and balance exercises",
+"Cycling endurance workout",
+"Flexibility stretching session",
+"Breathing meditation and relaxation",
 
-function generateRecommendations(bmi,sleep,stress,steps,smoking){
+"Interval walking training",
+"Upper body resistance training",
+"Lower body strength exercises",
+"Balance and stability training",
+"Posture correction exercises",
+"Cardio endurance session",
+"Active recovery yoga session",
 
-let r=[]
+"Functional strength training",
+"Stair climbing workout",
+"Resistance band exercises",
+"Core plank challenge",
+"Deep stretching routine",
+"Agility drills workout",
+"Mindfulness meditation",
 
-if(bmi>25) r.push("Weight management recommended through calorie control and exercise.")
+"Hill walking challenge",
+"Full body conditioning routine",
+"Mobility flow training",
+"Stability balance drills",
+"Endurance cardio session",
+"Recovery mobility exercises",
+"Yoga flexibility flow",
 
-if(sleep<7) r.push("Improve sleep hygiene and aim for 7-8 hours daily.")
+"Outdoor walking adventure",
+"Fitness celebration challenge"
 
-if(stress>6) r.push("Practice mindfulness, meditation, or breathing exercises.")
-
-if(steps<8000) r.push("Increase daily steps to 8,000–10,000.")
-
-if(smoking==="Daily") r.push("Smoking cessation is strongly recommended.")
-
-return r.join("<br>")
-
-}
-
-function generateProgram(score){
-
-let beginner=[
-"20 min walking",
-"Light stretching",
-"Yoga mobility",
-"Core training 10 min",
-"Cycling 20 min",
-"Breathing meditation",
-"Rest and recovery"
 ]
 
-let intermediate=[
-"30 min brisk walking",
-"Bodyweight workout",
-"Cycling endurance",
-"Core strengthening",
-"Jogging intervals",
-"Strength training",
-"Mobility yoga"
-]
+let output=""
 
-let advanced=[
-"45 min running",
-"HIIT cardio",
-"Strength training",
-"Core + mobility",
-"Cycling endurance",
-"Full body gym workout",
-"Recovery stretch"
-]
+tasks.forEach((t,i)=>{
 
-let base=score<50?beginner:score<75?intermediate:advanced
+output+=`<div class="programDay">Day ${i+1}: ${t}</div>`
 
-let plan=[]
-
-for(let i=0;i<30;i++){
-plan.push("Day "+(i+1)+": "+base[i%7])
-}
-
-return plan
-
-}
-
-function displayReport(
-name,age,gender,bmi,vo2,diabetesRisk,cardioRisk,
-score,summary,recommendations,fitnessProgram){
-
-let programHTML=""
-
-fitnessProgram.forEach(d=>{
-programHTML+=`<div class="programDay">${d}</div>`
 })
+
+return output
+
+}
+
+function displayReport(name,bmi,bodyFat,leanMass,fatMass,whr,bmr,calories,score,program){
 
 document.getElementById("report").style.display="block"
 
 document.getElementById("report").innerHTML=`
 
-<h1>Executive Health Assessment Report</h1>
+<h1>Executive Preventive Health Report</h1>
 
-<div class="executiveBox">
+<b>Patient:</b> ${name}
 
-<b>Executive Summary</b><br><br>
+<div class="sectionTitle">Executive Health Summary</div>
 
-Overall Health Score: <b>${score}/100</b><br>
-Health Status: <b>${summary}</b><br><br>
+<p>
+Based on the health information provided, this assessment evaluates key indicators of body composition,
+metabolic function, and lifestyle habits. These metrics help identify areas of strength as well as
+opportunities for improving long-term wellness and physical fitness.
+</p>
 
-Estimated Cardiovascular Risk: <b>${cardioRisk}%</b><br>
-Estimated Diabetes Risk: <b>${diabetesRisk}%</b>
+<p>
+The calculated health score of <b>${score}/100</b> reflects the balance between physical activity,
+sleep quality, hydration, and body composition indicators.
+</p>
 
-</div>
-
-<div class="sectionTitle">Health Metrics</div>
+<div class="sectionTitle">Body Composition Analysis</div>
 
 <div class="metricGrid">
 
-<div class="metric">
-<div class="metricValue">${bmi.toFixed(1)}</div>
-BMI
-</div>
-
-<div class="metric">
-<div class="metricValue">${vo2.toFixed(1)}</div>
-VO₂ Max
-</div>
-
-<div class="metric">
-<div class="metricValue">${cardioRisk}%</div>
-Cardiovascular Risk
-</div>
-
-<div class="metric">
-<div class="metricValue">${diabetesRisk}%</div>
-Diabetes Risk
-</div>
+<div class="metric"><div class="metricValue">${bmi.toFixed(1)}</div>BMI</div>
+<div class="metric"><div class="metricValue">${bodyFat.toFixed(1)}%</div>Body Fat %</div>
+<div class="metric"><div class="metricValue">${leanMass.toFixed(1)} kg</div>Lean Body Mass</div>
+<div class="metric"><div class="metricValue">${fatMass.toFixed(1)} kg</div>Fat Mass</div>
 
 </div>
 
-<div class="sectionTitle">Personalized Recommendations</div>
+<p>
+Body composition analysis provides insight into the proportion of lean tissue and fat mass within the body.
+Maintaining a healthy balance supports metabolic efficiency, cardiovascular endurance, and musculoskeletal health.
+</p>
 
-${recommendations}
+<div class="sectionTitle">Metabolic Health Indicators</div>
 
-<div class="sectionTitle">30 Day Fitness Program</div>
+<div class="metricGrid">
 
-${programHTML}
+<div class="metric"><div class="metricValue">${whr.toFixed(2)}</div>Waist-Height Ratio</div>
+<div class="metric"><div class="metricValue">${bmr.toFixed(0)}</div>BMR</div>
+<div class="metric"><div class="metricValue">${calories.toFixed(0)}</div>Daily Energy Need</div>
+
+</div>
+
+<p>
+Basal Metabolic Rate represents the amount of energy required by the body to maintain essential physiological
+functions at rest. Daily calorie estimates provide a reference point for maintaining balanced nutrition and
+healthy body weight.
+</p>
+
+<div class="sectionTitle">Lifestyle Recommendations</div>
+
+<ul>
+
+<li>Maintain daily physical activity levels above 8,000 steps where possible.</li>
+<li>Aim for consistent sleep duration of 7–8 hours per night.</li>
+<li>Hydrate regularly throughout the day to support metabolic health.</li>
+<li>Incorporate strength and mobility exercises multiple times per week.</li>
+
+</ul>
+
+<div class="sectionTitle">30-Day Wellness & Fitness Program</div>
+
+${program}
 
 <br>
 
-<button onclick="downloadPDF()">Download Executive Report</button>
+<button onclick="downloadPDF()">Download Health Report</button>
 
 <p style="margin-top:30px;font-size:12px">
 
@@ -397,14 +342,6 @@ This report is a digitally generated health assessment created based on the info
 
 `
 
-}
-
-function nameVal(id){
-return document.getElementById(id).value
-}
-
-function numberVal(id){
-return parseFloat(document.getElementById(id).value)
 }
 
 async function downloadPDF(){
@@ -421,7 +358,7 @@ let pdf=new jsPDF("p","mm","a4")
 
 pdf.addImage(img,"PNG",10,10,190,0)
 
-pdf.save("Executive_Health_Report.pdf")
+pdf.save("Health_Assessment_Report.pdf")
 
 })
 
