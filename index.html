@@ -1,9 +1,9 @@
 ```html
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
-<title>Advanced Health AI Diagnostic Platform</title>
+<title>Clinical Health Diagnostic Platform</title>
 
 <style>
 
@@ -11,7 +11,15 @@ body{
 font-family:Arial;
 background:#0f172a;
 color:white;
-padding:30px;
+padding:25px;
+}
+
+.container{
+max-width:1000px;
+margin:auto;
+background:#1e293b;
+padding:25px;
+border-radius:10px;
 }
 
 h1{
@@ -19,29 +27,21 @@ text-align:center;
 color:#38bdf8;
 }
 
-.container{
-max-width:950px;
-margin:auto;
-background:#1e293b;
-padding:25px;
-border-radius:10px;
-}
-
 input,select{
 width:100%;
 padding:8px;
-margin:6px 0;
+margin:5px 0;
 border-radius:6px;
 border:none;
 }
 
 button{
 padding:10px;
-background:#38bdf8;
+margin-top:10px;
 border:none;
 border-radius:6px;
+background:#38bdf8;
 cursor:pointer;
-margin-top:10px;
 }
 
 .report{
@@ -49,42 +49,43 @@ margin-top:25px;
 background:#020617;
 padding:25px;
 border-radius:10px;
-line-height:1.6;
+color:white;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:10px;
+}
+
+td,th{
+border:1px solid #334155;
+padding:8px;
+text-align:left;
 }
 
 .section{
-margin-top:20px;
-border-top:1px solid #334155;
-padding-top:15px;
+margin-top:25px;
 }
 
-.alert{
-color:#f87171;
-}
-
-.good{
-color:#4ade80;
-}
-
-.warning{
-color:#facc15;
-}
+.good{color:#4ade80}
+.warn{color:#facc15}
+.bad{color:#f87171}
 
 </style>
+
 </head>
 
 <body>
 
-<h1>Advanced Health AI Diagnostic Platform</h1>
-
 <div class="container">
 
-<h2>Health Profile</h2>
+<h1>Preventive Health Assessment</h1>
 
-<input id="name" placeholder="Name">
+<h2>Patient Profile</h2>
 
+<input id="name" placeholder="Patient Name">
 <input id="age" type="number" placeholder="Age">
-
 <select id="gender">
 <option>Male</option>
 <option>Female</option>
@@ -100,11 +101,12 @@ color:#facc15;
 <select id="activity">
 <option value="1.2">Sedentary</option>
 <option value="1.375">Light Activity</option>
-<option value="1.55">Moderate Exercise</option>
+<option value="1.55">Moderate Activity</option>
 <option value="1.725">Heavy Exercise</option>
 </select>
 
-<button onclick="generateReport()">Generate AI Health Report</button>
+<button onclick="generateReport()">Generate Health Report</button>
+<button onclick="window.print()">Download PDF</button>
 
 <div id="report" class="report"></div>
 
@@ -126,6 +128,10 @@ let activity=parseFloat(document.getElementById("activity").value)
 
 let bmi=(weight/((height/100)*(height/100))).toFixed(1)
 
+let bodyFat=(1.2*bmi + 0.23*age - 10.8*(gender=="Male"?1:0) - 5.4).toFixed(1)
+
+let waistHeight=(waist/height).toFixed(2)
+
 let bmr
 
 if(gender=="Male"){
@@ -138,10 +144,6 @@ let calories=Math.round(bmr*activity)
 
 let hydration=(weight*0.035).toFixed(2)
 
-let waistHeight=(waist/height).toFixed(2)
-
-let bodyFat=(1.2*bmi + 0.23*age - 10.8*(gender=="Male"?1:0) - 5.4).toFixed(1)
-
 let maxHR=220-age
 
 let healthScore=100
@@ -152,73 +154,102 @@ if(sleep<7) healthScore-=10
 if(activity<1.4) healthScore-=10
 if(waist>100) healthScore-=10
 
-let diabetesProb=Math.round((bmi*2 + waist)/5)
-let heartProb=Math.round((hr + bmi)/3)
+let diabetes=Math.round((bmi*2 + waist)/5)
+let heart=Math.round((hr+bmi)/3)
+
+let bioAge=Math.round(age+(bmi-22)+(sleep<7?3:-2)+(hr>80?2:-1))
 
 let alerts=[]
 
-if(bmi>27) alerts.push("Elevated metabolic risk")
-if(hr>85) alerts.push("High resting heart rate")
-if(sleep<6) alerts.push("Insufficient sleep recovery")
-
-let bioAge=Math.round(age+(bmi-22)+(sleep<7?3:-2)+(hr>80?2:-1))
+if(bmi>27) alerts.push("Elevated metabolic risk detected")
+if(hr>85) alerts.push("High resting heart rate detected")
+if(sleep<6) alerts.push("Sleep deficiency detected")
 
 let insight=""
 
 if(healthScore>85){
-insight="Overall health indicators appear strong. Maintaining consistent exercise, nutrition, and sleep will support long-term cardiovascular and metabolic wellness."
-}else if(healthScore>70){
-insight="Your overall health profile is generally good, though improvements in lifestyle behaviors such as physical activity and sleep quality may further reduce disease risk."
-}else{
-insight="Multiple health indicators suggest moderate lifestyle risk. Increasing activity, improving sleep, and managing body weight may significantly improve long-term health outcomes."
+insight="Health indicators appear strong with balanced metabolic and cardiovascular health."
+}
+else if(healthScore>70){
+insight="Health profile is generally good but improvements in sleep and physical activity may reduce long term risk."
+}
+else{
+insight="Several lifestyle indicators suggest elevated health risk. Improving activity, weight management, and sleep consistency may improve long term health."
 }
 
-let improvementPlan=""
+let plan=""
 
 for(let i=1;i<=30;i++){
 
-improvementPlan+="Day "+i+": "
+plan+="Day "+i+": "
 
 if(i%5==0){
-improvementPlan+="30 minutes cardio exercise<br>"
-}else if(i%3==0){
-improvementPlan+="Drink 2.5L water<br>"
-}else{
-improvementPlan+="Walk 7000+ steps<br>"
+plan+="30 minutes cardio exercise<br>"
+}
+else if(i%3==0){
+plan+="Drink 2.5L water<br>"
+}
+else{
+plan+="Walk 7000 steps<br>"
 }
 
 }
 
 document.getElementById("report").innerHTML=`
 
-<h2>Comprehensive Health Diagnostic Report</h2>
+<h2>Health Assessment Report</h2>
 
-<p><b>Name:</b> ${name}</p>
-
-<p><b>Health Intelligence Score:</b> ${healthScore}/100</p>
+<b>Patient:</b> ${name}<br>
+<b>Age:</b> ${age}<br>
+<b>Gender:</b> ${gender}<br>
 
 <div class="section">
 
-<h3>Body Composition Analysis</h3>
+<h3>Executive Summary</h3>
 
-BMI: ${bmi}<br>
-Body Fat Estimate: ${bodyFat}%<br>
-Waist-Height Ratio: ${waistHeight}<br>
+Health Intelligence Score: <b>${healthScore}/100</b>
 
-Interpretation:<br>
-Healthy BMI typically ranges between 18.5 and 24.9. Waist-height ratios below 0.5 are associated with lower cardiovascular risk.
+<p>${insight}</p>
 
 </div>
 
 <div class="section">
 
-<h3>Metabolic Health</h3>
+<h3>Body Composition</h3>
 
-Basal Metabolic Rate: ${Math.round(bmr)} kcal/day<br>
-Estimated Daily Calorie Needs: ${calories} kcal/day<br>
+<table>
 
-Interpretation:<br>
-BMR reflects the body's resting energy expenditure required for essential metabolic processes.
+<tr>
+<th>Parameter</th>
+<th>Result</th>
+<th>Reference Range</th>
+</tr>
+
+<tr>
+<td>BMI</td>
+<td>${bmi}</td>
+<td>18.5 – 24.9</td>
+</tr>
+
+<tr>
+<td>Body Fat</td>
+<td>${bodyFat}%</td>
+<td>10 – 20%</td>
+</tr>
+
+<tr>
+<td>Waist Circumference</td>
+<td>${waist} cm</td>
+<td><94 cm</td>
+</tr>
+
+<tr>
+<td>Waist Height Ratio</td>
+<td>${waistHeight}</td>
+<td><0.52</td>
+</tr>
+
+</table>
 
 </div>
 
@@ -226,11 +257,49 @@ BMR reflects the body's resting energy expenditure required for essential metabo
 
 <h3>Cardiovascular Health</h3>
 
-Resting Heart Rate: ${hr} bpm<br>
-Estimated Maximum Heart Rate: ${maxHR} bpm<br>
+<table>
 
-Interpretation:<br>
-Resting heart rates between 60–80 bpm are generally associated with good cardiovascular conditioning.
+<tr>
+<th>Indicator</th>
+<th>Result</th>
+</tr>
+
+<tr>
+<td>Resting Heart Rate</td>
+<td>${hr} bpm</td>
+</tr>
+
+<tr>
+<td>Maximum Heart Rate</td>
+<td>${maxHR} bpm</td>
+</tr>
+
+</table>
+
+</div>
+
+<div class="section">
+
+<h3>Metabolic Health</h3>
+
+<table>
+
+<tr>
+<td>Basal Metabolic Rate</td>
+<td>${Math.round(bmr)} kcal</td>
+</tr>
+
+<tr>
+<td>Estimated Daily Calories</td>
+<td>${calories} kcal</td>
+</tr>
+
+<tr>
+<td>Hydration Need</td>
+<td>${hydration} L/day</td>
+</tr>
+
+</table>
 
 </div>
 
@@ -238,8 +307,24 @@ Resting heart rates between 60–80 bpm are generally associated with good cardi
 
 <h3>Disease Probability Analysis</h3>
 
-Diabetes Probability: ${diabetesProb}%<br>
-Heart Disease Probability: ${heartProb}%<br>
+<table>
+
+<tr>
+<th>Condition</th>
+<th>Probability</th>
+</tr>
+
+<tr>
+<td>Type 2 Diabetes</td>
+<td>${diabetes}%</td>
+</tr>
+
+<tr>
+<td>Cardiovascular Disease</td>
+<td>${heart}%</td>
+</tr>
+
+</table>
 
 </div>
 
@@ -247,7 +332,8 @@ Heart Disease Probability: ${heartProb}%<br>
 
 <h3>Biological Age</h3>
 
-Estimated Biological Age: ${bioAge}
+Chronological Age: ${age} Years<br>
+Estimated Biological Age: ${bioAge} Years
 
 </div>
 
@@ -255,23 +341,15 @@ Estimated Biological Age: ${bioAge}
 
 <h3>Priority Health Alerts</h3>
 
-${alerts.length>0 ? alerts.join("<br>") : "<span class='good'>No major risk alerts detected</span>"}
+${alerts.length>0 ? alerts.join("<br>") : "<span class='good'>No major alerts detected</span>"}
 
 </div>
 
 <div class="section">
 
-<h3>AI Health Insight</h3>
+<h3>30 Day Health Improvement Plan</h3>
 
-${insight}
-
-</div>
-
-<div class="section">
-
-<h3>30-Day Health Improvement Plan</h3>
-
-${improvementPlan}
+${plan}
 
 </div>
 
@@ -279,9 +357,8 @@ ${improvementPlan}
 
 <p style="font-size:12px">
 
-This automated health assessment is designed for educational
-and wellness tracking purposes only and should not replace
-professional medical consultation.
+This report provides automated preventive health insights for wellness monitoring.
+It does not replace professional medical diagnosis or consultation.
 
 </p>
 
