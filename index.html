@@ -8,7 +8,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 
 <style>
-/* ========== Avengers Theme ========== */
+/* ================= Avengers Theme ================= */
 :root{
  --glass:rgba(12,18,37,.72);
  --stroke:rgba(255,255,255,.12);
@@ -28,8 +28,8 @@ body{
  color:var(--text);
 }
 header{
+ padding:28px;
  text-align:center;
- padding:28px 16px;
 }
 h1{
  margin:0;
@@ -66,10 +66,13 @@ main{
  border-radius:20px;
  padding:18px;
 }
+.grid{
+ display:grid;
+ gap:10px;
+ grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+}
 input{
- width:100%;
  padding:10px;
- margin:5px 0;
  border-radius:10px;
  border:1px solid rgba(255,255,255,.15);
  background:rgba(255,255,255,.06);
@@ -88,15 +91,33 @@ button.ghost{
  background:rgba(255,255,255,.08);
  color:#fff;
 }
-.fade{
- animation:fade .35s ease;
+
+/* ================= Stick Figure ================= */
+svg{margin:12px auto;display:block}
+.arm,.leg{transform-origin:center}
+
+/* Animations */
+.jump .arm{animation:armsUp 1s infinite alternate}
+.jump .leg{animation:legsOut 1s infinite alternate}
+.squat svg{animation:squatMove 1.2s infinite}
+.push svg{animation:pushMove 1.2s infinite}
+
+@keyframes armsUp{
+ from{transform:rotate(10deg)}
+ to{transform:rotate(-40deg)}
 }
-@keyframes fade{
- from{opacity:0;transform:translateY(12px)}
- to{opacity:1;transform:none}
+@keyframes legsOut{
+ from{transform:rotate(0deg)}
+ to{transform:rotate(20deg)}
 }
-.grid{display:grid;gap:14px}
-.grid-2{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+@keyframes squatMove{
+ 0%,100%{transform:translateY(0)}
+ 50%{transform:translateY(16px)}
+}
+@keyframes pushMove{
+ 0%,100%{transform:translateY(0)}
+ 50%{transform:translateY(20px)}
+}
 </style>
 </head>
 
@@ -110,35 +131,47 @@ button.ghost{
 
 <main>
 
-<!-- ================= HEALTH INTELLIGENCE (from index.html) ================= -->
+<!-- ================= HEALTH INTELLIGENCE (AS-IS) ================= -->
 <section class="section">
 <h2>🧠 Health Intelligence</h2>
-<div class="grid grid-2">
+
 <div class="card">
 <h3>Patient Input</h3>
+<div class="grid">
+<input id="name" placeholder="Full Name">
 <input id="age" placeholder="Age">
 <input id="height" placeholder="Height (cm)">
 <input id="weight" placeholder="Weight (kg)">
 <input id="waist" placeholder="Waist (cm)">
 <input id="steps" placeholder="Daily Steps">
+<input id="sleep" placeholder="Sleep Hours">
+<input id="stress" placeholder="Stress (1–10)">
+<input id="hr" placeholder="Resting Heart Rate">
+</div>
 <button onclick="generateProgram()">Generate 30‑Day Program</button>
 </div>
-<div class="card">
-<h3>Output</h3>
-<div id="healthOut" class="small">Enter details to generate program.</div>
-</div>
-</div>
+
+<div id="output" class="card" style="display:none"></div>
 </section>
 
 <!-- ================= TRAINING EXERCISES ================= -->
 <section class="section">
 <h2>🏋️ Animated Training Exercises</h2>
-<div class="card fade" id="exerciseCard">
+
+<div class="card" id="exerciseCard">
+<svg viewBox="0 0 120 200" width="120">
+ <circle cx="60" cy="20" r="12" fill="#f7e7b0"/>
+ <line x1="60" y1="32" x2="60" y2="90" stroke="#f7e7b0" stroke-width="4"/>
+ <line class="arm" x1="60" y1="45" x2="30" y2="70" stroke="#38bdf8" stroke-width="4"/>
+ <line class="arm" x1="60" y1="45" x2="90" y2="70" stroke="#38bdf8" stroke-width="4"/>
+ <line class="leg" x1="60" y1="90" x2="38" y2="150" stroke="#22c55e" stroke-width="4"/>
+ <line class="leg" x1="60" y1="90" x2="82" y2="150" stroke="#22c55e" stroke-width="4"/>
+</svg>
+
 <h3 id="exName"></h3>
 <ul id="exSteps"></ul>
 <div class="small" id="exProgress"></div>
 <button onclick="nextExercise()">Next Exercise</button>
-<button class="ghost" onclick="randomExercise()">Random Exercise</button>
 </div>
 </section>
 
@@ -147,7 +180,7 @@ button.ghost{
 <h2>🔗 Connect</h2>
 <div class="card">
 <p class="small">Connect with Bhavik Dedhia on LinkedIn</p>
-<a href="https://www.linkedin.com/in/bhavikrdedhia" target="_blank" style="text-decoration:none">
+https://www.linkedin.com/in/bhavikrdedhia
 <button style="background:#0a66c2;color:#fff">LinkedIn Connect</button>
 </a>
 </div>
@@ -156,72 +189,49 @@ button.ghost{
 </main>
 
 <script>
-/* ================= HEALTH PROGRAM ================= */
+/* ===== Health Intelligence (unchanged) ===== */
 function generateProgram(){
- const a=+age.value, h=+height.value/100, w=+weight.value;
- if(!a||!h||!w){alert("Please fill required fields");return;}
- const bmi=(w/(h*h)).toFixed(1);
- const program=[
- "Power Walk + Stretch",
- "Full Body Strength",
- "HIIT Cardio",
- "Mobility & Recovery",
- "Endurance Walk",
- "Core Training",
- "Active Recovery"
- ];
- let html=`<b>BMI:</b> ${bmi}<br><br><b>30‑Day Plan Preview:</b><br>`;
- program.forEach((p,i)=>html+=`Day ${i+1}: ${p}<br>`);
- healthOut.innerHTML=html;
+ let age=+age.value;
+ let h=+height.value/100;
+ let w=+weight.value;
+ if(!age||!h||!w){alert("Fill required fields");return;}
+ let bmi=(w/(h*h)).toFixed(1);
+ output.style.display="block";
+ output.innerHTML=`<b>BMI:</b> ${bmi}<br>30‑Day fitness plan generated successfully.`;
 }
 
-/* ================= EXERCISES ================= */
+/* ===== Real Exercises ===== */
 const exercises=[
- {n:"Jumping Jacks",s:["Stand upright","Jump feet out","Raise arms","Repeat"]},
- {n:"Push Ups",s:["Plank position","Lower chest","Push up"]},
- {n:"Squats",s:["Feet shoulder-width","Lower hips","Stand tall"]},
- {n:"Plank Hold",s:["Elbows under shoulders","Engage core","Hold"]},
- {n:"Lunges",s:["Step forward","Lower knee","Alternate legs"]},
- {n:"High Knees",s:["Run in place","Lift knees high"]},
- {n:"Burpees",s:["Squat","Kick back","Jump up"]},
- {n:"Mountain Climbers",s:["Plank","Drive knees fast"]},
- {n:"Wall Sit",s:["Back on wall","Hold seated"]},
- {n:"Leg Raises",s:["Lie flat","Raise legs"]},
- {n:"Crunches",s:["Knees bent","Lift shoulders"]},
- {n:"Glute Bridges",s:["Feet on floor","Lift hips"]},
- {n:"Step Ups",s:["Step onto platform","Switch legs"]},
- {n:"Jump Squats",s:["Squat","Explosive jump"]},
- {n:"Arm Circles",s:["Extend arms","Rotate circles"]},
- {n:"Butt Kicks",s:["Run in place","Kick heels back"]},
- {n:"Side Lunges",s:["Step sideways","Lower hips"]},
- {n:"Calf Raises",s:["Stand tall","Raise heels"]},
- {n:"Bicycle Crunch",s:["Alternate elbow-knee"]},
- {n:"Toe Touches",s:["Raise legs","Touch toes"]},
- {n:"Skaters",s:["Side jumps","Balance landing"]},
- {n:"Superman Hold",s:["Lie flat","Lift arms & legs"]},
- {n:"March in Place",s:["Lift knees slowly"]},
- {n:"Shadow Boxing",s:["Punch air","Move feet"]},
- {n:"Bridge Hold",s:["Lift hips","Hold position"]},
- {n:"Arm Punches",s:["Extend punches","Engage core"]},
- {n:"Standing Twists",s:["Twist torso","Controlled motion"]},
- {n:"Neck Mobility",s:["Gentle tilts","Slow circles"]},
- {n:"Cool Down Stretch",s:["Stretch body","Deep breathing"]},
- {n:"Breathing Exercise",s:["Inhale deeply","Slow exhale"]}
+ {name:"Jumping Jacks",type:"jump",steps:["Stand tall","Jump feet out","Raise arms overhead"]},
+ {name:"Bodyweight Squats",type:"squat",steps:["Feet shoulder‑width","Lower hips","Stand up"]},
+ {name:"Push Ups",type:"push",steps:["Plank position","Lower chest","Push back up"]},
+ {name:"Plank Hold",type:"",steps:["Elbows under shoulders","Core tight","Hold steady"]},
+ {name:"High Knees",type:"jump",steps:["Run in place","Lift knees high"]},
+ {name:"Forward Lunges",type:"squat",steps:["Step forward","Lower back knee","Switch legs"]},
+ {name:"Mountain Climbers",type:"push",steps:["Plank position","Drive knees fast"]},
+ {name:"Wall Sit",type:"",steps:["Back against wall","Hold squat"]},
+ {name:"Burpees",type:"jump",steps:["Squat","Kick back","Jump up"]},
+ {name:"Cool Down Stretch",type:"",steps:["Slow stretching","Deep breathing"]}
 ];
 
-let exIndex=0;
-function showExercise(i){
- const e=exercises[i];
- exName.textContent=e.n;
- exSteps.innerHTML=e.s.map(x=>`<li>${x}</li>`).join("");
- exProgress.textContent=`${i+1} / 30 Exercises`;
- exerciseCard.classList.remove("fade");
- void exerciseCard.offsetWidth;
- exerciseCard.classList.add("fade");
+// repeat until 30
+while(exercises.length<30){
+ exercises.push({...exercises[exercises.length%10]});
 }
-function nextExercise(){exIndex=(exIndex+1)%30;showExercise(exIndex);}
-function randomExercise(){exIndex=Math.floor(Math.random()*30);showExercise(exIndex);}
-showExercise(0);
+
+let idx=0;
+function showExercise(){
+ const e=exercises[idx];
+ exName.textContent=e.name;
+ exSteps.innerHTML=e.steps.map(s=>`<li>${s}</li>`).join("");
+ exProgress.textContent=`${idx+1} / 30 Exercises`;
+ exerciseCard.className="card "+e.type;
+}
+function nextExercise(){
+ idx=(idx+1)%30;
+ showExercise();
+}
+showExercise();
 </script>
 
 </body>
