@@ -1,423 +1,438 @@
-```html
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
 <meta charset="UTF-8">
-<title>Advanced Preventive Health Diagnostic Platform</title>
+<title>Digital Health Intelligence Platform</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 
 <style>
 
+*{
+box-sizing:border-box;
+}
+
 body{
-font-family:Arial;
-background:#0f172a;
+margin:0;
+font-family:Poppins;
+background:#f5f7fb;
+}
+
+header{
+background:linear-gradient(120deg,#0f766e,#059669);
 color:white;
 padding:25px;
+text-align:center;
+font-size:28px;
+font-weight:600;
 }
 
 .container{
-max-width:1000px;
+max-width:1300px;
 margin:auto;
-background:#1e293b;
-padding:25px;
-border-radius:10px;
+padding:30px;
 }
 
-h1{
-text-align:center;
-color:#38bdf8;
+.section{
+margin-bottom:35px;
+}
+
+.section h2{
+margin-bottom:15px;
+border-left:6px solid #059669;
+padding-left:10px;
+}
+
+.card{
+background:white;
+border-radius:12px;
+padding:25px;
+box-shadow:0 4px 18px rgba(0,0,0,0.08);
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:18px;
+}
+
+label{
+font-size:13px;
+font-weight:500;
 }
 
 input,select{
-width:100%;
-padding:8px;
-margin:5px 0;
+
+padding:10px;
 border-radius:6px;
-border:none;
+border:1px solid #d8dde6;
+width:100%;
+margin-top:4px;
+
+}
+
+input:focus{
+outline:none;
+border-color:#059669;
 }
 
 button{
-padding:10px;
-margin-top:10px;
+
+margin-top:25px;
+background:#059669;
+color:white;
+padding:14px 25px;
 border:none;
-border-radius:6px;
-background:#38bdf8;
+border-radius:8px;
+font-size:16px;
 cursor:pointer;
+
+}
+
+button:hover{
+background:#047857;
+}
+
+.dashboard{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+gap:25px;
+margin-top:25px;
+}
+
+.metricCard{
+
+background:white;
+border-radius:12px;
+padding:20px;
+text-align:center;
+box-shadow:0 3px 12px rgba(0,0,0,0.07);
+
+}
+
+.metricCard h3{
+margin:0;
+font-size:18px;
+}
+
+.healthScore{
+
+font-size:45px;
+font-weight:700;
+color:#059669;
+
+}
+
+.chartBox{
+height:300px;
 }
 
 .report{
-margin-top:25px;
-background:#020617;
-padding:25px;
-border-radius:10px;
+
+background:white;
+padding:40px;
+margin-top:40px;
+border-radius:12px;
+
 }
 
 table{
 width:100%;
 border-collapse:collapse;
-margin-top:10px;
+margin-top:15px;
 }
 
-td,th{
-border:1px solid #334155;
-padding:8px;
+th,td{
+border:1px solid #e5e7eb;
+padding:10px;
+text-align:left;
 }
 
-.section{
-margin-top:25px;
+th{
+background:#f0fdf4;
 }
 
-.good{color:#4ade80}
-.warn{color:#facc15}
-.bad{color:#f87171}
+.disclaimer{
+
+margin-top:40px;
+padding:20px;
+background:#fef3c7;
+border-left:6px solid #f59e0b;
+
+}
 
 </style>
+
 </head>
 
 <body>
 
+<header>
+
+Digital Health Intelligence Platform
+
+</header>
+
 <div class="container">
 
-<h1>Preventive Health Assessment</h1>
+<div class="card">
 
-<h2>Patient Profile</h2>
+<h2>Patient Health Assessment</h2>
 
-<input id="name" placeholder="Patient Name">
-<input id="age" type="number" placeholder="Age">
+<div class="grid">
 
+<div>
+<label>Full Name</label>
+<input id="name">
+</div>
+
+<div>
+<label>Age</label>
+<input id="age" type="number">
+</div>
+
+<div>
+<label>Gender</label>
 <select id="gender">
 <option>Male</option>
 <option>Female</option>
 </select>
+</div>
 
-<input id="height" type="number" placeholder="Height (cm)">
-<input id="weight" type="number" placeholder="Weight (kg)">
-<input id="waist" type="number" placeholder="Waist Circumference (cm)">
-<input id="hr" type="number" placeholder="Resting Heart Rate (bpm)">
-<input id="sleep" type="number" placeholder="Sleep Hours">
+<div>
+<label>Height (cm)</label>
+<input id="height">
+</div>
 
-<select id="activity">
-<option value="1.2">Sedentary</option>
-<option value="1.375">Light Activity</option>
-<option value="1.55">Moderate Activity</option>
-<option value="1.725">Heavy Exercise</option>
+<div>
+<label>Weight (kg)</label>
+<input id="weight">
+</div>
+
+<div>
+<label>Waist (cm)</label>
+<input id="waist">
+</div>
+
+<div>
+<label>Hip (cm)</label>
+<input id="hip">
+</div>
+
+<div>
+<label>Systolic BP</label>
+<input id="bpSys">
+</div>
+
+<div>
+<label>Diastolic BP</label>
+<input id="bpDia">
+</div>
+
+<div>
+<label>Daily Steps</label>
+<input id="steps">
+</div>
+
+<div>
+<label>Exercise Days/Week</label>
+<input id="exercise">
+</div>
+
+<div>
+<label>Sleep Hours</label>
+<input id="sleep">
+</div>
+
+<div>
+<label>Stress Level (1-10)</label>
+<input id="stress">
+</div>
+
+<div>
+<label>Water Intake (Liters)</label>
+<input id="water">
+</div>
+
+<div>
+<label>Smoking Status</label>
+<select id="smoking">
+<option>Never</option>
+<option>Former</option>
+<option>Occasional</option>
+<option>Daily</option>
 </select>
+</div>
 
-<button onclick="generateReport()">Generate Health Report</button>
-<button onclick="window.print()">Download PDF</button>
-
-<div id="report" class="report"></div>
+<div>
+<label>Alcohol Consumption</label>
+<select id="alcohol">
+<option>Never</option>
+<option>Occasional</option>
+<option>Moderate</option>
+<option>High</option>
+</select>
+</div>
 
 </div>
+
+<button onclick="analyzeHealth()">Analyze Health</button>
+
+</div>
+
+
+<div id="dashboard" style="display:none">
+
+<div class="dashboard">
+
+<div class="metricCard">
+
+<h3>Overall Health Score</h3>
+<div class="healthScore" id="healthScore"></div>
+
+</div>
+
+<div class="metricCard chartBox">
+<canvas id="bmiChart"></canvas>
+</div>
+
+<div class="metricCard chartBox">
+<canvas id="lifestyleChart"></canvas>
+</div>
+
+<div class="metricCard chartBox">
+<canvas id="riskChart"></canvas>
+</div>
+
+</div>
+
+</div>
+
+
+<div id="report" class="report" style="display:none"></div>
+
+</div>
+
 
 <script>
 
-function classifyHeartRate(hr){
+function analyzeHealth(){
 
-if(hr < 60) return "Athlete Level"
-if(hr <= 70) return "Excellent"
-if(hr <= 80) return "Good"
-if(hr <= 90) return "Elevated Risk"
+let h=document.getElementById("height").value/100;
+let w=document.getElementById("weight").value;
+let waist=document.getElementById("waist").value;
+let hip=document.getElementById("hip").value;
 
-return "High Risk"
+let steps=document.getElementById("steps").value;
+let sleep=document.getElementById("sleep").value;
+let stress=document.getElementById("stress").value;
+let water=document.getElementById("water").value;
 
-}
+let bmi=w/(h*h);
 
-function generateReport(){
+let activityScore=Math.min(100,(steps/10000)*60);
+let sleepScore=(sleep/8)*100;
+let hydrationScore=(water/3)*100;
+let stressScore=100-(stress*10);
 
-let name=document.getElementById("name").value
-let age=parseFloat(document.getElementById("age").value)
-let gender=document.getElementById("gender").value
-let height=parseFloat(document.getElementById("height").value)
-let weight=parseFloat(document.getElementById("weight").value)
-let waist=parseFloat(document.getElementById("waist").value)
-let hr=parseFloat(document.getElementById("hr").value)
-let sleep=parseFloat(document.getElementById("sleep").value)
-let activity=parseFloat(document.getElementById("activity").value)
+let lifestyleScore=(activityScore+sleepScore+hydrationScore+stressScore)/4;
 
-let bmi=(weight/((height/100)*(height/100))).toFixed(1)
+let healthScore=Math.round((lifestyleScore+(100-bmi))/2);
 
-let bodyFat=(1.2*bmi + 0.23*age - 10.8*(gender=="Male"?1:0) - 5.4).toFixed(1)
+document.getElementById("dashboard").style.display="block";
 
-let waistHeight=(waist/height).toFixed(2)
+document.getElementById("healthScore").innerHTML=healthScore;
 
-let bmr
+createCharts(bmi,lifestyleScore);
 
-if(gender=="Male"){
-bmr=10*weight+6.25*height-5*age+5
-}else{
-bmr=10*weight+6.25*height-5*age-161
-}
-
-let calories=Math.round(bmr*activity)
-
-let hydration=(weight*0.035).toFixed(2)
-
-let maxHR=Math.round(208-(0.7*age))
-
-let vo2=(15*(maxHR/hr)).toFixed(1)
-
-let hrClass=classifyHeartRate(hr)
-
-/* Cardiac Risk Index */
-
-let cardiacRisk=0
-
-if(bmi>25) cardiacRisk+=1
-if(waist>94) cardiacRisk+=1
-if(hr>80) cardiacRisk+=1
-if(sleep<7) cardiacRisk+=1
-if(activity<=1.2) cardiacRisk+=1
-
-let cardiacRiskLevel="Low"
-
-if(cardiacRisk==2) cardiacRiskLevel="Moderate"
-if(cardiacRisk>=3) cardiacRiskLevel="High"
-
-/* Disease Probability */
-
-let diabetes=Math.round((bmi*2 + waist)/5)
-let heart=Math.round((hr+bmi)/3)
-
-/* Biological Age */
-
-let bioAge=Math.round(age+(bmi-22)+(sleep<7?3:-2)+(hr>80?2:-1))
-
-/* Health Score */
-
-let healthScore=100
-
-if(bmi>25) healthScore-=10
-if(hr>80) healthScore-=10
-if(sleep<7) healthScore-=10
-if(activity<1.4) healthScore-=10
-if(waist>100) healthScore-=10
-
-/* Alerts */
-
-let alerts=[]
-
-if(cardiacRiskLevel=="High") alerts.push("⚠ Elevated cardiovascular risk detected")
-if(sleep<6) alerts.push("⚠ Sleep deficiency detected")
-if(bmi>27) alerts.push("⚠ Metabolic risk indicators present")
-
-/* AI Insight */
-
-let insight=""
-
-if(healthScore>85){
-insight="Your overall health indicators suggest strong cardiovascular and metabolic wellness."
-}
-else if(healthScore>70){
-insight="Health indicators are generally good but improvements in physical activity and sleep consistency may further reduce long-term disease risk."
-}
-else{
-insight="Several lifestyle indicators suggest increased health risk. Improving exercise, sleep, and weight management may significantly improve long-term health."
-}
-
-/* 30 Day Plan */
-
-let plan=""
-
-for(let i=1;i<=30;i++){
-
-plan+="Day "+i+": "
-
-if(i%5==0){
-plan+="30 minutes cardio exercise<br>"
-}
-else if(i%3==0){
-plan+="Drink 2.5L water<br>"
-}
-else{
-plan+="Walk 7000 steps<br>"
-}
+generateReport(healthScore,bmi);
 
 }
 
-document.getElementById("report").innerHTML=`
+function createCharts(bmi,lifestyle){
 
-<h2>Preventive Health Diagnostic Report</h2>
+new Chart(document.getElementById("bmiChart"),{
 
-<b>Patient:</b> ${name}<br>
-<b>Age:</b> ${age}<br>
-<b>Gender:</b> ${gender}<br>
+type:"doughnut",
 
-<div class="section">
+data:{
+labels:["BMI","Remaining"],
+datasets:[{data:[bmi,40-bmi]}]
+}
 
-<h3>Executive Health Summary</h3>
+})
 
-Health Intelligence Score: <b>${healthScore}/100</b>
+new Chart(document.getElementById("lifestyleChart"),{
 
-<p>${insight}</p>
+type:"radar",
 
-</div>
+data:{
+labels:["Activity","Sleep","Hydration","Stress"],
+datasets:[{data:[70,80,60,65]}]
+}
 
-<div class="section">
+})
 
-<h3>Body Composition Analysis</h3>
+new Chart(document.getElementById("riskChart"),{
+
+type:"bar",
+
+data:{
+labels:["Risk Index"],
+datasets:[{data:[100-lifestyle]}]
+}
+
+})
+
+}
+
+function generateReport(score,bmi){
+
+document.getElementById("report").style.display="block";
+
+document.getElementById("report").innerHTML=
+
+`<h1>Health Assessment Report</h1>
+
+<h2>Health Score</h2>
+
+<p><b>${score}/100</b></p>
+
+<h2>Body Metrics</h2>
 
 <table>
 
-<tr>
-<th>Parameter</th>
-<th>Result</th>
-<th>Reference Range</th>
-</tr>
+<tr><th>Metric</th><th>Value</th></tr>
 
-<tr>
-<td>BMI</td>
-<td>${bmi}</td>
-<td>18.5 – 24.9</td>
-</tr>
-
-<tr>
-<td>Body Fat</td>
-<td>${bodyFat}%</td>
-<td>10 – 20%</td>
-</tr>
-
-<tr>
-<td>Waist Circumference</td>
-<td>${waist} cm</td>
-<td><94 cm</td>
-</tr>
-
-<tr>
-<td>Waist Height Ratio</td>
-<td>${waistHeight}</td>
-<td><0.52</td>
-</tr>
+<tr><td>BMI</td><td>${bmi.toFixed(2)}</td></tr>
 
 </table>
 
-</div>
+<div class="disclaimer">
 
-<div class="section">
+<b>Medical Disclaimer</b>
 
-<h3>Cardiovascular Health Evaluation</h3>
+<p>
 
-<table>
-
-<tr>
-<th>Indicator</th>
-<th>Result</th>
-</tr>
-
-<tr>
-<td>Resting Heart Rate</td>
-<td>${hr} bpm (${hrClass})</td>
-</tr>
-
-<tr>
-<td>Maximum Heart Rate</td>
-<td>${maxHR} bpm</td>
-</tr>
-
-<tr>
-<td>VO2 Max Estimate</td>
-<td>${vo2}</td>
-</tr>
-
-<tr>
-<td>Cardiac Risk Index</td>
-<td>${cardiacRisk} (${cardiacRiskLevel})</td>
-</tr>
-
-</table>
-
-</div>
-
-<div class="section">
-
-<h3>Metabolic Health</h3>
-
-<table>
-
-<tr>
-<td>Basal Metabolic Rate</td>
-<td>${Math.round(bmr)} kcal/day</td>
-</tr>
-
-<tr>
-<td>Estimated Daily Calories</td>
-<td>${calories} kcal/day</td>
-</tr>
-
-<tr>
-<td>Hydration Need</td>
-<td>${hydration} L/day</td>
-</tr>
-
-</table>
-
-</div>
-
-<div class="section">
-
-<h3>Disease Probability Analysis</h3>
-
-<table>
-
-<tr>
-<th>Condition</th>
-<th>Probability</th>
-</tr>
-
-<tr>
-<td>Type 2 Diabetes</td>
-<td>${diabetes}%</td>
-</tr>
-
-<tr>
-<td>Cardiovascular Disease</td>
-<td>${heart}%</td>
-</tr>
-
-</table>
-
-</div>
-
-<div class="section">
-
-<h3>Biological Age Assessment</h3>
-
-Chronological Age: ${age} years<br>
-Estimated Biological Age: ${bioAge} years
-
-</div>
-
-<div class="section">
-
-<h3>Priority Health Alerts</h3>
-
-${alerts.length>0 ? alerts.join("<br>") : "<span class='good'>No major alerts detected</span>"}
-
-</div>
-
-<div class="section">
-
-<h3>30-Day Health Improvement Plan</h3>
-
-${plan}
-
-</div>
-
-<div class="section">
-
-<p style="font-size:12px">
-
-This automated health assessment provides preventive wellness insights based on self-reported measurements.  
-It should not replace consultation with qualified healthcare professionals.
+This report is a digitally generated health assessment created based on the information provided by the user and general wellness guidelines. It is intended for informational and educational purposes only and should not be considered medical advice, diagnosis, or treatment. Always consult a qualified physician or healthcare professional before making any health-related decisions.
 
 </p>
 
 </div>
 
-`
+`;
 
 }
 
 </script>
 
 </body>
+
 </html>
