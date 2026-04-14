@@ -1,754 +1,691 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Health Assessment Portal</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>AI Health Assessment & Fitness Report</title>
+<style>
+  :root {
+    --primary: #0f4c81;
+    --secondary: #1a7fc1;
+    --accent: #00c9a7;
+    --danger: #e74c3c;
+    --warning: #f39c12;
+    --success: #27ae60;
+    --light: #f0f6ff;
+    --dark: #1a1a2e;
+    --card: #ffffff;
+    --border: #d0e4f7;
+    --text: #2c3e50;
+    --muted: #7f8c8d;
+    --gradient1: linear-gradient(135deg, #0f4c81, #1a7fc1, #00c9a7);
+    --gradient2: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+  }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            line-height: 1.6;
-        }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
 
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 20px;
-        }
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(160deg, #e8f4fd 0%, #f0fdf8 100%);
+    color: var(--text);
+    min-height: 100vh;
+  }
 
-        .header {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 30px;
-            border-radius: 15px;
-            text-align: center;
-            margin-bottom: 30px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-        }
+  /* ===== HEADER ===== */
+  .header {
+    background: var(--gradient2);
+    color: white;
+    padding: 30px 40px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    background: radial-gradient(circle, rgba(0,201,167,0.15) 0%, transparent 60%);
+    animation: pulse 4s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%,100%{transform:scale(1);} 50%{transform:scale(1.05);} }
+  .header-icon { font-size: 3.5rem; margin-bottom: 10px; }
+  .header h1 { font-size: 2.2rem; font-weight: 800; letter-spacing: 1px; }
+  .header p { font-size: 1rem; opacity: 0.85; margin-top: 8px; }
+  .ai-badge {
+    display: inline-block;
+    background: var(--accent);
+    color: #1a1a2e;
+    font-weight: 700;
+    font-size: 0.75rem;
+    padding: 3px 12px;
+    border-radius: 20px;
+    margin-top: 10px;
+    letter-spacing: 1px;
+  }
 
-        .header h1 {
-            color: #2c3e50;
-            font-size: 2.2em;
-            margin-bottom: 10px;
-        }
+  /* ===== MAIN CONTAINER ===== */
+  .container { max-width: 1100px; margin: 0 auto; padding: 30px 20px; }
 
-        .form-container {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            margin-bottom: 30px;
-        }
+  /* ===== SECTION CARDS ===== */
+  .form-card {
+    background: white;
+    border-radius: 16px;
+    padding: 28px 32px;
+    margin-bottom: 24px;
+    box-shadow: 0 4px 20px rgba(15,76,129,0.10);
+    border: 1px solid var(--border);
+  }
+  .section-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2.5px solid var(--accent);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-icon { font-size: 1.4rem; }
 
-        .form-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-        }
+  /* ===== FORM GRID ===== */
+  .form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 16px;
+  }
+  .form-group { display: flex; flex-direction: column; gap: 6px; }
+  .form-group label {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--primary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .form-group input,
+  .form-group select {
+    padding: 10px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    font-size: 0.95rem;
+    color: var(--text);
+    background: var(--light);
+    transition: all 0.2s;
+    outline: none;
+  }
+  .form-group input:focus,
+  .form-group select:focus {
+    border-color: var(--secondary);
+    background: white;
+    box-shadow: 0 0 0 3px rgba(26,127,193,0.12);
+  }
+  .form-group .hint {
+    font-size: 0.74rem;
+    color: var(--muted);
+  }
 
-        .form-group {
-            margin-bottom: 15px;
-        }
+  /* ===== GENERATE BUTTON ===== */
+  .btn-generate {
+    display: block;
+    width: 100%;
+    background: var(--gradient1);
+    color: white;
+    border: none;
+    padding: 18px;
+    border-radius: 12px;
+    font-size: 1.15rem;
+    font-weight: 700;
+    cursor: pointer;
+    letter-spacing: 1px;
+    transition: all 0.3s;
+    box-shadow: 0 6px 25px rgba(15,76,129,0.35);
+    margin-top: 10px;
+  }
+  .btn-generate:hover { transform: translateY(-2px); box-shadow: 0 10px 35px rgba(15,76,129,0.45); }
+  .btn-generate:active { transform: translateY(0); }
 
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: 600;
-            color: #2c3e50;
-        }
+  /* ===== REPORT SECTION ===== */
+  #report { display: none; margin-top: 36px; }
 
-        .required {
-            color: #e74c3c;
-        }
+  .report-header {
+    background: var(--gradient2);
+    color: white;
+    border-radius: 16px 16px 0 0;
+    padding: 30px 36px;
+    position: relative;
+    overflow: hidden;
+  }
+  .report-header::after {
+    content: '📋';
+    position: absolute;
+    right: 30px; top: 50%;
+    transform: translateY(-50%);
+    font-size: 5rem;
+    opacity: 0.12;
+  }
+  .report-header h2 { font-size: 1.7rem; font-weight: 800; }
+  .report-header p { opacity: 0.8; font-size: 0.9rem; margin-top: 5px; }
+  .report-date {
+    background: rgba(255,255,255,0.15);
+    display: inline-block;
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    margin-top: 10px;
+  }
 
-        .form-group input,
-        .form-group select {
-            width: 100%;
-            padding: 10px;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            font-size: 16px;
-        }
+  .report-body {
+    background: white;
+    border: 1px solid var(--border);
+    border-top: none;
+    border-radius: 0 0 16px 16px;
+    padding: 32px;
+    box-shadow: 0 4px 20px rgba(15,76,129,0.10);
+  }
 
-        .form-group input:focus,
-        .form-group select:focus {
-            outline: none;
-            border-color: #667eea;
-        }
+  /* ===== PATIENT SUMMARY BANNER ===== */
+  .patient-banner {
+    background: linear-gradient(135deg, #e8f4fd, #e0fdf4);
+    border-radius: 12px;
+    padding: 20px 28px;
+    margin-bottom: 28px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px;
+    align-items: center;
+    border: 1px solid var(--border);
+  }
+  .patient-avatar {
+    width: 64px; height: 64px;
+    background: var(--gradient1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    flex-shrink: 0;
+  }
+  .patient-info h3 { font-size: 1.25rem; font-weight: 700; color: var(--primary); }
+  .patient-meta { font-size: 0.88rem; color: var(--muted); margin-top: 4px; }
+  .patient-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-left: auto; }
+  .patient-tag {
+    padding: 5px 14px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+  }
 
-        .btn {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 15px 30px;
-            border: none;
-            border-radius: 8px;
-            font-size: 18px;
-            font-weight: 600;
-            cursor: pointer;
-            width: 100%;
-            margin-top: 20px;
-        }
+  /* ===== OVERALL SCORE ===== */
+  .score-section {
+    text-align: center;
+    padding: 28px;
+    background: linear-gradient(135deg, #f8f9ff, #f0fdf8);
+    border-radius: 14px;
+    margin-bottom: 28px;
+    border: 1px solid var(--border);
+  }
+  .score-circle {
+    width: 140px; height: 140px;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 16px;
+    border: 8px solid;
+    position: relative;
+  }
+  .score-number { font-size: 2.8rem; font-weight: 900; line-height: 1; }
+  .score-label { font-size: 0.75rem; font-weight: 600; opacity: 0.7; text-transform: uppercase; }
+  .score-title { font-size: 1.1rem; font-weight: 700; color: var(--primary); }
+  .score-desc { font-size: 0.88rem; color: var(--muted); margin-top: 6px; }
 
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
-        }
+  /* ===== REPORT SECTIONS ===== */
+  .report-section {
+    margin-bottom: 32px;
+  }
+  .report-section-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--primary);
+    padding: 10px 16px;
+    background: linear-gradient(90deg, rgba(15,76,129,0.08), transparent);
+    border-left: 4px solid var(--accent);
+    border-radius: 0 8px 8px 0;
+    margin-bottom: 16px;
+  }
 
-        .results-container {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            margin-bottom: 30px;
-            display: none;
-        }
+  /* ===== METRICS GRID ===== */
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 14px;
+  }
+  .metric-card {
+    background: var(--light);
+    border-radius: 12px;
+    padding: 16px;
+    border: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.2s;
+  }
+  .metric-card:hover { transform: translateY(-2px); box-shadow: 0 4px 14px rgba(0,0,0,0.08); }
+  .metric-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+  .metric-card.good::before { background: var(--success); }
+  .metric-card.warning::before { background: var(--warning); }
+  .metric-card.danger::before { background: var(--danger); }
+  .metric-card.info::before { background: var(--secondary); }
+  .metric-name { font-size: 0.76rem; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
+  .metric-value { font-size: 1.5rem; font-weight: 800; color: var(--dark); margin: 4px 0; }
+  .metric-unit { font-size: 0.7rem; color: var(--muted); display: inline; }
+  .metric-status {
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 10px;
+    display: inline-block;
+    margin-top: 4px;
+  }
+  .status-good { background: #d4edda; color: #155724; }
+  .status-warning { background: #fff3cd; color: #856404; }
+  .status-danger { background: #f8d7da; color: #721c24; }
+  .status-info { background: #d1ecf1; color: #0c5460; }
 
-        .health-score {
-            text-align: center;
-            margin-bottom: 30px;
-        }
+  /* ===== PROGRESS BARS ===== */
+  .progress-item { margin-bottom: 14px; }
+  .progress-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 5px;
+  }
+  .progress-bar-wrap {
+    background: #e9ecef;
+    border-radius: 8px;
+    height: 10px;
+    overflow: hidden;
+  }
+  .progress-bar {
+    height: 100%;
+    border-radius: 8px;
+    transition: width 1s ease;
+  }
 
-        .score-circle {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            margin: 0 auto 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2em;
-            font-weight: bold;
-            color: white;
-        }
+  /* ===== TABLE ===== */
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+  }
+  .data-table th {
+    background: var(--primary);
+    color: white;
+    padding: 10px 14px;
+    text-align: left;
+    font-weight: 600;
+  }
+  .data-table td {
+    padding: 9px 14px;
+    border-bottom: 1px solid var(--border);
+  }
+  .data-table tr:nth-child(even) td { background: var(--light); }
+  .data-table tr:hover td { background: #e8f4fd; }
 
-        .excellent { background: linear-gradient(135deg, #27ae60, #2ecc71); }
-        .good { background: linear-gradient(135deg, #3498db, #2980b9); }
-        .fair { background: linear-gradient(135deg, #f39c12, #e67e22); }
-        .poor { background: linear-gradient(135deg, #e74c3c, #c0392b); }
+  /* ===== RISK ALERTS ===== */
+  .alert {
+    padding: 14px 18px;
+    border-radius: 10px;
+    margin-bottom: 12px;
+    font-size: 0.88rem;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    border-left: 4px solid;
+  }
+  .alert-success { background: #d4edda; border-color: var(--success); color: #155724; }
+  .alert-warning { background: #fff3cd; border-color: var(--warning); color: #7d5a00; }
+  .alert-danger  { background: #f8d7da; border-color: var(--danger);  color: #721c24; }
+  .alert-info    { background: #d1ecf1; border-color: var(--secondary);color: #0c5460; }
+  .alert-icon { font-size: 1.2rem; flex-shrink: 0; margin-top: 1px; }
+  .alert-title { font-weight: 700; }
 
-        .report-section {
-            margin-bottom: 25px;
-            padding: 20px;
-            background: #f8f9fa;
-            border-radius: 10px;
-            border-left: 5px solid #667eea;
-        }
+  /* ===== MACROS ===== */
+  .macros-grid {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 14px;
+    margin-top: 10px;
+  }
+  .macro-card {
+    text-align: center;
+    padding: 16px;
+    border-radius: 12px;
+    border: 2px solid;
+  }
+  .macro-card .macro-grams { font-size: 2rem; font-weight: 900; }
+  .macro-card .macro-name { font-size: 0.8rem; font-weight: 700; margin-top: 4px; text-transform: uppercase; }
+  .macro-card .macro-cal { font-size: 0.75rem; opacity: 0.7; }
 
-        .report-section h3 {
-            color: #2c3e50;
-            margin-bottom: 15px;
-        }
+  /* ===== 30 DAY FITNESS PLAN ===== */
+  .fitness-plan { }
+  .week-block { margin-bottom: 28px; }
+  .week-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .days-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 12px;
+  }
+  .day-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 18px;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .day-card:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.09); }
+  .day-number {
+    min-width: 44px; height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    font-size: 1rem;
+    color: white;
+    flex-shrink: 0;
+  }
+  .day-content { flex: 1; }
+  .day-type { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 3px; }
+  .day-title { font-size: 0.95rem; font-weight: 700; color: var(--dark); }
+  .day-desc { font-size: 0.8rem; color: var(--muted); margin-top: 4px; line-height: 1.5; }
+  .day-duration {
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 10px;
+    display: inline-block;
+    margin-top: 6px;
+  }
 
-        .challenges-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 15px;
-            margin-top: 15px;
-        }
+  /* ===== RECOMMENDATIONS ===== */
+  .rec-list { list-style: none; }
+  .rec-list li {
+    padding: 10px 14px;
+    margin-bottom: 8px;
+    border-radius: 8px;
+    font-size: 0.88rem;
+    line-height: 1.5;
+    display: flex;
+    gap: 10px;
+    background: var(--light);
+    border: 1px solid var(--border);
+  }
+  .rec-list li::before { content: attr(data-icon); font-size: 1.1rem; flex-shrink: 0; }
 
-        .challenge-card {
-            background: white;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-            border-left: 4px solid #667eea;
-        }
+  /* ===== ZONES TABLE ===== */
+  .zone-row { display: grid; grid-template-columns: 2fr 1fr 1fr 2fr; gap: 10px; padding: 8px 12px; border-radius: 8px; margin-bottom: 6px; font-size: 0.85rem; }
+  .zone-row.header { font-weight: 700; color: var(--primary); }
 
-        .challenge-level {
-            display: inline-block;
-            padding: 3px 8px;
-            border-radius: 12px;
-            font-size: 0.8em;
-            font-weight: bold;
-            margin-bottom: 8px;
-        }
+  /* ===== DISCLAIMER ===== */
+  .disclaimer {
+    background: linear-gradient(135deg, #fff8e1, #fff3cd);
+    border: 2px solid #f39c12;
+    border-radius: 14px;
+    padding: 24px 28px;
+    margin-top: 36px;
+  }
+  .disclaimer-title {
+    font-size: 1rem;
+    font-weight: 800;
+    color: #7d5a00;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .disclaimer p { font-size: 0.85rem; color: #856404; line-height: 1.7; margin-bottom: 8px; }
+  .disclaimer strong { color: #7d5a00; }
 
-        .basic { background: #d4edda; color: #155724; }
-        .intermediate { background: #fff3cd; color: #856404; }
-        .advanced { background: #f8d7da; color: #721c24; }
+  /* ===== PRINT BTN ===== */
+  .action-buttons {
+    display: flex;
+    gap: 12px;
+    margin: 20px 0;
+    flex-wrap: wrap;
+  }
+  .btn-action {
+    padding: 12px 24px;
+    border-radius: 10px;
+    border: none;
+    font-weight: 700;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-print { background: var(--primary); color: white; }
+  .btn-reset { background: #e9ecef; color: var(--text); }
+  .btn-action:hover { opacity: 0.88; transform: translateY(-1px); }
 
-        .metric-card {
-            background: white;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-            text-align: center;
-        }
+  /* ===== LOADING ===== */
+  .loading {
+    display: none;
+    text-align: center;
+    padding: 40px;
+    font-size: 1.1rem;
+    color: var(--primary);
+    font-weight: 600;
+  }
+  .spinner {
+    width: 48px; height: 48px;
+    border: 5px solid #e0e0e0;
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin: 0 auto 16px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
 
-        .recommendations {
-            list-style: none;
-            padding: 0;
-        }
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 600px) {
+    .form-card { padding: 18px; }
+    .report-body { padding: 18px; }
+    .macros-grid { grid-template-columns: 1fr; }
+    .patient-tags { margin-left: 0; }
+    .header { padding: 20px; }
+    .header h1 { font-size: 1.4rem; }
+  }
 
-        .recommendations li {
-            padding: 8px 0;
-            border-bottom: 1px solid #eee;
-            position: relative;
-            padding-left: 20px;
-        }
-
-        .recommendations li::before {
-            content: "✓";
-            position: absolute;
-            left: 0;
-            color: #27ae60;
-            font-weight: bold;
-        }
-
-        .assessment-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-        }
-
-        @media (max-width: 768px) {
-            .container {
-                padding: 10px;
-            }
-            
-            .form-container,
-            .results-container {
-                padding: 15px;
-            }
-            
-            .header h1 {
-                font-size: 1.8em;
-            }
-        }
-    </style>
+  @media print {
+    .btn-generate, .action-buttons, .form-card, .header { display: none !important; }
+    #report { display: block !important; }
+    body { background: white; }
+    .day-card, .metric-card { break-inside: avoid; }
+  }
+</style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>🏥 Health Assessment Portal</h1>
-            <p>Quick Medical Analysis & Personalized Fitness Challenges</p>
-        </div>
 
-        <div class="form-container">
-            <form id="healthForm">
-                <div class="form-grid">
-                    <!-- Essential Information Only -->
-                    <div class="form-group">
-                        <label for="personType">Person Type <span class="required">*</span></label>
-                        <select id="personType" name="personType" required>
-                            <option value="">Select Person Type</option>
-                            <option value="athlete">Professional Athlete</option>
-                            <option value="fitness-enthusiast">Fitness Enthusiast</option>
-                            <option value="active-adult">Active Adult</option>
-                            <option value="sedentary-adult">Sedentary Adult</option>
-                            <option value="senior">Senior (65+)</option>
-                            <option value="office-worker">Office Worker</option>
-                            <option value="student">Student</option>
-                        </select>
-                    </div>
+<!-- ===== HEADER ===== -->
+<div class="header">
+  <div class="header-icon">🏥</div>
+  <h1>AI Health Assessment & Fitness Report</h1>
+  <p>Comprehensive Health Analysis · Global WHO / AHA / CDC / NIH Standards</p>
+  <span class="ai-badge">⚡ AI-POWERED ANALYSIS · 300+ HEALTH METRICS</span>
+</div>
 
-                    <div class="form-group">
-                        <label for="age">Age <span class="required">*</span></label>
-                        <input type="number" id="age" name="age" min="1" max="120" required>
-                    </div>
+<div class="container">
 
-                    <div class="form-group">
-                        <label for="gender">Gender <span class="required">*</span></label>
-                        <select id="gender" name="gender" required>
-                            <option value="">Select Gender</option>
-                            <option value="male">Male</option>
-                            <option value="female">Female</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="height">Height (cm) <span class="required">*</span></label>
-                        <input type="number" id="height" name="height" min="100" max="250" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="weight">Weight (kg) <span class="required">*</span></label>
-                        <input type="number" id="weight" name="weight" min="30" max="200" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="activityLevel">Activity Level <span class="required">*</span></label>
-                        <select id="activityLevel" name="activityLevel" required>
-                            <option value="">Select Activity Level</option>
-                            <option value="sedentary">Sedentary (little exercise)</option>
-                            <option value="light">Light (1-3 days/week)</option>
-                            <option value="moderate">Moderate (3-5 days/week)</option>
-                            <option value="active">Very Active (6-7 days/week)</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="primaryGoal">Primary Goal <span class="required">*</span></label>
-                        <select id="primaryGoal" name="primaryGoal" required>
-                            <option value="">Select Primary Goal</option>
-                            <option value="weight-loss">Weight Loss</option>
-                            <option value="muscle-gain">Muscle Gain</option>
-                            <option value="endurance">Improve Endurance</option>
-                            <option value="strength">Increase Strength</option>
-                            <option value="general-health">General Health</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="sleepHours">Sleep Hours/Night</label>
-                        <input type="number" id="sleepHours" name="sleepHours" min="3" max="12" step="0.5" value="7">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="stressLevel">Stress Level (1-10)</label>
-                        <input type="number" id="stressLevel" name="stressLevel" min="1" max="10" value="5">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="smokingStatus">Smoking Status</label>
-                        <select id="smokingStatus" name="smokingStatus">
-                            <option value="never">Never Smoked</option>
-                            <option value="former">Former Smoker</option>
-                            <option value="current">Current Smoker</option>
-                        </select>
-                    </div>
-                </div>
-
-                <button type="submit" class="btn">Generate Health Assessment Report</button>
-            </form>
-        </div>
-
-        <div id="results" class="results-container">
-            <!-- Results will be populated here -->
-        </div>
+  <!-- ===== FORM: PERSONAL INFO ===== -->
+  <div class="form-card">
+    <div class="section-title"><span class="section-icon">👤</span> Personal Information</div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Full Name</label>
+        <input type="text" id="name" placeholder="e.g. John Smith" />
+      </div>
+      <div class="form-group">
+        <label>Age (years)</label>
+        <input type="number" id="age" min="10" max="100" placeholder="e.g. 30" />
+      </div>
+      <div class="form-group">
+        <label>Biological Sex</label>
+        <select id="gender">
+          <option value="">-- Select --</option>
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Height (cm)</label>
+        <input type="number" id="height" min="100" max="250" placeholder="e.g. 175" />
+        <span class="hint">1 inch = 2.54 cm</span>
+      </div>
+      <div class="form-group">
+        <label>Weight (kg)</label>
+        <input type="number" id="weight" min="20" max="300" placeholder="e.g. 75" />
+        <span class="hint">1 lb = 0.453 kg</span>
+      </div>
+      <div class="form-group">
+        <label>Ethnicity</label>
+        <select id="ethnicity">
+          <option value="general">General / Caucasian</option>
+          <option value="asian">Asian</option>
+          <option value="african">African / African-American</option>
+          <option value="hispanic">Hispanic / Latino</option>
+          <option value="middleeastern">Middle Eastern</option>
+        </select>
+      </div>
     </div>
+  </div>
 
-    <script>
-        // Simplified Health Assessment System
-        class HealthAssessment {
-            constructor() {
-                this.challenges = this.initializeChallenges();
-            }
+  <!-- ===== FORM: BODY MEASUREMENTS ===== -->
+  <div class="form-card">
+    <div class="section-title"><span class="section-icon">📏</span> Body Measurements (Optional but Recommended)</div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Waist Circumference (cm)</label>
+        <input type="number" id="waist" min="40" max="200" placeholder="e.g. 85" />
+        <span class="hint">Measured at belly button level</span>
+      </div>
+      <div class="form-group">
+        <label>Hip Circumference (cm)</label>
+        <input type="number" id="hip" min="40" max="200" placeholder="e.g. 95" />
+        <span class="hint">Widest part of hips</span>
+      </div>
+      <div class="form-group">
+        <label>Neck Circumference (cm)</label>
+        <input type="number" id="neck" min="20" max="70" placeholder="e.g. 38" />
+        <span class="hint">Just below larynx</span>
+      </div>
+      <div class="form-group">
+        <label>Wrist Circumference (cm)</label>
+        <input type="number" id="wrist" min="10" max="30" placeholder="e.g. 17" />
+        <span class="hint">Non-dominant wrist</span>
+      </div>
+      <div class="form-group">
+        <label>Chest Circumference (cm)</label>
+        <input type="number" id="chest" min="50" max="180" placeholder="e.g. 100" />
+      </div>
+      <div class="form-group">
+        <label>Thigh Circumference (cm)</label>
+        <input type="number" id="thigh" min="30" max="100" placeholder="e.g. 55" />
+      </div>
+    </div>
+  </div>
 
-            initializeChallenges() {
-                return {
-                    basic: [
-                        {
-                            name: "Daily Walk Challenge",
-                            description: "Walk 15 minutes daily for 7 days",
-                            duration: "1 week",
-                            difficulty: "Basic",
-                            benefits: "Improves cardiovascular health and mood"
-                        },
-                        {
-                            name: "Hydration Hero",
-                            description: "Drink 8 glasses of water daily",
-                            duration: "10 days",
-                            difficulty: "Basic",
-                            benefits: "Better energy and skin health"
-                        },
-                        {
-                            name: "Posture Perfect",
-                            description: "Practice good posture 5 minutes daily",
-                            duration: "2 weeks",
-                            difficulty: "Basic",
-                            benefits: "Reduces back pain, improves confidence"
-                        },
-                        {
-                            name: "Stretch & Flex",
-                            description: "10 minutes of basic stretching daily",
-                            duration: "2 weeks",
-                            difficulty: "Basic",
-                            benefits: "Improves flexibility and reduces tension"
-                        },
-                        {
-                            name: "Sleep Schedule",
-                            description: "Consistent bedtime for 10 days",
-                            duration: "10 days",
-                            difficulty: "Basic",
-                            benefits: "Better sleep quality and energy"
-                        }
-                    ],
-                    intermediate: [
-                        {
-                            name: "30-Day Push-up Progress",
-                            description: "Build from 5 to 30 push-ups in 30 days",
-                            duration: "30 days",
-                            difficulty: "Intermediate",
-                            benefits: "Upper body strength and endurance"
-                        },
-                        {
-                            name: "Cardio Crusher",
-                            description: "30 minutes cardio, 4 times per week",
-                            duration: "4 weeks",
-                            difficulty: "Intermediate",
-                            benefits: "Cardiovascular health and weight loss"
-                        },
-                        {
-                            name: "Strength Circuit",
-                            description: "Full-body strength training 3x/week",
-                            duration: "4 weeks",
-                            difficulty: "Intermediate",
-                            benefits: "Muscle strength and metabolism"
-                        },
-                        {
-                            name: "HIIT Challenge",
-                            description: "20-minute HIIT workouts 3x/week",
-                            duration: "3 weeks",
-                            difficulty: "Intermediate",
-                            benefits: "Fat burning and fitness"
-                        },
-                        {
-                            name: "Core Power",
-                            description: "15-minute core workout daily",
-                            duration: "21 days",
-                            difficulty: "Intermediate",
-                            benefits: "Core strength and posture"
-                        }
-                    ],
-                    advanced: [
-                        {
-                            name: "Marathon Training",
-                            description: "12-week marathon preparation",
-                            duration: "12 weeks",
-                            difficulty: "Advanced",
-                            benefits: "Elite endurance and mental toughness"
-                        },
-                        {
-                            name: "Powerlifting Protocol",
-                            description: "Advanced strength with progressive overload",
-                            duration: "8 weeks",
-                            difficulty: "Advanced",
-                            benefits: "Maximum strength and power"
-                        },
-                        {
-                            name: "Athletic Performance",
-                            description: "Sport-specific training program",
-                            duration: "12 weeks",
-                            difficulty: "Advanced",
-                            benefits: "Peak athletic performance"
-                        },
-                        {
-                            name: "Body Transformation",
-                            description: "Complete physique transformation",
-                            duration: "16 weeks",
-                            difficulty: "Advanced",
-                            benefits: "Dramatic body composition changes"
-                        },
-                        {
-                            name: "Endurance Elite",
-                            description: "Multi-sport endurance program",
-                            duration: "10 weeks",
-                            difficulty: "Advanced",
-                            benefits: "Superior cardiovascular fitness"
-                        }
-                    ]
-                };
-            }
+  <!-- ===== FORM: VITALS ===== -->
+  <div class="form-card">
+    <div class="section-title"><span class="section-icon">💓</span> Vital Signs</div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Systolic Blood Pressure (mmHg)</label>
+        <input type="number" id="sbp" min="60" max="250" placeholder="e.g. 120" />
+      </div>
+      <div class="form-group">
+        <label>Diastolic Blood Pressure (mmHg)</label>
+        <input type="number" id="dbp" min="40" max="160" placeholder="e.g. 80" />
+      </div>
+      <div class="form-group">
+        <label>Resting Heart Rate (bpm)</label>
+        <input type="number" id="rhr" min="30" max="150" placeholder="e.g. 70" />
+      </div>
+      <div class="form-group">
+        <label>Fasting Blood Glucose (mg/dL)</label>
+        <input type="number" id="glucose" min="50" max="400" placeholder="e.g. 90" />
+        <span class="hint">After 8+ hours fasting</span>
+      </div>
+      <div class="form-group">
+        <label>Total Cholesterol (mg/dL)</label>
+        <input type="number" id="cholesterol" min="100" max="500" placeholder="e.g. 190" />
+      </div>
+      <div class="form-group">
+        <label>Body Temperature (°F)</label>
+        <input type="number" id="temp" min="95" max="105" step="0.1" placeholder="e.g. 98.6" />
+      </div>
+    </div>
+  </div>
 
-            calculateBMI(weight, height) {
-                const heightInMeters = height / 100;
-                return weight / (heightInMeters * heightInMeters);
-            }
-
-            assessBMI(bmi) {
-                if (bmi < 18.5) return { category: 'underweight', risk: 'moderate', value: bmi };
-                if (bmi < 25) return { category: 'normal', risk: 'low', value: bmi };
-                if (bmi < 30) return { category: 'overweight', risk: 'moderate', value: bmi };
-                return { category: 'obese', risk: 'high', value: bmi };
-            }
-
-            calculateHealthScore(formData, bmiAssessment) {
-                let score = 100;
-                let factors = [];
-
-                // BMI Impact
-                const bmiImpact = {
-                    'normal': 0,
-                    'underweight': -10,
-                    'overweight': -15,
-                    'obese': -25
-                };
-                score += bmiImpact[bmiAssessment.category] || -25;
-                factors.push(`BMI: ${bmiAssessment.category}`);
-
-                // Activity Level Impact
-                const activityImpact = {
-                    'sedentary': -20,
-                    'light': -10,
-                    'moderate': 0,
-                    'active': 10
-                };
-                score += activityImpact[formData.activityLevel] || -20;
-                factors.push(`Activity: ${formData.activityLevel}`);
-
-                // Age Impact
-                const age = parseInt(formData.age);
-                if (age > 65) score -= 10;
-                else if (age > 50) score -= 5;
-                else if (age < 25) score += 5;
-
-                // Lifestyle Factors
-                if (formData.smokingStatus === 'current') {
-                    score -= 25;
-                    factors.push('Current smoker');
-                }
-                
-                const sleepHours = parseFloat(formData.sleepHours) || 7;
-                if (sleepHours < 6 || sleepHours > 9) {
-                    score -= 10;
-                    factors.push('Poor sleep duration');
-                }
-
-                const stressLevel = parseInt(formData.stressLevel) || 5;
-                if (stressLevel > 7) {
-                    score -= 15;
-                    factors.push('High stress level');
-                }
-
-                return {
-                    score: Math.max(0, Math.min(100, Math.round(score))),
-                    factors: factors
-                };
-            }
-
-            getHealthCategory(score) {
-                if (score >= 85) return { category: 'excellent', color: 'excellent' };
-                if (score >= 70) return { category: 'good', color: 'good' };
-                if (score >= 50) return { category: 'fair', color: 'fair' };
-                return { category: 'poor', color: 'poor' };
-            }
-
-            selectChallenges(formData, healthScore) {
-                const selectedChallenges = [];
-                
-                // Determine challenge distribution based on health score
-                let basicCount = 3, intermediateCount = 2, advancedCount = 1;
-                
-                if (healthScore.score < 50) {
-                    basicCount = 4;
-                    intermediateCount = 2;
-                    advancedCount = 0;
-                } else if (healthScore.score < 70) {
-                    basicCount = 3;
-                    intermediateCount = 3;
-                    advancedCount = 1;
-                } else {
-                    basicCount = 2;
-                    intermediateCount = 3;
-                    advancedCount = 2;
-                }
-
-                // Add challenges
-                selectedChallenges.push(...this.challenges.basic.slice(0, basicCount));
-                selectedChallenges.push(...this.challenges.intermediate.slice(0, intermediateCount));
-                selectedChallenges.push(...this.challenges.advanced.slice(0, advancedCount));
-
-                return selectedChallenges;
-            }
-
-            generateRecommendations(formData, bmiAssessment, healthScore) {
-                const recommendations = [];
-                
-                // BMI-based recommendations
-                if (bmiAssessment.category === 'overweight' || bmiAssessment.category === 'obese') {
-                    recommendations.push(
-                        'Create a moderate caloric deficit (300-500 calories/day)',
-                        'Combine cardiovascular and resistance training',
-                        'Focus on whole foods and adequate protein intake'
-                    );
-                }
-
-                // Activity level recommendations
-                if (formData.activityLevel === 'sedentary') {
-                    recommendations.push(
-                        'Start with 15 minutes of daily walking',
-                        'Gradually increase physical activity',
-                        'Take stairs instead of elevators'
-                    );
-                }
-
-                // Lifestyle recommendations
-                if (formData.smokingStatus === 'current') {
-                    recommendations.push(
-                        'Consult healthcare provider about smoking cessation',
-                        'Consider nicotine replacement therapy'
-                    );
-                }
-
-                const sleepHours = parseFloat(formData.sleepHours) || 7;
-                if (sleepHours < 7) {
-                    recommendations.push(
-                        'Aim for 7-9 hours of sleep nightly',
-                        'Establish consistent sleep schedule'
-                    );
-                }
-
-                const stressLevel = parseInt(formData.stressLevel) || 5;
-                if (stressLevel > 6) {
-                    recommendations.push(
-                        'Practice stress-reduction techniques',
-                        'Consider meditation or yoga'
-                    );
-                }
-
-                // Goal-specific recommendations
-                const goalRecs = {
-                    'weight-loss': ['Focus on creating caloric deficit', 'Combine cardio with strength training'],
-                    'muscle-gain': ['Increase protein intake', 'Focus on progressive resistance training'],
-                    'endurance': ['Gradually increase cardio duration', 'Include interval training'],
-                    'strength': ['Progressive overload in weight training', 'Allow adequate recovery time'],
-                    'general-health': ['Maintain balanced exercise routine', 'Focus on consistency over intensity']
-                };
-
-                if (goalRecs[formData.primaryGoal]) {
-                    recommendations.push(...goalRecs[formData.primaryGoal]);
-                }
-
-                return recommendations.slice(0, 10);
-            }
-
-            processAssessment(formData) {
-                // Calculate BMI
-                const bmi = this.calculateBMI(parseFloat(formData.weight), parseFloat(formData.height));
-                const bmiAssessment = this.assessBMI(bmi);
-
-                // Calculate health score
-                const healthScore = this.calculateHealthScore(formData, bmiAssessment);
-                const healthCategory = this.getHealthCategory(healthScore.score);
-
-                // Generate content
-                const challenges = this.selectChallenges(formData, healthScore);
-                const recommendations = this.generateRecommendations(formData, bmiAssessment, healthScore);
-
-                return {
-                    bmiAssessment,
-                    healthScore,
-                    healthCategory,
-                    challenges,
-                    recommendations,
-                    formData
-                };
-            }
-        }
-
-        // Initialize the system
-        const healthAssessment = new HealthAssessment();
-
-        // Form handling
-        document.getElementById('healthForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Collect form data
-            const formData = new FormData(this);
-            const data = {};
-            
-            for (let [key, value] of formData.entries()) {
-                data[key] = value;
-            }
-
-            console.log('Form data:', data); // Debug log
-
-            // Process the assessment
-            try {
-                const results = healthAssessment.processAssessment(data);
-                console.log('Results:', results); // Debug log
-                displayResults(results);
-            } catch (error) {
-                console.error('Error processing assessment:', error);
-                alert('Error generating report. Please check your inputs and try again.');
-            }
-        });
-
-        function displayResults(results) {
-            const resultsContainer = document.getElementById('results');
-            const { bmiAssessment, healthScore, healthCategory, challenges, recommendations, formData } = results;
-
-            const html = `
-                <div class="health-score">
-                    <div class="score-circle ${healthCategory.color}">
-                        ${healthScore.score}
-                    </div>
-                    <h2>Health Score: ${healthCategory.category.toUpperCase()}</h2>
-                    <p>Based on your health metrics and lifestyle factors</p>
-                </div>
-
-                <div class="report-section">
-                    <h3>📊 Health Assessment Summary</h3>
-                    <div class="assessment-grid">
-                        <div class="metric-card">
-                            <h4>BMI Analysis</h4>
-                            <p><strong>${bmiAssessment.value.toFixed(1)}</strong></p>
-                            <p>Category: ${bmiAssessment.category}</p>
-                            <p>Risk Level: ${bmiAssessment.risk}</p>
-                        </div>
-                        <div class="metric-card">
-                            <h4>Activity Level</h4>
-                            <p><strong>${formData.activityLevel}</strong></p>
-                            <p>Goal: ${formData.primaryGoal}</p>
-                        </div>
-                        <div class="metric-card">
-                            <h4>Lifestyle Factors</h4>
-                            <p>Sleep: ${formData.sleepHours || 7} hours</p>
-                            <p>Stress: ${formData.stressLevel || 5}/10</p>
-                            <p>Smoking: ${formData.smokingStatus}</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="report-section">
-                    <h3>🎯 Personalized Fitness Challenges</h3>
-                    <p>Based on your profile as a <strong>${formData.personType}</strong> with goal of <strong>${formData.primaryGoal}</strong></p>
-                    <div class="challenges-container">
-                        ${challenges.map(challenge => `
-                            <div class="challenge-card">
-                                <span class="challenge-level ${challenge.difficulty.toLowerCase()}">${challenge.difficulty}</span>
-                                <h4>${challenge.name}</h4>
-                                <p><strong>Challenge:</strong> ${challenge.description}</p>
-                                <p><strong>Duration:</strong> ${challenge.duration}</p>
-                                <p><strong>Benefits:</strong> ${challenge.benefits}</p>
-                            </div>
-                        `).join('')}
-                    </div>
-                </div>
-
-                <div class="report-section">
-                    <h3>💡 Personalized Recommendations</h3>
-                    <ul class="recommendations">
-                        ${recommendations.map(rec => `<li>${rec}</li>`).join('')}
-                    </ul>
-                </div>
-
-                <div class="report-section">
-                    <h3>📈 Health Score Breakdown</h3>
-                    <p>Your health score of <strong>${healthScore.score}/100</strong> was calculated based on:</p>
-                    <ul class="recommendations">
-                        ${healthScore.factors.map(factor => `<li>${factor}</li>`).join('')}
-                    </ul>
-                </div>
-
-                <div class="report-section">
-                    <h3>🔄 Next Steps</h3>
-                    <ol class="recommendations">
-                        <li>Start with Basic level challenges to build foundation</li>
-                        <li>Consult healthcare provider before beginning new exercise programs</li>
-                        <li>Track progress and reassess monthly</li>
-                        <li>Focus on consistency rather than intensity initially</li>
-                        <li>Gradually progress to more challenging levels</li>
-                    </ol>
-                </div>
-
-                <div style="background: #e8f4fd; padding: 15px; border-radius: 8px; margin-top: 20px; text-align: center;">
-                    <p><strong>Disclaimer:</strong> This assessment is for informational purposes only. Always consult healthcare providers before making significant health changes.</p>
-                </div>
-            `;
-
-            resultsContainer.innerHTML = html;
-            resultsContainer.style.display = 'block';
-            resultsContainer.scrollIntoView({ behavior: 'smooth' });
-        }
-    </script>
-</body>
-</html>
+  <!-- ===== FORM: LIFESTYLE ===== -->
+  <div class="form-card">
+    <div class="section-title"><span class="section-icon">🏃</span> Lifestyle & Activity</div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Activity Level</label>
+        <select id="activity">
+          <option value="1.2">Sedentary (little or no exercise)</option>
+          <option value="1.375">Lightly Active (1-3 days/week)</option>
+          <option value="1.55" selected>Moderately Active (3-5 days/week)</option>
+          <option value="1.725">Very Active (6-7 days/week)</option>
+          <option value="1.9">Extra Active (athlete/physical job)</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Fitness Goal</label>
+        <select id="goal">
+          <option value="loss">Weight Loss</option>
+          <option value="maintain">Maintain Weight</option>
+          <option value="gain">Muscle Gain</option>
+          <option value="endurance">Build Endurance</option>
+          <option value="flexibility">Flexibility & Mobility</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Current Fitness Level</label>
+        <select id="fitLevel">
+          <option value="beginner">Beginner (< 3 months)</option>
+          <option value="intermediate">Intermediate (3-12 months)</option>
+          <option value="advanced">Advanced (1+ years)</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Sleep Duration (hours/night)</label>
+        <input type="number" id="sleep" min="2" max="14" step="0.5" placeholder="e.g. 7" />
+      </div>
+      <div class="form-group">
+        <label>Water Intake (liters/day)</label>
+        <input type="number" id="water" min="0" max="10" step="0.1" placeholder="e.g. 2.0" />
+      </div>
+      
