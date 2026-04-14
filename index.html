@@ -4,29 +4,32 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>Health Intelligence SaaS v3</title>
+<title>Health Intelligence</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 
 <style>
 
 body{
 margin:0;
 font-family:Inter;
-background:#f4f7fb;
+background:#f5f7fb;
 }
 
 header{
-background:linear-gradient(90deg,#0f172a,#1d4ed8);
+background:#0f172a;
 color:white;
-padding:22px;
+padding:20px;
 text-align:center;
 font-size:22px;
 font-weight:700;
 }
 
 .container{
-max-width:1200px;
+max-width:1100px;
 margin:auto;
 padding:25px;
 }
@@ -34,27 +37,27 @@ padding:25px;
 .card{
 background:white;
 border-radius:12px;
-padding:22px;
-box-shadow:0 10px 25px rgba(0,0,0,0.08);
-margin-bottom:20px;
+padding:20px;
+box-shadow:0 8px 20px rgba(0,0,0,0.08);
+margin-bottom:18px;
 }
 
 .grid{
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-gap:12px;
+gap:10px;
 }
 
 input{
 padding:10px;
-border-radius:6px;
 border:1px solid #cbd5e1;
+border-radius:6px;
 }
 
 button{
 background:#1d4ed8;
 color:white;
-padding:12px 18px;
+padding:12px 16px;
 border:none;
 border-radius:8px;
 cursor:pointer;
@@ -64,33 +67,41 @@ margin-top:10px;
 .metricGrid{
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
-gap:15px;
-margin-top:15px;
+gap:12px;
+margin-top:12px;
 }
 
 .metric{
 background:#eef2ff;
-padding:15px;
+padding:14px;
 border-radius:10px;
 text-align:center;
 }
 
 .metricValue{
-font-size:24px;
+font-size:22px;
 font-weight:700;
 color:#1e3a8a;
 }
 
 .sectionTitle{
-margin-top:20px;
-font-size:18px;
-font-weight:600;
+margin-top:18px;
+font-size:17px;
+font-weight:700;
 color:#0f172a;
+}
+
+.reportBox{
+background:#f8fafc;
+border-left:4px solid #2563eb;
+padding:14px;
+margin-top:10px;
+border-radius:6px;
 }
 
 .badge{
 display:inline-block;
-padding:6px 10px;
+padding:5px 10px;
 border-radius:6px;
 font-size:12px;
 font-weight:600;
@@ -113,13 +124,13 @@ font-size:13px;
 
 <body>
 
-<header>Health Intelligence SaaS v3 (Preventive Clinical Engine)</header>
+<header>Health Intelligence</header>
 
 <div class="container">
 
 <div class="card">
 
-<h2>Patient Clinical Assessment</h2>
+<h2>Patient Clinical Input Form</h2>
 
 <div class="grid">
 
@@ -131,12 +142,13 @@ font-size:13px;
 <input id="steps" placeholder="Daily Steps">
 <input id="sleep" placeholder="Sleep Hours">
 <input id="stress" placeholder="Stress (1-10)">
-<input id="water" placeholder="Water (L)">
+<input id="water" placeholder="Water Intake (L)">
 <input id="hr" placeholder="Resting Heart Rate">
 
 </div>
 
-<button onclick="runAssessment()">Run Clinical Analysis</button>
+<button onclick="generateReport()">Generate Report</button>
+<button onclick="downloadPDF()">Download PDF</button>
 
 </div>
 
@@ -146,7 +158,7 @@ font-size:13px;
 
 <script>
 
-function runAssessment(){
+function generateReport(){
 
 let name=document.getElementById("name").value
 let age=+document.getElementById("age").value
@@ -160,49 +172,40 @@ let water=+document.getElementById("water").value
 let hr=+document.getElementById("hr").value
 
 if(!name||!age||!height||!weight){
-alert("Fill required fields")
+alert("Please fill required fields")
 return
 }
 
-// BODY METRICS
+// CORE METRICS
 let bmi = weight/(height*height)
-let bodyFat = (1.2*bmi)+(0.23*age)-16.2
+let bodyFat = (1.20*bmi)+(0.23*age)-16.2
 let fatMass = weight*(bodyFat/100)
 let leanMass = weight-fatMass
-
-// CARDIO + METABOLIC
 let whtr = waist/(height*100)
+
+// METABOLIC
 let bmr = (10*weight)+(6.25*(height*100))-(5*age)+5
-let tdee = bmr*1.4
+let tdee = bmr*1.375
 
 // VO2 MAX
-let vo2 = 15.3*(220-age)/hr
-
-// METABOLIC AGE
-let metabolicAge = age + ((bmi-22)*1.5)
+let vo2 = 15*(220-age)/hr
 
 // RISK ENGINE
 let riskScore=0
-if(bmi>25) riskScore++
-if(bodyFat>25) riskScore++
-if(steps<6000) riskScore++
-if(sleep<6) riskScore++
-if(stress>7) riskScore++
-if(whtr>0.5) riskScore++
+if(bmi>25)riskScore++
+if(bodyFat>25)riskScore++
+if(steps<6000)riskScore++
+if(sleep<6)riskScore++
+if(stress>7)riskScore++
+if(whtr>0.5)riskScore++
 
 let risk="GREEN"
-if(riskScore>3) risk="RED"
-else if(riskScore>1) risk="YELLOW"
+if(riskScore>3)risk="RED"
+else if(riskScore>1)risk="YELLOW"
 
 // 30 DAY PLAN
 let base=[
-"Brisk Walk",
-"Mobility Training",
-"Strength Workout",
-"Core Stability",
-"Cardio Session",
-"Yoga Recovery",
-"Meditation"
+"Brisk Walk","Mobility","Strength","Core","Cardio","Yoga","Meditation"
 ]
 
 let program=""
@@ -211,12 +214,11 @@ program+=`<div class="programDay">Day ${i+1}: ${base[i%7]}</div>`
 }
 
 // REPORT
-
 document.getElementById("report").style.display="block"
 
 document.getElementById("report").innerHTML=`
 
-<h2>Executive Clinical Report - Health Intelligence</h2>
+<h2>Executive Clinical Report</h2>
 
 <span class="badge ${risk==='GREEN'?'green':risk==='YELLOW'?'yellow':'red'}">
 Risk Level: ${risk}
@@ -233,37 +235,46 @@ Risk Level: ${risk}
 
 </div>
 
-<div class="sectionTitle">Metabolic & Fitness Health</div>
+<div class="sectionTitle">Metabolic Profile</div>
 
 <div class="metricGrid">
 
 <div class="metric"><div class="metricValue">${bmr.toFixed(0)}</div>BMR</div>
 <div class="metric"><div class="metricValue">${tdee.toFixed(0)}</div>TDEE</div>
 <div class="metric"><div class="metricValue">${vo2.toFixed(1)}</div>VO₂ Max</div>
-<div class="metric"><div class="metricValue">${metabolicAge.toFixed(1)}</div>Metabolic Age</div>
+<div class="metric"><div class="metricValue">${whtr.toFixed(2)}</div>WHtR</div>
 
 </div>
 
 <div class="sectionTitle">Clinical Interpretation</div>
 
-<ul>
-<li>Cardiometabolic Status: ${risk}</li>
-<li>Fitness Level: ${vo2>40?"Good":"Needs Improvement"}</li>
-<li>Body Composition: ${bmi<25?"Healthy":"Elevated Risk"}</li>
-</ul>
+<div class="reportBox">
+Cardiometabolic Status: ${risk}<br>
+Fitness Level: ${vo2>40?"Good":"Needs Improvement"}<br>
+Body Composition: ${bmi<25?"Normal":"Elevated Risk"}<br>
+Lifestyle Stability: ${sleep>=7?"Stable":"Unstable"}<br>
+</div>
 
-<div class="sectionTitle">30-Day Health Intelligence Program</div>
+<div class="sectionTitle">30-Day Health Program</div>
 
 ${program}
 
-<div class="sectionTitle">Clinical Note</div>
-
-<p>
-Health Intelligence uses evidence-based preventive health formulas to evaluate metabolic, cardiovascular,
-and lifestyle health indicators. This system is designed for wellness optimization, not medical diagnosis.
-</p>
-
 `
+
+}
+
+function downloadPDF(){
+
+html2canvas(document.getElementById("report")).then(canvas=>{
+
+const img=canvas.toDataURL("image/png")
+const {jsPDF}=window.jspdf
+const pdf=new jsPDF("p","mm","a4")
+
+pdf.addImage(img,"PNG",10,10,190,0)
+pdf.save("Health_Intelligence_Report.pdf")
+
+})
 
 }
 
