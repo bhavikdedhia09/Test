@@ -3,423 +3,768 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Corporate Wellness Hub</title>
+    <title>Health Assessment Portal - Professional Medical Analysis</title>
     <style>
-        * {margin:0;padding:0;box-sizing:border-box}
-        body {font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:linear-gradient(135deg,#1e3c72,#2a5298);min-height:100vh;padding:20px}
-        .container {max-width:1000px;margin:0 auto;background:#fff;border-radius:12px;box-shadow:0 15px 35px rgba(0,0,0,0.1);overflow:hidden}
-        .header {background:linear-gradient(135deg,#2c3e50,#3498db);color:#fff;padding:40px 30px;text-align:center}
-        .header h1 {font-size:2.2em;margin-bottom:8px;font-weight:300}
-        .header p {opacity:0.9;font-size:1.1em}
-        .form-section {padding:30px}
-        .section {margin-bottom:25px;padding:20px;background:#f8f9fa;border-radius:8px;border-left:4px solid #3498db}
-        .section h3 {color:#2c3e50;margin-bottom:15px;font-size:1.3em;font-weight:500}
-        .form-row {display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px;margin-bottom:15px}
-        .form-group {margin-bottom:15px}
-        label {display:block;margin-bottom:8px;font-weight:500;color:#34495e}
-        input,select {width:100%;padding:12px;border:2px solid #e0e0e0;border-radius:6px;font-size:14px;transition:border-color 0.3s}
-        input:focus,select:focus {outline:none;border-color:#3498db}
-        .radio-group {display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin-top:10px}
-        .radio-item {display:flex;align-items:center;gap:8px;padding:12px;background:#fff;border:2px solid #e0e0e0;border-radius:6px;cursor:pointer;transition:all 0.3s}
-        .radio-item:hover {border-color:#3498db;background:#f0f8ff}
-        .radio-item.selected {border-color:#3498db;background:#e8f4fd}
-        .radio-item input {width:18px;height:18px;margin:0}
-        .slider {width:100%;height:6px;border-radius:3px;background:#e0e0e0;outline:none}
-        .slider::-webkit-slider-thumb {-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:#3498db;cursor:pointer}
-        .btn {background:linear-gradient(135deg,#3498db,#2980b9);color:#fff;padding:14px 30px;border:none;border-radius:6px;font-size:16px;cursor:pointer;transition:transform 0.2s;font-weight:500}
-        .btn:hover {transform:translateY(-2px);box-shadow:0 8px 15px rgba(52,152,219,0.3)}
-        .results {display:none;padding:30px}
-        .score-display {text-align:center;padding:30px;background:linear-gradient(135deg,#27ae60,#2ecc71);color:#fff;border-radius:10px;margin-bottom:25px}
-        .score-circle {width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;margin:15px auto;font-size:2.5em;font-weight:bold}
-        .grid {display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;margin-bottom:25px}
-        .card {background:#fff;padding:20px;border-radius:8px;box-shadow:0 4px 6px rgba(0,0,0,0.1);border-left:4px solid #3498db}
-        .status {padding:4px 12px;border-radius:15px;font-size:0.85em;font-weight:500;display:inline-block;margin:8px 0}
-        .status-excellent {background:#d4edda;color:#155724}
-        .status-good {background:#d1ecf1;color:#0c5460}
-        .status-fair {background:#fff3cd;color:#856404}
-        .status-poor {background:#f8d7da;color:#721c24}
-        .progress-bar {width:100%;height:8px;background:#e9ecef;border-radius:4px;overflow:hidden;margin:10px 0}
-        .progress-fill {height:100%;background:linear-gradient(135deg,#27ae60,#2ecc71);width:0%;transition:width 0.5s}
-        .day-item {background:#fff;padding:12px;margin:8px 0;border-radius:6px;border-left:3px solid #3498db;cursor:pointer;transition:all 0.2s}
-        .day-item:hover {transform:translateX(3px);box-shadow:0 2px 8px rgba(0,0,0,0.1)}
-        .day-item.completed {border-left-color:#27ae60;background:#f8fff8}
-        .week-header {background:linear-gradient(135deg,#34495e,#2c3e50);color:#fff;padding:12px;border-radius:6px;text-align:center;font-weight:500;margin-bottom:12px}
-        .disclaimer {background:#fff3cd;border:1px solid #ffc107;padding:15px;border-radius:6px;margin:20px 0;font-size:0.9em;color:#856404}
-        @media(max-width:768px){.form-row{grid-template-columns:1fr}.radio-group{grid-template-columns:1fr}.header h1{font-size:1.8em}}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            color: #2c3e50;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #7f8c8d;
+            font-size: 1.2em;
+        }
+
+        .form-container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2c3e50;
+            font-size: 1.1em;
+        }
+
+        .required {
+            color: #e74c3c;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            padding: 8px;
+            background: #f8f9fa;
+            border-radius: 5px;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: auto;
+            margin-right: 10px;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .results-container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            display: none;
+        }
+
+        .health-score {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .score-circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5em;
+            font-weight: bold;
+            color: white;
+        }
+
+        .excellent { background: linear-gradient(135deg, #27ae60, #2ecc71); }
+        .good { background: linear-gradient(135deg, #f39c12, #e67e22); }
+        .fair { background: linear-gradient(135deg, #f39c12, #d35400); }
+        .poor { background: linear-gradient(135deg, #e74c3c, #c0392b); }
+
+        .report-section {
+            margin-bottom: 30px;
+            padding: 25px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 5px solid #667eea;
+        }
+
+        .report-section h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.4em;
+        }
+
+        .challenges-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .challenge-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border-left: 5px solid #667eea;
+        }
+
+        .challenge-level {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.8em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .basic { background: #d4edda; color: #155724; }
+        .intermediate { background: #fff3cd; color: #856404; }
+        .advanced { background: #f8d7da; color: #721c24; }
+
+        .risk-factors {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .risk-item {
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .risk-low { background: #d4edda; color: #155724; }
+        .risk-moderate { background: #fff3cd; color: #856404; }
+        .risk-high { background: #f8d7da; color: #721c24; }
+
+        .recommendations {
+            list-style: none;
+            padding: 0;
+        }
+
+        .recommendations li {
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+            position: relative;
+            padding-left: 25px;
+        }
+
+        .recommendations li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #27ae60;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .form-container,
+            .results-container {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+        }
+
+        .error {
+            color: #e74c3c;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: #ecf0f1;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            transition: width 0.3s ease;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>🏢 Corporate Wellness Assessment</h1>
-            <p>Employee Health & Fitness Evaluation System</p>
+            <h1>🏥 Professional Health Assessment Portal</h1>
+            <p>Comprehensive Medical Analysis & Personalized Fitness Challenges</p>
         </div>
 
-        <div id="formSection" class="form-section">
+        <div class="form-container">
             <form id="healthForm">
-                <div class="section">
-                    <h3>👤 Employee Information</h3>
-                    <div class="form-row">
+                <div class="form-grid">
+                    <!-- Personal Information -->
+                    <div class="form-section">
+                        <h3 style="color: #2c3e50; margin-bottom: 20px;">Personal Information</h3>
+                        
                         <div class="form-group">
-                            <label>Full Name *</label>
-                            <input type="text" id="name" required>
+                            <label for="personType">Person Type <span class="required">*</span></label>
+                            <select id="personType" name="personType" required>
+                                <option value="">Select Person Type</option>
+                                <option value="athlete">Professional Athlete</option>
+                                <option value="fitness-enthusiast">Fitness Enthusiast</option>
+                                <option value="active-adult">Active Adult</option>
+                                <option value="sedentary-adult">Sedentary Adult</option>
+                                <option value="senior">Senior (65+)</option>
+                                <option value="student">Student</option>
+                                <option value="office-worker">Office Worker</option>
+                                <option value="manual-laborer">Manual Laborer</option>
+                                <option value="healthcare-worker">Healthcare Worker</option>
+                                <option value="pregnant">Pregnant</option>
+                                <option value="postpartum">Postpartum</option>
+                                <option value="recovering">Recovering from Injury</option>
+                            </select>
                         </div>
+
                         <div class="form-group">
-                            <label>Age *</label>
-                            <input type="number" id="age" min="18" max="70" required>
+                            <label for="age">Age <span class="required">*</span></label>
+                            <input type="number" id="age" name="age" min="1" max="120" required>
                         </div>
-                    </div>
-                    <div class="form-row">
+
                         <div class="form-group">
-                            <label>Gender *</label>
-                            <select id="gender" required>
+                            <label for="gender">Gender <span class="required">*</span></label>
+                            <select id="gender" name="gender" required>
                                 <option value="">Select Gender</option>
                                 <option value="male">Male</option>
                                 <option value="female">Female</option>
-                                <option value="other">Prefer not to say</option>
+                                <option value="other">Other</option>
                             </select>
                         </div>
+
                         <div class="form-group">
-                            <label>Current Fitness Level *</label>
-                            <select id="fitnessLevel" required>
-                                <option value="">Select Level</option>
-                                <option value="beginner">Beginner (New to exercise)</option>
-                                <option value="intermediate">Intermediate (Regular exercise)</option>
-                                <option value="advanced">Advanced (Athletic/Very active)</option>
+                            <label for="height">Height (cm) <span class="required">*</span></label>
+                            <input type="number" id="height" name="height" min="100" max="250" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="weight">Weight (kg) <span class="required">*</span></label>
+                            <input type="number" id="weight" name="weight" min="30" max="300" step="0.1" required>
+                        </div>
+                    </div>
+
+                    <!-- Health Metrics -->
+                    <div class="form-section">
+                        <h3 style="color: #2c3e50; margin-bottom: 20px;">Health Metrics</h3>
+                        
+                        <div class="form-group">
+                            <label for="systolicBP">Systolic Blood Pressure (mmHg)</label>
+                            <input type="number" id="systolicBP" name="systolicBP" min="70" max="250">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="diastolicBP">Diastolic Blood Pressure (mmHg)</label>
+                            <input type="number" id="diastolicBP" name="diastolicBP" min="40" max="150">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="restingHR">Resting Heart Rate (bpm)</label>
+                            <input type="number" id="restingHR" name="restingHR" min="30" max="150">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="bodyFat">Body Fat Percentage (%)</label>
+                            <input type="number" id="bodyFat" name="bodyFat" min="3" max="60" step="0.1">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="waistCircumference">Waist Circumference (cm)</label>
+                            <input type="number" id="waistCircumference" name="waistCircumference" min="50" max="200">
+                        </div>
+                    </div>
+
+                    <!-- Lifestyle Factors -->
+                    <div class="form-section">
+                        <h3 style="color: #2c3e50; margin-bottom: 20px;">Lifestyle Assessment</h3>
+                        
+                        <div class="form-group">
+                            <label for="activityLevel">Activity Level <span class="required">*</span></label>
+                            <select id="activityLevel" name="activityLevel" required>
+                                <option value="">Select Activity Level</option>
+                                <option value="sedentary">Sedentary (little/no exercise)</option>
+                                <option value="lightly-active">Lightly Active (1-3 days/week)</option>
+                                <option value="moderately-active">Moderately Active (3-5 days/week)</option>
+                                <option value="very-active">Very Active (6-7 days/week)</option>
+                                <option value="extremely-active">Extremely Active (2x/day, intense)</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="sleepHours">Average Sleep Hours per Night</label>
+                            <input type="number" id="sleepHours" name="sleepHours" min="3" max="12" step="0.5">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="stressLevel">Stress Level (1-10)</label>
+                            <input type="number" id="stressLevel" name="stressLevel" min="1" max="10">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="smokingStatus">Smoking Status</label>
+                            <select id="smokingStatus" name="smokingStatus">
+                                <option value="never">Never Smoked</option>
+                                <option value="former">Former Smoker</option>
+                                <option value="current">Current Smoker</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="alcoholConsumption">Alcohol Consumption (drinks/week)</label>
+                            <input type="number" id="alcoholConsumption" name="alcoholConsumption" min="0" max="50">
+                        </div>
+                    </div>
+
+                    <!-- Medical History -->
+                    <div class="form-section">
+                        <h3 style="color: #2c3e50; margin-bottom: 20px;">Medical History</h3>
+                        
+                        <div class="form-group">
+                            <label>Pre-existing Conditions:</label>
+                            <div class="checkbox-group">
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="diabetes" name="conditions" value="diabetes">
+                                    <label for="diabetes">Diabetes</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="hypertension" name="conditions" value="hypertension">
+                                    <label for="hypertension">Hypertension</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="heart-disease" name="conditions" value="heart-disease">
+                                    <label for="heart-disease">Heart Disease</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="asthma" name="conditions" value="asthma">
+                                    <label for="asthma">Asthma</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="arthritis" name="conditions" value="arthritis">
+                                    <label for="arthritis">Arthritis</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="depression" name="conditions" value="depression">
+                                    <label for="depression">Depression/Anxiety</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="medications">Current Medications (optional)</label>
+                            <textarea id="medications" name="medications" rows="3" placeholder="List any medications you're currently taking..."></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="injuries">Recent Injuries or Physical Limitations</label>
+                            <textarea id="injuries" name="injuries" rows="3" placeholder="Describe any injuries or physical limitations..."></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Fitness Goals -->
+                    <div class="form-section">
+                        <h3 style="color: #2c3e50; margin-bottom: 20px;">Fitness Goals</h3>
+                        
+                        <div class="form-group">
+                            <label for="primaryGoal">Primary Fitness Goal <span class="required">*</span></label>
+                            <select id="primaryGoal" name="primaryGoal" required>
+                                <option value="">Select Primary Goal</option>
+                                <option value="weight-loss">Weight Loss</option>
+                                <option value="muscle-gain">Muscle Gain</option>
+                                <option value="endurance">Improve Endurance</option>
+                                <option value="strength">Increase Strength</option>
+                                <option value="flexibility">Improve Flexibility</option>
+                                <option value="general-health">General Health</option>
+                                <option value="sport-performance">Sport Performance</option>
+                                <option value="rehabilitation">Rehabilitation</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="timeCommitment">Time Available for Exercise (hours/week)</label>
+                            <input type="number" id="timeCommitment" name="timeCommitment" min="0" max="40" step="0.5">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="exercisePreference">Exercise Preference</label>
+                            <select id="exercisePreference" name="exercisePreference">
+                                <option value="gym">Gym/Weight Training</option>
+                                <option value="cardio">Cardiovascular Exercise</option>
+                                <option value="yoga">Yoga/Pilates</option>
+                                <option value="sports">Sports Activities</option>
+                                <option value="outdoor">Outdoor Activities</option>
+                                <option value="home">Home Workouts</option>
+                                <option value="mixed">Mixed/Variety</option>
                             </select>
                         </div>
                     </div>
                 </div>
 
-                <div class="section">
-                    <h3>📊 Health Metrics</h3>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Height (cm) *</label>
-                            <input type="number" id="height" min="140" max="220" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Weight (kg) *</label>
-                            <input type="number" id="weight" min="40" max="200" step="0.5" required>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="section">
-                    <h3>🏃‍♂️ Lifestyle Assessment</h3>
-                    <div class="form-group">
-                        <label>Weekly Exercise Frequency:</label>
-                        <div class="radio-group">
-                            <div class="radio-item" onclick="selectExercise(0)">
-                                <input type="radio" name="exercise" value="0" id="ex0">
-                                <label for="ex0">Never</label>
-                            </div>
-                            <div class="radio-item" onclick="selectExercise(1)">
-                                <input type="radio" name="exercise" value="1" id="ex1">
-                                <label for="ex1">1-2 times</label>
-                            </div>
-                            <div class="radio-item" onclick="selectExercise(2)">
-                                <input type="radio" name="exercise" value="2" id="ex2">
-                                <label for="ex2">3-4 times</label>
-                            </div>
-                            <div class="radio-item" onclick="selectExercise(3)">
-                                <input type="radio" name="exercise" value="3" id="ex3">
-                                <label for="ex3">5+ times</label>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Sleep Hours: <span id="sleepVal">7</span> hours/night</label>
-                            <input type="range" id="sleep" min="4" max="10" value="7" class="slider">
-                        </div>
-                        <div class="form-group">
-                            <label>Work Stress Level: <span id="stressVal">5</span>/10</label>
-                            <input type="range" id="stress" min="1" max="10" value="5" class="slider">
-                        </div>
-                    </div>
-                </div>
-
-                <div style="text-align:center">
-                    <button type="submit" class="btn">Generate Wellness Report</button>
-                </div>
+                <button type="submit" class="btn">Generate Comprehensive Health Assessment</button>
             </form>
         </div>
 
-        <div class="results" id="resultsSection">
-            <div class="score-display">
-                <div class="score-circle" id="overallScore">85</div>
-                <h2>Wellness Score</h2>
-                <p id="scoreDesc">Assessment Complete</p>
-            </div>
-
-            <div class="card">
-                <h3>📈 Challenge Progress</h3>
-                <div class="progress-bar">
-                    <div class="progress-fill" id="progressFill"></div>
-                </div>
-                <p id="progressText">0 of 30 days completed</p>
-            </div>
-
-            <div id="assessmentGrid" class="grid"></div>
-            <div id="challengeGrid" class="grid"></div>
-
-            <div class="disclaimer">
-                <strong>⚠️ Disclaimer:</strong> This assessment is for wellness guidance only. Consult healthcare professionals before starting any new fitness program.
-            </div>
-
-            <div style="text-align:center">
-                <button class="btn" onclick="showForm()">New Assessment</button>
-            </div>
+        <div id="results" class="results-container">
+            <!-- Results will be populated here -->
         </div>
     </div>
 
     <script>
-        let completedDays = new Set();
-        let userData = {};
-
-        document.getElementById('sleep').oninput = function(){
-            document.getElementById('sleepVal').textContent = this.value;
-        };
-        
-        document.getElementById('stress').oninput = function(){
-            document.getElementById('stressVal').textContent = this.value;
-        };
-
-        function selectExercise(value) {
-            document.querySelectorAll('.radio-item').forEach(item => item.classList.remove('selected'));
-            event.currentTarget.classList.add('selected');
-            document.getElementById(`ex${value}`).checked = true;
-        }
-
-        const challenges = {
-            beginner: [
-                {day:1,title:"Desk Stretches",desc:"5-minute neck and shoulder stretches",dur:"5 min"},
-                {day:2,title:"Lunch Walk",desc:"Brisk 10-minute walk during lunch break",dur:"10 min"},
-                {day:3,title:"Stair Climbing",desc:"Use stairs instead of elevator",dur:"5 min"},
-                {day:4,title:"Chair Exercises",desc:"Seated leg lifts and arm circles",dur:"8 min"},
-                {day:5,title:"Walking Meeting",desc:"Take a call while walking",dur:"15 min"},
-                {day:6,title:"Morning Energy",desc:"Light stretching routine",dur:"10 min"},
-                {day:7,title:"Weekend Walk",desc:"Relaxing neighborhood walk",dur:"20 min"},
-                {day:8,title:"Hydration Focus",desc:"Drink 8 glasses of water + light movement",dur:"All day"},
-                {day:9,title:"Posture Check",desc:"Hourly posture corrections + stretches",dur:"Throughout day"},
-                {day:10,title:"Active Commute",desc:"Walk part of your commute",dur:"15 min"},
-                {day:11,title:"Desk Yoga",desc:"Simple yoga poses at your desk",dur:"10 min"},
-                {day:12,title:"Parking Walk",desc:"Park farther away and walk",dur:"10 min"},
-                {day:13,title:"Breathing Exercise",desc:"Deep breathing + light movement",dur:"8 min"},
-                {day:14,title:"Weekend Activity",desc:"Choose any fun physical activity",dur:"30 min"},
-                {day:15,title:"Team Walk",desc:"Invite colleagues for a group walk",dur:"20 min"},
-                {day:16,title:"Kitchen Workout",desc:"Counter push-ups while coffee brews",dur:"5 min"},
-                {day:17,title:"TV Exercise",desc:"Light exercises while watching TV",dur:"15 min"},
-                {day:18,title:"Cleaning Cardio",desc:"Energetic house cleaning",dur:"20 min"},
-                {day:19,title:"Nature Break",desc:"Outdoor walk in a park",dur:"25 min"},
-                {day:20,title:"Dance Break",desc:"Dance to 3 favorite songs",dur:"10 min"},
-                {day:21,title:"Weekend Hike",desc:"Easy trail walk or hike",dur:"45 min"},
-                {day:22,title:"Mall Walking",desc:"Brisk walk through shopping center",dur:"20 min"},
-                {day:23,title:"Gardening",desc:"Light gardening or yard work",dur:"25 min"},
-                {day:24,title:"Swimming",desc:"Gentle swimming or water walking",dur:"20 min"},
-                {day:25,title:"Bike Ride",desc:"Easy cycling around neighborhood",dur:"25 min"},
-                {day:26,title:"Playground Fun",desc:"Active play with kids/pets",dur:"20 min"},
-                {day:27,title:"Yoga Class",desc:"Attend beginner yoga session",dur:"30 min"},
-                {day:28,title:"Sports Activity",desc:"Try bowling, mini golf, etc.",dur:"30 min"},
-                {day:29,title:"Reflection Walk",desc:"Mindful walking meditation",dur:"20 min"},
-                {day:30,title:"Celebration!",desc:"Celebrate with your favorite activity",dur:"30 min"}
-            ],
-            intermediate: [
-                {day:1,title:"Fitness Test",desc:"Baseline: push-ups, squats, plank time",dur:"20 min"},
-                {day:2,title:"Cardio Mix",desc:"20min walk/jog intervals",dur:"20 min"},
-                {day:3,title:"Strength Circuit",desc:"Bodyweight exercises circuit",dur:"25 min"},
-                {day:4,title:"HIIT Session",desc:"High intensity interval training",dur:"20 min"},
-                {day:5,title:"Core Focus",desc:"Planks, crunches, Russian twists",dur:"15 min"},
-                {day:6,title:"Outdoor Run",desc:"Moderate pace running",dur:"25 min"},
-                {day:7,title:"Recovery Yoga",desc:"Flexibility and relaxation",dur:"30 min"},
-                {day:8,title:"Hill Training",desc:"Incline walking/running",dur:"25 min"},
-                {day:9,title:"Full Body Workout",desc:"Complete strength routine",dur:"35 min"},
-                {day:10,title:"Swimming Laps",desc:"Continuous swimming workout",dur:"30 min"},
-                {day:11,title:"Plyometrics",desc:"Jump training exercises",dur:"20 min"},
-                {day:12,title:"Long Cardio",desc:"Extended cardio session",dur:"40 min"},
-                {day:13,title:"Flexibility Day",desc:"Deep stretching routine",dur:"25 min"},
-                {day:14,title:"Sports Game",desc:"Tennis, basketball, soccer",dur:"60 min"},
-                {day:15,title:"Strength Training",desc:"Resistance exercises",dur:"35 min"},
-                {day:16,title:"Interval Running",desc:"Speed and recovery intervals",dur:"30 min"},
-                {day:17,title:"Cross Training",desc:"Mix of cardio and strength",dur:"40 min"},
-                {day:18,title:"Cycling Challenge",desc:"Moderate intensity bike ride",dur:"45 min"},
-                {day:19,title:"Circuit Training",desc:"Timed exercise stations",dur:"30 min"},
-                {day:20,title:"Outdoor Adventure",desc:"Hiking or trail running",dur:"60 min"},
-                {day:21,title:"Strength Assessment",desc:"Test strength improvements",dur:"30 min"},
-                {day:22,title:"Cardio Challenge",desc:"Personal best attempt",dur:"35 min"},
-                {day:23,title:"Recovery Session",desc:"Light movement and stretching",dur:"25 min"},
-                {day:24,title:"Team Sport",desc:"Group fitness activity",dur:"60 min"},
-                {day:25,title:"Endurance Test",desc:"Longest workout yet",dur:"50 min"},
-                {day:26,title:"Skill Practice",desc:"Sport-specific training",dur:"40 min"},
-                {day:27,title:"Active Recovery",desc:"Yoga or light swimming",dur:"30 min"},
-                {day:28,title:"Challenge Day",desc:"Combine favorite exercises",dur:"45 min"},
-                {day:29,title:"Final Test",desc:"Repeat day 1 fitness test",dur:"25 min"},
-                {day:30,title:"Victory Lap",desc:"Celebration workout",dur:"40 min"}
-            ],
-            advanced: [
-                {day:1,title:"Performance Baseline",desc:"Max reps test + mile time",dur:"45 min"},
-                {day:2,title:"HIIT Intensity",desc:"Advanced interval training",dur:"35 min"},
-                {day:3,title:"Heavy Lifting",desc:"Compound movements with weights",dur:"50 min"},
-                {day:4,title:"Endurance Run",desc:"Long distance running",dur:"60 min"},
-                {day:5,title:"Power Training",desc:"Explosive movement exercises",dur:"40 min"},
-                {day:6,title:"CrossFit WOD",desc:"Workout of the day",dur:"35 min"},
-                {day:7,title:"Active Recovery",desc:"Mobility and flexibility work",dur:"40 min"},
-                {day:8,title:"Sprint Training",desc:"High intensity sprints",dur:"30 min"},
-                {day:9,title:"Olympic Lifts",desc:"Technical lifting session",dur:"50 min"},
-                {day:10,title:"Distance Swimming",desc:"Continuous swim training",dur:"60 min"},
-                {day:11,title:"Strength Complex",desc:"Multi-exercise strength workout",dur:"55 min"},
-                {day:12,title:"Metabolic Training",desc:"High intensity metabolic workout",dur:"40 min"},
-                {day:13,title:"Flexibility Focus",desc:"Deep mobility session",dur:"45 min"},
-                {day:14,title:"Sport Training",desc:"Advanced skill development",dur:"75 min"},
-                {day:15,title:"Ultra Cardio",desc:"Extended cardiovascular challenge",dur:"90 min"},
-                {day:16,title:"Max Strength",desc:"One rep max testing",dur:"60 min"},
-                {day:17,title:"Cycling Challenge",desc:"Long distance bike training",dur:"90 min"},
-                {day:18,title:"Core Destroyer",desc:"Advanced core workout",dur:"35 min"},
-                {day:19,title:"Speed & Agility",desc:"Sprint and agility training",dur:"40 min"},
-                {day:20,title:"Beast Mode",desc:"Full intensity workout",dur:"50 min"},
-                {day:21,title:"Adventure Day",desc:"Extreme outdoor activity",dur:"120 min"},
-                {day:22,title:"Plyometric Power",desc:"Advanced jump training",dur:"35 min"},
-                {day:23,title:"Swim Challenge",desc:"Personal best swimming",dur:"60 min"},
-                {day:24,title:"Strongman Training",desc:"Functional strength movements",dur:"60 min"},
-                {day:25,title:"Cardio Beast",desc:"Ultimate cardio challenge",dur:"75 min"},
-                {day:26,title:"Powerlifting",desc:"Maximum effort lifting",dur:"70 min"},
-                {day:27,title:"Recovery Protocol",desc:"Restoration session",dur:"50 min"},
-                {day:28,title:"Competition Prep",desc:"Sport-specific training",dur:"80 min"},
-                {day:29,title:"Personal Records",desc:"Beat all personal bests",dur:"60 min"},
-                {day:30,title:"Ultimate Test",desc:"Grand finale workout",dur:"90 min"}
-            ]
-        };
-
-        document.getElementById('healthForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const exerciseRadio = document.querySelector('input[name="exercise"]:checked');
-            if (!exerciseRadio) {
-                alert('Please select your exercise frequency!');
-                return;
+        // Comprehensive Health Assessment System
+        class HealthAssessment {
+            constructor() {
+                this.fitnessStandards = this.initializeFitnessStandards();
+                this.challenges = this.initializeChallenges();
+                this.medicalKnowledge = this.initializeMedicalKnowledge();
             }
 
-            userData = {
-                name: document.getElementById('name').value,
-                age: parseInt(document.getElementById('age').value),
-                gender: document.getElementById('gender').value,
-                height: parseInt(document.getElementById('height').value),
-                weight: parseFloat(document.getElementById('weight').value),
-                fitnessLevel: document.getElementById('fitnessLevel').value,
-                exercise: parseInt(exerciseRadio.value),
-                sleep: parseInt(document.getElementById('sleep').value),
-                stress: parseInt(document.getElementById('stress').value)
-            };
-
-            generateResults();
-        });
-
-        function generateResults() {
-            const bmi = userData.weight / ((userData.height / 100) ** 2);
-            const exerciseScore = userData.exercise * 25;
-            const sleepScore = (userData.sleep >= 7 && userData.sleep <= 9) ? 100 : Math.max(0, 100 - Math.abs(userData.sleep - 8) * 15);
-            const stressScore = Math.max(0, 100 - (userData.stress - 1) * 11);
-            const bmiScore = (bmi >= 18.5 && bmi <= 24.9) ? 100 : Math.max(0, 100 - Math.abs(bmi - 22) * 8);
-            
-            const overallScore = Math.round((exerciseScore + sleepScore + stressScore + bmiScore) / 4);
-
-            document.getElementById('overallScore').textContent = overallScore;
-            document.getElementById('scoreDesc').textContent = 
-                overallScore >= 80 ? 'Excellent Health! 🌟' : 
-                overallScore >= 60 ? 'Good Health 👍' : 
-                overallScore >= 40 ? 'Fair Health ⚠️' : 'Needs Improvement 🔄';
-
-            const assessments = [
-                {
-                    title: '📊 BMI Status',
-                    value: bmi.toFixed(1),
-                    status: bmi < 18.5 ? 'Underweight' : bmi <= 24.9 ? 'Normal' : bmi <= 29.9 ? 'Overweight' : 'Obese',
-                    statusClass: (bmi < 18.5 || bmi > 29.9) ? 'status-poor' : bmi <= 24.9 ? 'status-excellent' : 'status-fair'
-                },
-                {
-                    title: '🏃‍♂️ Activity Level',
-                    value: ['Sedentary', 'Light', 'Moderate', 'Very Active'][userData.exercise],
-                    status: userData.exercise >= 2 ? 'Excellent' : userData.exercise >= 1 ? 'Good' : 'Needs Work',
-                    statusClass: userData.exercise >= 2 ? 'status-excellent' : userData.exercise >= 1 ? 'status-good' : 'status-poor'
-                },
-                {
-                    title: '😴 Sleep Quality',
-                    value: userData.sleep + ' hours',
-                    status: (userData.sleep >= 7 && userData.sleep <= 9) ? 'Optimal' : 'Suboptimal',
-                    statusClass: (userData.sleep >= 7 && userData.sleep <= 9) ? 'status-excellent' : 'status-fair'
-                },
-                {
-                    title: '🧘‍♀️ Stress Level',
-                    value: userData.stress + '/10',
-                    status: userData.stress <= 4 ? 'Low' : userData.stress <= 7 ? 'Moderate' : 'High',
-                    statusClass: userData.stress <= 4 ? 'status-excellent' : userData.stress <= 7 ? 'status-good' : 'status-poor'
-                }
-            ];
-
-            document.getElementById('assessmentGrid').innerHTML = assessments.map(a => `
-                <div class="card">
-                    <h4>${a.title}</h4>
-                    <div class="${a.statusClass} status">${a.status}</div>
-                    <p style="font-size:1.1em;font-weight:500;margin-top:8px">${a.value}</p>
-                </div>
-            `).join('');
-
-            generateChallenge();
-            document.getElementById('formSection').style.display = 'none';
-            document.getElementById('resultsSection').style.display = 'block';
-        }
-
-        function generateChallenge() {
-            const challengeData = challenges[userData.fitnessLevel] || challenges.beginner;
-            const weeks = [[], [], [], []];
-            challengeData.forEach((day, index) => {
-                weeks[Math.floor(index / 7)].push(day);
-            });
-
-            document.getElementById('challengeGrid').innerHTML = weeks.map((week, i) => `
-                <div class="card">
-                    <div class="week-header">Week ${i + 1} - ${userData.fitnessLevel.charAt(0).toUpperCase() + userData.fitnessLevel.slice(1)}</div>
-                    ${week.map(day => `
-                        <div class="day-item" onclick="toggleDay(${day.day})" id="day${day.day}">
-                            <div style="font-weight:600;color:#2c3e50;margin-bottom:4px">Day ${day.day}: ${day.title}</div>
-                            <div style="color:#7f8c8d;font-size:0.9em;margin-bottom:4px">${day.desc}</div>
-                            <div style="color:#e74c3c;font-weight:500;font-size:0.85em">⏱️ ${day.dur}</div>
-                        </div>
-                    `).join('')}
-                </div>
-            `).join('');
-
-            updateProgress();
-        }
-
-        function toggleDay(day) {
-            const dayElement = document.getElementById(`day${day}`);
-            
-            if (completedDays.has(day)) {
-                completedDays.delete(day);
-                dayElement.classList.remove('completed');
-            } else {
-                completedDays.add(day);
-                dayElement.classList.add('completed');
+            initializeFitnessStandards() {
+                return {
+                    bmi: {
+                        underweight: { min: 0, max: 18.5, risk: 'moderate' },
+                        normal: { min: 18.5, max: 24.9, risk: 'low' },
+                        overweight: { min: 25, max: 29.9, risk: 'moderate' },
+                        obese: { min: 30, max: 50, risk: 'high' }
+                    },
+                    bloodPressure: {
+                        optimal: { systolic: [90, 120], diastolic: [60, 80], risk: 'low' },
+                        normal: { systolic: [120, 130], diastolic: [80, 85], risk: 'low' },
+                        high_normal: { systolic: [130, 140], diastolic: [85, 90], risk: 'moderate' },
+                        hypertension: { systolic: [140, 250], diastolic: [90, 150], risk: 'high' }
+                    },
+                    restingHeartRate: {
+                        excellent: { min: 40, max: 60, risk: 'low' },
+                        good: { min: 60, max: 70, risk: 'low' },
+                        average: { min: 70, max: 80, risk: 'moderate' },
+                        poor: { min: 80, max: 150, risk: 'high' }
+                    },
+                    bodyFat: {
+                        male: {
+                            essential: { min: 2, max: 5, risk: 'low' },
+                            athletes: { min: 6, max: 13, risk: 'low' },
+                            fitness: { min: 14, max: 17, risk: 'low' },
+                            average: { min: 18, max: 24, risk: 'moderate' },
+                            obese: { min: 25, max: 60, risk: 'high' }
+                        },
+                        female: {
+                            essential: { min: 10, max: 13, risk: 'low' },
+                            athletes: { min: 14, max: 20, risk: 'low' },
+                            fitness: { min: 21, max: 24, risk: 'low' },
+                            average: { min: 25, max: 31, risk: 'moderate' },
+                            obese: { min: 32, max: 60, risk: 'high' }
+                        }
+                    }
+                };
             }
-            
-            updateProgress();
-        }
 
-        function updateProgress() {
-            const progress = (completedDays.size / 30) * 100;
-            document.getElementById('progressFill').style.width = progress + '%';
-            document.getElementById('progressText').textContent = 
-                `${completedDays.size} of 30 days completed (${Math.round(progress)}%)`;
-        }
-
-        function showForm() {
-            document.getElementById('formSection').style.display = 'block';
-            document.getElementById('resultsSection').style.display = 'none';
-            completedDays.clear();
-        }
-    </script>
-</body>
-</html>
+            initializeChallenges() {
+                return {
+                    basic: [
+                        {
+                            name: "Daily Walk Challenge",
+                            description: "Walk for 15 minutes daily for 7 days",
+                            duration: "1 week",
+                            difficulty: "Beginner",
+                            benefits: "Improves cardiovascular health, mood, and energy levels"
+                        },
+                        {
+                            name: "Hydration Hero",
+                            description: "Drink 8 glasses of water daily for 10 days",
+                            duration: "10 days",
+                            difficulty: "Beginner",
+                            benefits: "Better skin, improved digestion, increased energy"
+                        },
+                        {
+                            name: "Stair Climbing Starter",
+                            description: "Use stairs instead of elevators for 1 week",
+                            duration: "1 week",
+                            difficulty: "Beginner",
+                            benefits: "Strengthens legs, improves cardiovascular fitness"
+                        },
+                        {
+                            name: "Posture Perfect",
+                            description: "Practice good posture exercises 5 minutes daily",
+                            duration: "2 weeks",
+                            difficulty: "Beginner",
+                            benefits: "Reduces back pain, improves confidence"
+                        },
+                        {
+                            name: "Breathing Basics",
+                            description: "Practice deep breathing exercises for 5 minutes daily",
+                            duration: "1 week",
+                            difficulty: "Beginner",
+                            benefits: "Reduces stress, improves focus and relaxation"
+                        },
+                        {
+                            name: "Stretch & Flex",
+                            description: "Do 10 minutes of basic stretching daily",
+                            duration: "2 weeks",
+                            difficulty: "Beginner",
+                            benefits: "Improves flexibility, reduces muscle tension"
+                        },
+                        {
+                            name: "Sleep Schedule Sync",
+                            description: "Maintain consistent sleep schedule for 10 days",
+                            duration: "10 days",
+                            difficulty: "Beginner",
+                            benefits: "Better sleep quality, improved mood and energy"
+                        },
+                        {
+                            name: "Desk Exercise Dynamo",
+                            description: "Perform desk exercises every 2 hours for 5 days",
+                            duration: "5 days",
+                            difficulty: "Beginner",
+                            benefits: "Reduces sedentary behavior, improves circulation"
+                        },
+                        {
+                            name: "Mindful Eating",
+                            description: "Practice mindful eating for all meals for 1 week",
+                            duration: "1 week",
+                            difficulty: "Beginner",
+                            benefits: "Better digestion, weight management, food awareness"
+                        },
+                        {
+                            name: "Balance Builder",
+                            description: "Practice standing on one foot for 30 seconds daily",
+                            duration: "2 weeks",
+                            difficulty: "Beginner",
+                            benefits: "Improves balance, core strength, fall prevention"
+                        }
+                    ],
+                    intermediate: [
+                        {
+                            name: "30-Day Push-up Progress",
+                            description: "Gradually increase push-ups from 5 to 30 over 30 days",
+                            duration: "30 days",
+                            difficulty: "Intermediate",
+                            benefits: "Upper body strength, core stability, endurance"
+                        },
+                        {
+                            name: "Cardio Crusher",
+                            description: "30 minutes of moderate cardio 4 times per week",
+                            duration: "4 weeks",
+                            difficulty: "Intermediate",
+                            benefits: "Cardiovascular health, weight loss, stamina"
+                        },
+                        {
+                            name: "Flexibility Flow",
+                            description: "45-minute yoga session 3 times per week",
+                            duration: "3 weeks",
+                            difficulty: "Intermediate",
+                            benefits: "Flexibility, stress relief, mind-body connection"
+                        },
+                        {
+                            name: "Strength Circuit",
+                            description: "Full-body strength training 3 times per week",
+                            duration: "4 weeks",
+                            difficulty: "Intermediate",
+                            benefits: "Muscle strength, bone density, metabolism boost"
+                        },
+                        {
+                            name: "HIIT the Target",
+                            description: "20-minute HIIT workouts 3 times per week",
+                            duration: "3 weeks",
+                            difficulty: "Intermediate",
+                            benefits: "Fat burning, cardiovascular fitness, time efficiency"
+                        },
+                        {
+                            name: "Core Power Challenge",
+                            description: "15-minute core workout daily for 21 days",
+                            duration: "21 days",
+                            difficulty: "Intermediate",
+                            benefits: "Core strength, posture improvement, back health"
+                        },
+                        {
+                            name: "Distance Runner",
+                            description: "Build up to running 5K continuously",
+                            duration: "6 weeks",
+                            difficulty: "Intermediate",
+                            benefits: "Endurance, mental toughness, cardiovascular health"
+                        },
+                        {
+                            name: "Functional Fitness",
+                            description: "Functional movement patterns 4 times per week",
+                            duration: "4 weeks",
+                            difficulty: "Intermediate",
+                            benefits: "Daily movement quality, injury prevention"
+                        },
+                        {
+                            name: "Nutrition Optimization",
+                            description: "Track macros and eat balanced meals for 30 days",
+                            duration: "30 days",
+                            difficulty: "Intermediate",
+                            benefits: "Better nutrition, energy levels, body composition"
+                        },
+                        {
+                            name: "Recovery Master",
+                            description: "Implement proper recovery protocols daily",
+                            duration: "4 weeks",
+                            difficulty: "Intermediate",
+                            benefits: "Better recovery, injury prevention, performance"
+                        }
+                    ],
+                    advanced: [
+                        {
+                            name: "Marathon Preparation",
+                            description: "12-week marathon training program",
+                            duration: "12 weeks",
+                            difficulty: "Advanced",
+                            benefits: "Elite endurance, mental fortitude, cardiovascular excellence"
+                        },
+                        {
+                            name: "Powerlifting Protocol",
+                            description: "Advanced strength training with progressive overload",
+                            duration: "8 weeks",
+                            difficulty: "Advanced",
+                            benefits: "Maximum strength, power development, muscle mass"
+                        },
+                        {
+                            name: "Athletic Performance Peak",
+                            description: "Sport-specific training with periodization",
+                            duration: "12 weeks",
+                            difficulty: "Advanced",
+                            benefits: "Peak athletic performance, sport mastery"
+                        },
+                        {
+                            name: "Body Transformation",
+                            description: "Complete physique transformation program",
+                            duration: "16 weeks",
+                            difficulty: "Advanced",
+                            benefits: "Dramatic body composition changes, aesthetic goals"
+                        },
+                        {
+                            name: "Endurance Elite",
+                            description: "Multi-sport endurance training program",
+                            duration: "10 weeks",
+                            difficulty: "Advanced",
+                            benefits: "Superior cardiovascular fitness, multi-sport ability"
+                        },
+                        {
+                            name: "Flexibility Master",
+                            description: "Advanced flexibility and mobility program",
+                            duration: "8 weeks",
+                            difficulty: "Advanced",
+                            benefits: "Exceptional flexibility, injury prevention, performance"
+                        },
+                        {
+                            name: "Mental Toughness Training",
+                            description: "Psychological resilience and focus training",
+                            duration: "6 weeks",
+                            difficulty: "Advanced",
+                            benefits: "Mental strength, stress management, focus"
+                        },
+                        {
+                            name: "Functional Movement Mastery",
+                            description: "Advanced movement patterns and coordination",
+                            duration: "8 weeks",
+                            difficulty: "Advanced",
+                            benefits: "Movement quality, coordination, athletic ability"
+                        },
+                        {
+                            name: "Recovery Optimization",
+                            description: "Advanced recovery and regeneration protocols",
+                            duration: "4 weeks",
+                            difficulty: "Advanced",
+                            benefits: "Optimal recovery, performance enhancement"
+                        },
+                        {
+                            name: "Lifestyle Integration",
+                            description: "Complete lifestyle optimization program",
+                            duration: "12 weeks",
+                            difficulty: "Advanced",
+                            benefits: "Holistic health, life balance, long-term success"
+                        }
+                    ]
