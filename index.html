@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
+
 <meta charset="UTF-8">
-<title>Digital Health Intelligence Platform</title>
+<title>Advanced Digital Health Assessment Platform</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -15,22 +15,22 @@
 <style>
 
 body{
-margin:0;
 font-family:Poppins;
 background:#f4f7fb;
+margin:0;
 }
 
 header{
-background:linear-gradient(120deg,#059669,#047857);
+background:#059669;
 color:white;
-padding:25px;
 text-align:center;
-font-size:28px;
+padding:25px;
+font-size:26px;
 font-weight:600;
 }
 
 .container{
-max-width:1200px;
+max-width:1100px;
 margin:auto;
 padding:30px;
 }
@@ -38,15 +38,15 @@ padding:30px;
 .card{
 background:white;
 padding:25px;
-border-radius:12px;
-box-shadow:0 4px 15px rgba(0,0,0,0.08);
+border-radius:10px;
+box-shadow:0 4px 12px rgba(0,0,0,0.1);
 margin-bottom:25px;
 }
 
 .grid{
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-gap:18px;
+gap:15px;
 }
 
 label{
@@ -57,55 +57,38 @@ font-weight:500;
 input,select{
 padding:10px;
 border-radius:6px;
-border:1px solid #d1d5db;
+border:1px solid #ccc;
 width:100%;
-margin-top:5px;
 }
 
 button{
-margin-top:25px;
+margin-top:20px;
 background:#059669;
 color:white;
-padding:14px 25px;
 border:none;
+padding:14px 22px;
 border-radius:8px;
 font-size:16px;
 cursor:pointer;
 }
 
-button:hover{
-background:#047857;
-}
-
 .report{
 background:white;
 padding:40px;
-border-radius:12px;
-margin-top:30px;
+border-radius:10px;
 }
 
-.scoreBox{
-font-size:40px;
-font-weight:700;
+.score{
+font-size:42px;
 color:#059669;
-}
-
-.section{
-margin-top:30px;
+font-weight:700;
 }
 
 .programDay{
+background:#ecfdf5;
 padding:10px;
 margin:6px 0;
 border-left:5px solid #059669;
-background:#ecfdf5;
-}
-
-.disclaimer{
-margin-top:40px;
-background:#fef3c7;
-padding:20px;
-border-left:6px solid #f59e0b;
 }
 
 </style>
@@ -114,9 +97,7 @@ border-left:6px solid #f59e0b;
 
 <body>
 
-<header>
-Digital Health Intelligence Platform
-</header>
+<header>Digital Health Intelligence Platform</header>
 
 <div class="container">
 
@@ -133,7 +114,15 @@ Digital Health Intelligence Platform
 
 <div>
 <label>Age</label>
-<input id="age" type="number">
+<input id="age">
+</div>
+
+<div>
+<label>Gender</label>
+<select id="gender">
+<option>Male</option>
+<option>Female</option>
+</select>
 </div>
 
 <div>
@@ -147,18 +136,8 @@ Digital Health Intelligence Platform
 </div>
 
 <div>
-<label>Waist (cm)</label>
-<input id="waist">
-</div>
-
-<div>
 <label>Daily Steps</label>
 <input id="steps">
-</div>
-
-<div>
-<label>Exercise Days/Week</label>
-<input id="exercise">
 </div>
 
 <div>
@@ -177,20 +156,18 @@ Digital Health Intelligence Platform
 </div>
 
 <div>
-<label>Smoking Status</label>
+<label>Smoking</label>
 <select id="smoking">
-<option>Never</option>
-<option>Former</option>
+<option>No</option>
 <option>Occasional</option>
 <option>Daily</option>
 </select>
 </div>
 
 <div>
-<label>Alcohol Consumption</label>
+<label>Alcohol</label>
 <select id="alcohol">
-<option>Never</option>
-<option>Occasional</option>
+<option>No</option>
 <option>Moderate</option>
 <option>High</option>
 </select>
@@ -210,124 +187,99 @@ Digital Health Intelligence Platform
 
 function analyzeHealth(){
 
-let h=document.getElementById("height").value/100;
-let w=document.getElementById("weight").value;
+let name=document.getElementById("name").value;
+let age=parseFloat(document.getElementById("age").value);
+let gender=document.getElementById("gender").value;
+
+let height=document.getElementById("height").value/100;
+let weight=document.getElementById("weight").value;
+
 let steps=document.getElementById("steps").value;
 let sleep=document.getElementById("sleep").value;
 let stress=document.getElementById("stress").value;
 let water=document.getElementById("water").value;
+
 let smoking=document.getElementById("smoking").value;
 let alcohol=document.getElementById("alcohol").value;
 
-let bmi=w/(h*h);
+let bmi=weight/(height*height);
 
-let activityScore=Math.min(100,(steps/10000)*60);
+let bmiClass="";
+
+if(bmi<18.5) bmiClass="Underweight";
+else if(bmi<25) bmiClass="Normal";
+else if(bmi<30) bmiClass="Overweight";
+else bmiClass="Obese";
+
+let bodyFat;
+
+if(gender=="Male")
+bodyFat=(1.20*bmi)+(0.23*age)-16.2;
+else
+bodyFat=(1.20*bmi)+(0.23*age)-5.4;
+
+let bodyScore=100-Math.abs(22-bmi)*3;
+
+let activityScore=Math.min(100,(steps/10000)*100);
+
 let sleepScore=(sleep/8)*100;
-let hydrationScore=(water/3)*100;
+
 let stressScore=100-(stress*10);
 
-let lifestyleScore=(activityScore+sleepScore+hydrationScore+stressScore)/4;
+let hydrationScore=(water/3)*100;
 
-let cardioRisk=0;
+let lifestyleRisk=0;
 
-if(bmi>30) cardioRisk+=20;
-if(smoking=="Daily") cardioRisk+=20;
-if(alcohol=="High") cardioRisk+=15;
-if(stress>7) cardioRisk+=15;
-if(steps<5000) cardioRisk+=15;
+if(smoking=="Daily") lifestyleRisk+=20;
+if(alcohol=="High") lifestyleRisk+=15;
 
-let healthScore=Math.round((lifestyleScore+(100-cardioRisk))/2);
+let lifestyleScore=100-lifestyleRisk;
 
-let status="";
+let cardioScore=100;
 
-if(healthScore>=90) status="Excellent Health";
-else if(healthScore>=75) status="Good Health";
-else if(healthScore>=60) status="Moderate Health";
-else if(healthScore>=40) status="Needs Improvement";
-else status="High Health Risk";
+if(bmi>30) cardioScore-=20;
+if(steps<5000) cardioScore-=15;
+if(stress>7) cardioScore-=15;
 
-generateReport(healthScore,status,bmi,cardioRisk);
+let healthScore=
+(bodyScore*0.2)+
+(activityScore*0.2)+
+(sleepScore*0.15)+
+(stressScore*0.1)+
+(hydrationScore*0.1)+
+(lifestyleScore*0.15)+
+(cardioScore*0.1);
 
-}
+healthScore=Math.round(healthScore);
 
-
-function generateReport(score,status,bmi,cardioRisk){
-
-let cardioChance="";
-
-if(cardioRisk<20) cardioChance="Low Cardiovascular Risk";
-else if(cardioRisk<40) cardioChance="Moderate Cardiovascular Risk";
-else cardioChance="High Cardiovascular Risk";
-
-let recommendations=[];
-
-if(score<70)
-recommendations.push("Increase daily physical activity and structured exercise.");
-
-if(bmi>25)
-recommendations.push("Adopt weight management through balanced nutrition.");
-
-recommendations.push("Maintain hydration of 2–3 liters daily.");
-recommendations.push("Sleep 7-8 hours per night.");
-recommendations.push("Practice meditation or stress management.");
-
-let fitnessPlan=generate30DayProgram(score);
+let fitnessPlan=generate30DayProgram();
 
 document.getElementById("report").style.display="block";
 
-document.getElementById("report").innerHTML=
+document.getElementById("report").innerHTML=`
 
-`<h1>Personalized Health Report</h1>
+<h1>Health Assessment Report</h1>
+
+<h2>Patient Profile</h2>
+
+<p><b>Name:</b> ${name}</p>
+<p><b>Age:</b> ${age}</p>
+<p><b>Gender:</b> ${gender}</p>
+
+<h2>Body Metrics</h2>
+
+<p><b>BMI:</b> ${bmi.toFixed(2)} (${bmiClass})</p>
+<p><b>Estimated Body Fat:</b> ${bodyFat.toFixed(1)}%</p>
 
 <h2>Overall Health Score</h2>
 
-<div class="scoreBox">${score}/100</div>
+<div class="score">${healthScore}/100</div>
 
-<p>${status}</p>
-
-<div class="section">
-
-<h2>Health Summary</h2>
-
-<p>Your lifestyle indicators suggest <b>${status}</b>. Maintaining consistent healthy habits will significantly improve long-term health outcomes.</p>
-
-</div>
-
-<div class="section">
-
-<h2>Cardiovascular Risk</h2>
-
-<p>${cardioChance}</p>
-
-</div>
-
-<div class="section">
-
-<h2>Recommended Preventive Actions</h2>
-
-<ul>
-
-${recommendations.map(r=>`<li>${r}</li>`).join("")}
-
-</ul>
-
-</div>
-
-<div class="section">
-
-<h2>World-Class 30-Day Fitness Program</h2>
+<h2>30 Day Fitness Program</h2>
 
 ${fitnessPlan}
 
-</div>
-
-<div class="disclaimer">
-
-<b>Medical Disclaimer</b>
-
-<p>This report is a digitally generated health assessment created based on the information provided by the user and general wellness guidelines. It is intended for informational purposes only and should not be considered medical advice. Always consult a qualified healthcare professional before making health decisions.</p>
-
-</div>
+<br><br>
 
 <button onclick="downloadPDF()">Download Full Report</button>
 
@@ -335,45 +287,24 @@ ${fitnessPlan}
 
 }
 
+function generate30DayProgram(){
 
-function generate30DayProgram(score){
+let activities=[
 
-let beginner=[
-"Walk 5000 steps",
-"10 minute stretching",
-"Drink 3 liters of water",
-"10 minute meditation",
-"15 squats",
-"Light yoga session",
-"Sleep 8 hours"
-];
-
-let intermediate=[
-"Walk 8000 steps",
-"20 minute cardio",
-"15 minute strength training",
-"Core workout session",
+"Walk 6000 steps",
+"10 minute stretching routine",
+"15 squats and 10 push-ups",
+"Drink 3 liters water",
+"20 minute brisk walk",
+"Yoga session",
+"15 minute meditation",
 "Healthy meal planning",
-"20 minute cycling",
-"Mindfulness meditation"
-];
+"Sleep 8 hours",
+"30 minute cycling"
 
-let advanced=[
-"10000 steps challenge",
-"HIIT workout 25 minutes",
-"Strength training session",
-"Full body stretching",
-"30 minute run",
-"Mobility workout",
-"Advanced core training"
 ];
 
 let plan="";
-let activities;
-
-if(score<60) activities=beginner;
-else if(score<80) activities=intermediate;
-else activities=advanced;
 
 for(let i=1;i<=30;i++){
 
@@ -386,7 +317,6 @@ plan+=`<div class="programDay"><b>Day ${i}</b> — ${act}</div>`;
 return plan;
 
 }
-
 
 async function downloadPDF(){
 
@@ -411,5 +341,4 @@ pdf.save("Health_Report.pdf");
 </script>
 
 </body>
-
 </html>
