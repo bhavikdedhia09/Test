@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>Health Intelligence Platform</title>
+<title>Elite Preventive Health Intelligence Platform</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 
@@ -17,118 +18,109 @@
 body{
 font-family:Inter;
 margin:0;
-background:linear-gradient(135deg,#eef2ff,#f8fafc);
+background:#f3f6fb;
 }
 
 header{
-background:linear-gradient(90deg,#1e3a8a,#2563eb);
+background:linear-gradient(90deg,#0f172a,#2563eb);
 color:white;
-padding:28px;
-text-align:center;
-font-size:26px;
+padding:25px;
+font-size:24px;
 font-weight:700;
+text-align:center;
 }
 
 .container{
 max-width:1200px;
 margin:auto;
-padding:35px;
+padding:30px;
 }
 
 .card{
 background:white;
+padding:25px;
 border-radius:12px;
-padding:28px;
-box-shadow:0 8px 28px rgba(0,0,0,0.08);
+box-shadow:0 10px 25px rgba(0,0,0,0.07);
 margin-bottom:30px;
 }
 
 .grid{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-gap:18px;
-}
-
-.metricGrid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-gap:20px;
-margin-top:25px;
-}
-
-.metric{
-background:linear-gradient(135deg,#f1f5f9,#e0f2fe);
-border-radius:10px;
-padding:20px;
-text-align:center;
-}
-
-.metricValue{
-font-size:34px;
-font-weight:700;
-color:#1e3a8a;
-}
-
-.metricLabel{
-font-size:14px;
-color:#333;
-}
-
-label{
-font-size:13px;
-font-weight:600;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:15px;
 }
 
 input,select{
-padding:11px;
-border-radius:7px;
+padding:10px;
+border-radius:6px;
 border:1px solid #cbd5e1;
 width:100%;
 }
 
 button{
-margin-top:25px;
 background:#2563eb;
 color:white;
+padding:14px 22px;
 border:none;
-padding:14px 24px;
 border-radius:8px;
-font-size:16px;
+margin-top:20px;
 cursor:pointer;
+font-weight:600;
 }
 
 button:hover{
-background:#1d4ed8;
+background:#1e40af;
+}
+
+.metricGrid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+gap:20px;
+margin-top:20px;
+}
+
+.metric{
+background:#eef2ff;
+padding:20px;
+border-radius:10px;
+text-align:center;
+}
+
+.metricValue{
+font-size:30px;
+font-weight:700;
+color:#1e3a8a;
 }
 
 .sectionTitle{
-font-size:22px;
+font-size:20px;
+margin-top:30px;
 font-weight:600;
-margin-top:35px;
-color:#1e3a8a;
+color:#0f172a;
 }
 
 .programDay{
 background:#ecfdf5;
-padding:12px;
-margin:7px 0;
+padding:10px;
+margin:6px 0;
 border-left:5px solid #10b981;
 border-radius:6px;
 }
 
-.reportBox{
-background:white;
-border-radius:14px;
-padding:35px;
-box-shadow:0 12px 30px rgba(0,0,0,0.1);
+.executiveBox{
+background:#f8fafc;
+padding:20px;
+border-left:5px solid #2563eb;
+border-radius:8px;
 }
 
 </style>
+
 </head>
 
 <body>
 
-<header>Digital Preventive Health Intelligence System</header>
+<header>Elite Preventive Health Intelligence Platform</header>
 
 <div class="container">
 
@@ -140,30 +132,33 @@ box-shadow:0 12px 30px rgba(0,0,0,0.1);
 
 <input id="name" placeholder="Full Name">
 <input id="age" placeholder="Age">
+
 <select id="gender">
 <option value="">Gender</option>
 <option>Male</option>
 <option>Female</option>
 </select>
 
-<input id="height" placeholder="Height cm">
-<input id="weight" placeholder="Weight kg">
-<input id="restHR" placeholder="Resting Heart Rate">
+<input id="height" placeholder="Height (cm)">
+<input id="weight" placeholder="Weight (kg)">
+<input id="waist" placeholder="Waist Circumference (cm)">
 
 <input id="steps" placeholder="Daily Steps">
 <input id="sleep" placeholder="Sleep Hours">
-<input id="stress" placeholder="Stress Level 1-10">
-
+<input id="stress" placeholder="Stress Level (1-10)">
 <input id="water" placeholder="Water Intake (Liters)">
+<input id="restHR" placeholder="Resting Heart Rate">
 
 <select id="smoking">
-<option>No Smoking</option>
+<option value="">Smoking</option>
+<option>No</option>
 <option>Occasional</option>
 <option>Daily</option>
 </select>
 
 <select id="alcohol">
-<option>No Alcohol</option>
+<option value="">Alcohol</option>
+<option>No</option>
 <option>Moderate</option>
 <option>High</option>
 </select>
@@ -174,7 +169,7 @@ box-shadow:0 12px 30px rgba(0,0,0,0.1);
 
 </div>
 
-<div id="report" class="reportBox" style="display:none"></div>
+<div id="report" class="card" style="display:none"></div>
 
 </div>
 
@@ -182,93 +177,234 @@ box-shadow:0 12px 30px rgba(0,0,0,0.1);
 
 function analyzeHealth(){
 
-let name=document.getElementById("name").value
-let age=document.getElementById("age").value
-let height=document.getElementById("height").value
-let weight=document.getElementById("weight").value
-let restHR=document.getElementById("restHR").value
+let name=nameVal("name")
+let age=numberVal("age")
+let gender=nameVal("gender")
+let height=numberVal("height")
+let weight=numberVal("weight")
+let waist=numberVal("waist")
+let steps=numberVal("steps")
+let sleep=numberVal("sleep")
+let stress=numberVal("stress")
+let water=numberVal("water")
+let restHR=numberVal("restHR")
+let smoking=nameVal("smoking")
+let alcohol=nameVal("alcohol")
 
-if(!name || !age || !height || !weight || !restHR){
-
-alert("Please complete all assessment fields before analysis.")
-
+if(!name||!age||!height||!weight||!restHR){
+alert("Please complete required health inputs")
 return
 }
-
-let gender=document.getElementById("gender").value
-let steps=document.getElementById("steps").value
-let sleep=document.getElementById("sleep").value
-let stress=document.getElementById("stress").value
-let water=document.getElementById("water").value
 
 height=height/100
 
 let bmi=weight/(height*height)
 
-let hrMax=220-age
+let whr=waist/(height*100)
 
+let hrMax=220-age
 let vo2=15.3*(hrMax/restHR)
 
-let diabetesRisk=Math.round(bmi*0.8 + age*0.2)
+let diabetesRisk=Math.min(100,Math.round((bmi*1.5)+(age*0.6)+(whr*20)))
 
-let heartRisk=Math.round((bmi*0.6)+(stress*2))
+let cardioRisk=Math.min(100,Math.round((stress*3)+(bmi)+(restHR/2)))
 
-let healthScore=Math.round(100-(diabetesRisk*0.3)-(heartRisk*0.3))
+let score=calculateHealthScore(bmi,steps,sleep,stress,water,smoking,alcohol)
 
-let plan=""
+let summary=healthSummary(score)
 
-for(let i=1;i<=30;i++){
+let recommendations=generateRecommendations(bmi,sleep,stress,steps,smoking)
 
-plan+=`<div class="programDay">Day ${i} – 30 minute walking + stretching routine</div>`
+let fitnessProgram=generateProgram(score)
+
+displayReport(
+name,age,gender,bmi,vo2,diabetesRisk,cardioRisk,
+score,summary,recommendations,fitnessProgram
+)
 
 }
+
+function calculateHealthScore(bmi,steps,sleep,stress,water,smoking,alcohol){
+
+let score=100
+
+if(bmi<18.5||bmi>30)score-=20
+else if(bmi>25)score-=10
+
+if(steps<5000)score-=10
+else if(steps>10000)score+=5
+
+if(sleep<6)score-=10
+if(stress>7)score-=10
+
+if(water<2)score-=5
+
+if(smoking==="Daily")score-=15
+if(smoking==="Occasional")score-=8
+
+if(alcohol==="High")score-=10
+if(alcohol==="Moderate")score-=5
+
+score=Math.max(0,Math.min(100,score))
+
+return Math.round(score)
+
+}
+
+function healthSummary(score){
+
+if(score>85) return "Excellent Health Condition"
+if(score>70) return "Good Health"
+if(score>55) return "Moderate Health"
+if(score>40) return "Needs Improvement"
+return "High Health Risk"
+
+}
+
+function generateRecommendations(bmi,sleep,stress,steps,smoking){
+
+let r=[]
+
+if(bmi>25) r.push("Weight management recommended through calorie control and exercise.")
+
+if(sleep<7) r.push("Improve sleep hygiene and aim for 7-8 hours daily.")
+
+if(stress>6) r.push("Practice mindfulness, meditation, or breathing exercises.")
+
+if(steps<8000) r.push("Increase daily steps to 8,000–10,000.")
+
+if(smoking==="Daily") r.push("Smoking cessation is strongly recommended.")
+
+return r.join("<br>")
+
+}
+
+function generateProgram(score){
+
+let beginner=[
+"20 min walking",
+"Light stretching",
+"Yoga mobility",
+"Core training 10 min",
+"Cycling 20 min",
+"Breathing meditation",
+"Rest and recovery"
+]
+
+let intermediate=[
+"30 min brisk walking",
+"Bodyweight workout",
+"Cycling endurance",
+"Core strengthening",
+"Jogging intervals",
+"Strength training",
+"Mobility yoga"
+]
+
+let advanced=[
+"45 min running",
+"HIIT cardio",
+"Strength training",
+"Core + mobility",
+"Cycling endurance",
+"Full body gym workout",
+"Recovery stretch"
+]
+
+let base=score<50?beginner:score<75?intermediate:advanced
+
+let plan=[]
+
+for(let i=0;i<30;i++){
+plan.push("Day "+(i+1)+": "+base[i%7])
+}
+
+return plan
+
+}
+
+function displayReport(
+name,age,gender,bmi,vo2,diabetesRisk,cardioRisk,
+score,summary,recommendations,fitnessProgram){
+
+let programHTML=""
+
+fitnessProgram.forEach(d=>{
+programHTML+=`<div class="programDay">${d}</div>`
+})
 
 document.getElementById("report").style.display="block"
 
 document.getElementById("report").innerHTML=`
 
-<h1>Health Intelligence Report</h1>
+<h1>Executive Health Assessment Report</h1>
 
-<p><b>Patient:</b> ${name}</p>
+<div class="executiveBox">
+
+<b>Executive Summary</b><br><br>
+
+Overall Health Score: <b>${score}/100</b><br>
+Health Status: <b>${summary}</b><br><br>
+
+Estimated Cardiovascular Risk: <b>${cardioRisk}%</b><br>
+Estimated Diabetes Risk: <b>${diabetesRisk}%</b>
+
+</div>
+
+<div class="sectionTitle">Health Metrics</div>
 
 <div class="metricGrid">
 
 <div class="metric">
 <div class="metricValue">${bmi.toFixed(1)}</div>
-<div class="metricLabel">BMI</div>
+BMI
 </div>
 
 <div class="metric">
 <div class="metricValue">${vo2.toFixed(1)}</div>
-<div class="metricLabel">VO₂ Max</div>
+VO₂ Max
 </div>
 
 <div class="metric">
-<div class="metricValue">${diabetesRisk}</div>
-<div class="metricLabel">Diabetes Risk</div>
+<div class="metricValue">${cardioRisk}%</div>
+Cardiovascular Risk
 </div>
 
 <div class="metric">
-<div class="metricValue">${healthScore}</div>
-<div class="metricLabel">Health Score</div>
+<div class="metricValue">${diabetesRisk}%</div>
+Diabetes Risk
 </div>
 
 </div>
+
+<div class="sectionTitle">Personalized Recommendations</div>
+
+${recommendations}
 
 <div class="sectionTitle">30 Day Fitness Program</div>
 
-${plan}
+${programHTML}
 
-<br><br>
+<br>
 
-<button onclick="downloadPDF()">Download Report</button>
+<button onclick="downloadPDF()">Download Executive Report</button>
 
 <p style="margin-top:30px;font-size:12px">
-Disclaimer: This digital health assessment is intended for wellness awareness only and should not replace consultation with a qualified medical professional.
+
+This report is a digitally generated health assessment created based on the information provided by the user and general wellness guidelines. It is intended for informational and educational purposes only and should not be considered medical advice, diagnosis, or treatment. Always consult a qualified physician or healthcare professional before making any health-related decisions.
+
 </p>
 
 `
 
+}
+
+function nameVal(id){
+return document.getElementById(id).value
+}
+
+function numberVal(id){
+return parseFloat(document.getElementById(id).value)
 }
 
 async function downloadPDF(){
@@ -285,7 +421,7 @@ let pdf=new jsPDF("p","mm","a4")
 
 pdf.addImage(img,"PNG",10,10,190,0)
 
-pdf.save("Health_Report.pdf")
+pdf.save("Executive_Health_Report.pdf")
 
 })
 
