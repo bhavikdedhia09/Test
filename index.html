@@ -1,691 +1,245 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>AI Health Assessment & Fitness Report</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Health Intelligence</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
 <style>
-  :root {
-    --primary: #0f4c81;
-    --secondary: #1a7fc1;
-    --accent: #00c9a7;
-    --danger: #e74c3c;
-    --warning: #f39c12;
-    --success: #27ae60;
-    --light: #f0f6ff;
-    --dark: #1a1a2e;
-    --card: #ffffff;
-    --border: #d0e4f7;
-    --text: #2c3e50;
-    --muted: #7f8c8d;
-    --gradient1: linear-gradient(135deg, #0f4c81, #1a7fc1, #00c9a7);
-    --gradient2: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
-  }
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+body{
+margin:0;
+font-family:Inter;
+background:#eef2f7;
+}
 
-  body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(160deg, #e8f4fd 0%, #f0fdf8 100%);
-    color: var(--text);
-    min-height: 100vh;
-  }
+header{
+background:#0b1220;
+color:white;
+padding:22px;
+text-align:center;
+font-size:22px;
+font-weight:700;
+}
 
-  /* ===== HEADER ===== */
-  .header {
-    background: var(--gradient2);
-    color: white;
-    padding: 30px 40px;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-  }
-  .header::before {
-    content: '';
-    position: absolute;
-    top: -50%; left: -50%;
-    width: 200%; height: 200%;
-    background: radial-gradient(circle, rgba(0,201,167,0.15) 0%, transparent 60%);
-    animation: pulse 4s ease-in-out infinite;
-  }
-  @keyframes pulse { 0%,100%{transform:scale(1);} 50%{transform:scale(1.05);} }
-  .header-icon { font-size: 3.5rem; margin-bottom: 10px; }
-  .header h1 { font-size: 2.2rem; font-weight: 800; letter-spacing: 1px; }
-  .header p { font-size: 1rem; opacity: 0.85; margin-top: 8px; }
-  .ai-badge {
-    display: inline-block;
-    background: var(--accent);
-    color: #1a1a2e;
-    font-weight: 700;
-    font-size: 0.75rem;
-    padding: 3px 12px;
-    border-radius: 20px;
-    margin-top: 10px;
-    letter-spacing: 1px;
-  }
+.container{
+max-width:1000px;
+margin:auto;
+padding:25px;
+}
 
-  /* ===== MAIN CONTAINER ===== */
-  .container { max-width: 1100px; margin: 0 auto; padding: 30px 20px; }
+.card{
+background:white;
+border-radius:14px;
+padding:22px;
+box-shadow:0 10px 25px rgba(0,0,0,0.08);
+margin-bottom:18px;
+}
 
-  /* ===== SECTION CARDS ===== */
-  .form-card {
-    background: white;
-    border-radius: 16px;
-    padding: 28px 32px;
-    margin-bottom: 24px;
-    box-shadow: 0 4px 20px rgba(15,76,129,0.10);
-    border: 1px solid var(--border);
-  }
-  .section-title {
-    font-size: 1.15rem;
-    font-weight: 700;
-    color: var(--primary);
-    margin-bottom: 20px;
-    padding-bottom: 10px;
-    border-bottom: 2.5px solid var(--accent);
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  .section-icon { font-size: 1.4rem; }
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:10px;
+}
 
-  /* ===== FORM GRID ===== */
-  .form-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 16px;
-  }
-  .form-group { display: flex; flex-direction: column; gap: 6px; }
-  .form-group label {
-    font-size: 0.82rem;
-    font-weight: 600;
-    color: var(--primary);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
-  .form-group input,
-  .form-group select {
-    padding: 10px 14px;
-    border: 1.5px solid var(--border);
-    border-radius: 8px;
-    font-size: 0.95rem;
-    color: var(--text);
-    background: var(--light);
-    transition: all 0.2s;
-    outline: none;
-  }
-  .form-group input:focus,
-  .form-group select:focus {
-    border-color: var(--secondary);
-    background: white;
-    box-shadow: 0 0 0 3px rgba(26,127,193,0.12);
-  }
-  .form-group .hint {
-    font-size: 0.74rem;
-    color: var(--muted);
-  }
+input{
+padding:10px;
+border:1px solid #cbd5e1;
+border-radius:8px;
+}
 
-  /* ===== GENERATE BUTTON ===== */
-  .btn-generate {
-    display: block;
-    width: 100%;
-    background: var(--gradient1);
-    color: white;
-    border: none;
-    padding: 18px;
-    border-radius: 12px;
-    font-size: 1.15rem;
-    font-weight: 700;
-    cursor: pointer;
-    letter-spacing: 1px;
-    transition: all 0.3s;
-    box-shadow: 0 6px 25px rgba(15,76,129,0.35);
-    margin-top: 10px;
-  }
-  .btn-generate:hover { transform: translateY(-2px); box-shadow: 0 10px 35px rgba(15,76,129,0.45); }
-  .btn-generate:active { transform: translateY(0); }
+button{
+background:#1d4ed8;
+color:white;
+padding:12px 16px;
+border:none;
+border-radius:10px;
+cursor:pointer;
+margin-top:10px;
+font-weight:600;
+}
 
-  /* ===== REPORT SECTION ===== */
-  #report { display: none; margin-top: 36px; }
+.metricGrid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+gap:12px;
+margin-top:12px;
+}
 
-  .report-header {
-    background: var(--gradient2);
-    color: white;
-    border-radius: 16px 16px 0 0;
-    padding: 30px 36px;
-    position: relative;
-    overflow: hidden;
-  }
-  .report-header::after {
-    content: '📋';
-    position: absolute;
-    right: 30px; top: 50%;
-    transform: translateY(-50%);
-    font-size: 5rem;
-    opacity: 0.12;
-  }
-  .report-header h2 { font-size: 1.7rem; font-weight: 800; }
-  .report-header p { opacity: 0.8; font-size: 0.9rem; margin-top: 5px; }
-  .report-date {
-    background: rgba(255,255,255,0.15);
-    display: inline-block;
-    padding: 4px 14px;
-    border-radius: 20px;
-    font-size: 0.8rem;
-    margin-top: 10px;
-  }
+.metric{
+background:#f1f5ff;
+padding:14px;
+border-radius:12px;
+text-align:center;
+}
 
-  .report-body {
-    background: white;
-    border: 1px solid var(--border);
-    border-top: none;
-    border-radius: 0 0 16px 16px;
-    padding: 32px;
-    box-shadow: 0 4px 20px rgba(15,76,129,0.10);
-  }
+.metricValue{
+font-size:22px;
+font-weight:800;
+color:#1e3a8a;
+}
 
-  /* ===== PATIENT SUMMARY BANNER ===== */
-  .patient-banner {
-    background: linear-gradient(135deg, #e8f4fd, #e0fdf4);
-    border-radius: 12px;
-    padding: 20px 28px;
-    margin-bottom: 28px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 18px;
-    align-items: center;
-    border: 1px solid var(--border);
-  }
-  .patient-avatar {
-    width: 64px; height: 64px;
-    background: var(--gradient1);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 2rem;
-    flex-shrink: 0;
-  }
-  .patient-info h3 { font-size: 1.25rem; font-weight: 700; color: var(--primary); }
-  .patient-meta { font-size: 0.88rem; color: var(--muted); margin-top: 4px; }
-  .patient-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-left: auto; }
-  .patient-tag {
-    padding: 5px 14px;
-    border-radius: 20px;
-    font-size: 0.8rem;
-    font-weight: 600;
-  }
+.sectionTitle{
+margin-top:20px;
+font-size:16px;
+font-weight:800;
+color:#0f172a;
+}
 
-  /* ===== OVERALL SCORE ===== */
-  .score-section {
-    text-align: center;
-    padding: 28px;
-    background: linear-gradient(135deg, #f8f9ff, #f0fdf8);
-    border-radius: 14px;
-    margin-bottom: 28px;
-    border: 1px solid var(--border);
-  }
-  .score-circle {
-    width: 140px; height: 140px;
-    border-radius: 50%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto 16px;
-    border: 8px solid;
-    position: relative;
-  }
-  .score-number { font-size: 2.8rem; font-weight: 900; line-height: 1; }
-  .score-label { font-size: 0.75rem; font-weight: 600; opacity: 0.7; text-transform: uppercase; }
-  .score-title { font-size: 1.1rem; font-weight: 700; color: var(--primary); }
-  .score-desc { font-size: 0.88rem; color: var(--muted); margin-top: 6px; }
+.programDay{
+background:linear-gradient(90deg,#ecfdf5,#dbeafe);
+padding:10px;
+margin:6px 0;
+border-left:5px solid #10b981;
+font-size:13px;
+font-weight:500;
+}
 
-  /* ===== REPORT SECTIONS ===== */
-  .report-section {
-    margin-bottom: 32px;
-  }
-  .report-section-title {
-    font-size: 1.05rem;
-    font-weight: 700;
-    color: var(--primary);
-    padding: 10px 16px;
-    background: linear-gradient(90deg, rgba(15,76,129,0.08), transparent);
-    border-left: 4px solid var(--accent);
-    border-radius: 0 8px 8px 0;
-    margin-bottom: 16px;
-  }
+/* Disclaimer Styling */
+.disclaimer{
+border-left:5px solid #f59e0b;
+background:#fff7ed;
+padding:14px;
+border-radius:10px;
+font-size:13px;
+color:#7c2d12;
+line-height:1.5;
+}
 
-  /* ===== METRICS GRID ===== */
-  .metrics-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    gap: 14px;
-  }
-  .metric-card {
-    background: var(--light);
-    border-radius: 12px;
-    padding: 16px;
-    border: 1px solid var(--border);
-    position: relative;
-    overflow: hidden;
-    transition: all 0.2s;
-  }
-  .metric-card:hover { transform: translateY(-2px); box-shadow: 0 4px 14px rgba(0,0,0,0.08); }
-  .metric-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 3px;
-  }
-  .metric-card.good::before { background: var(--success); }
-  .metric-card.warning::before { background: var(--warning); }
-  .metric-card.danger::before { background: var(--danger); }
-  .metric-card.info::before { background: var(--secondary); }
-  .metric-name { font-size: 0.76rem; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
-  .metric-value { font-size: 1.5rem; font-weight: 800; color: var(--dark); margin: 4px 0; }
-  .metric-unit { font-size: 0.7rem; color: var(--muted); display: inline; }
-  .metric-status {
-    font-size: 0.75rem;
-    font-weight: 600;
-    padding: 2px 8px;
-    border-radius: 10px;
-    display: inline-block;
-    margin-top: 4px;
-  }
-  .status-good { background: #d4edda; color: #155724; }
-  .status-warning { background: #fff3cd; color: #856404; }
-  .status-danger { background: #f8d7da; color: #721c24; }
-  .status-info { background: #d1ecf1; color: #0c5460; }
-
-  /* ===== PROGRESS BARS ===== */
-  .progress-item { margin-bottom: 14px; }
-  .progress-label {
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.85rem;
-    font-weight: 600;
-    margin-bottom: 5px;
-  }
-  .progress-bar-wrap {
-    background: #e9ecef;
-    border-radius: 8px;
-    height: 10px;
-    overflow: hidden;
-  }
-  .progress-bar {
-    height: 100%;
-    border-radius: 8px;
-    transition: width 1s ease;
-  }
-
-  /* ===== TABLE ===== */
-  .data-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 0.88rem;
-  }
-  .data-table th {
-    background: var(--primary);
-    color: white;
-    padding: 10px 14px;
-    text-align: left;
-    font-weight: 600;
-  }
-  .data-table td {
-    padding: 9px 14px;
-    border-bottom: 1px solid var(--border);
-  }
-  .data-table tr:nth-child(even) td { background: var(--light); }
-  .data-table tr:hover td { background: #e8f4fd; }
-
-  /* ===== RISK ALERTS ===== */
-  .alert {
-    padding: 14px 18px;
-    border-radius: 10px;
-    margin-bottom: 12px;
-    font-size: 0.88rem;
-    display: flex;
-    gap: 12px;
-    align-items: flex-start;
-    border-left: 4px solid;
-  }
-  .alert-success { background: #d4edda; border-color: var(--success); color: #155724; }
-  .alert-warning { background: #fff3cd; border-color: var(--warning); color: #7d5a00; }
-  .alert-danger  { background: #f8d7da; border-color: var(--danger);  color: #721c24; }
-  .alert-info    { background: #d1ecf1; border-color: var(--secondary);color: #0c5460; }
-  .alert-icon { font-size: 1.2rem; flex-shrink: 0; margin-top: 1px; }
-  .alert-title { font-weight: 700; }
-
-  /* ===== MACROS ===== */
-  .macros-grid {
-    display: grid;
-    grid-template-columns: repeat(3,1fr);
-    gap: 14px;
-    margin-top: 10px;
-  }
-  .macro-card {
-    text-align: center;
-    padding: 16px;
-    border-radius: 12px;
-    border: 2px solid;
-  }
-  .macro-card .macro-grams { font-size: 2rem; font-weight: 900; }
-  .macro-card .macro-name { font-size: 0.8rem; font-weight: 700; margin-top: 4px; text-transform: uppercase; }
-  .macro-card .macro-cal { font-size: 0.75rem; opacity: 0.7; }
-
-  /* ===== 30 DAY FITNESS PLAN ===== */
-  .fitness-plan { }
-  .week-block { margin-bottom: 28px; }
-  .week-title {
-    font-size: 1rem;
-    font-weight: 700;
-    color: white;
-    padding: 10px 20px;
-    border-radius: 8px;
-    margin-bottom: 14px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  .days-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 12px;
-  }
-  .day-card {
-    background: white;
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 16px 18px;
-    display: flex;
-    gap: 14px;
-    align-items: flex-start;
-    transition: all 0.2s;
-    position: relative;
-    overflow: hidden;
-  }
-  .day-card:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.09); }
-  .day-number {
-    min-width: 44px; height: 44px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 900;
-    font-size: 1rem;
-    color: white;
-    flex-shrink: 0;
-  }
-  .day-content { flex: 1; }
-  .day-type { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 3px; }
-  .day-title { font-size: 0.95rem; font-weight: 700; color: var(--dark); }
-  .day-desc { font-size: 0.8rem; color: var(--muted); margin-top: 4px; line-height: 1.5; }
-  .day-duration {
-    font-size: 0.75rem;
-    font-weight: 600;
-    padding: 2px 8px;
-    border-radius: 10px;
-    display: inline-block;
-    margin-top: 6px;
-  }
-
-  /* ===== RECOMMENDATIONS ===== */
-  .rec-list { list-style: none; }
-  .rec-list li {
-    padding: 10px 14px;
-    margin-bottom: 8px;
-    border-radius: 8px;
-    font-size: 0.88rem;
-    line-height: 1.5;
-    display: flex;
-    gap: 10px;
-    background: var(--light);
-    border: 1px solid var(--border);
-  }
-  .rec-list li::before { content: attr(data-icon); font-size: 1.1rem; flex-shrink: 0; }
-
-  /* ===== ZONES TABLE ===== */
-  .zone-row { display: grid; grid-template-columns: 2fr 1fr 1fr 2fr; gap: 10px; padding: 8px 12px; border-radius: 8px; margin-bottom: 6px; font-size: 0.85rem; }
-  .zone-row.header { font-weight: 700; color: var(--primary); }
-
-  /* ===== DISCLAIMER ===== */
-  .disclaimer {
-    background: linear-gradient(135deg, #fff8e1, #fff3cd);
-    border: 2px solid #f39c12;
-    border-radius: 14px;
-    padding: 24px 28px;
-    margin-top: 36px;
-  }
-  .disclaimer-title {
-    font-size: 1rem;
-    font-weight: 800;
-    color: #7d5a00;
-    margin-bottom: 12px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  .disclaimer p { font-size: 0.85rem; color: #856404; line-height: 1.7; margin-bottom: 8px; }
-  .disclaimer strong { color: #7d5a00; }
-
-  /* ===== PRINT BTN ===== */
-  .action-buttons {
-    display: flex;
-    gap: 12px;
-    margin: 20px 0;
-    flex-wrap: wrap;
-  }
-  .btn-action {
-    padding: 12px 24px;
-    border-radius: 10px;
-    border: none;
-    font-weight: 700;
-    font-size: 0.9rem;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-  .btn-print { background: var(--primary); color: white; }
-  .btn-reset { background: #e9ecef; color: var(--text); }
-  .btn-action:hover { opacity: 0.88; transform: translateY(-1px); }
-
-  /* ===== LOADING ===== */
-  .loading {
-    display: none;
-    text-align: center;
-    padding: 40px;
-    font-size: 1.1rem;
-    color: var(--primary);
-    font-weight: 600;
-  }
-  .spinner {
-    width: 48px; height: 48px;
-    border: 5px solid #e0e0e0;
-    border-top-color: var(--accent);
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
-    margin: 0 auto 16px;
-  }
-  @keyframes spin { to { transform: rotate(360deg); } }
-
-  /* ===== RESPONSIVE ===== */
-  @media (max-width: 600px) {
-    .form-card { padding: 18px; }
-    .report-body { padding: 18px; }
-    .macros-grid { grid-template-columns: 1fr; }
-    .patient-tags { margin-left: 0; }
-    .header { padding: 20px; }
-    .header h1 { font-size: 1.4rem; }
-  }
-
-  @media print {
-    .btn-generate, .action-buttons, .form-card, .header { display: none !important; }
-    #report { display: block !important; }
-    body { background: white; }
-    .day-card, .metric-card { break-inside: avoid; }
-  }
 </style>
 </head>
+
 <body>
 
-<!-- ===== HEADER ===== -->
-<div class="header">
-  <div class="header-icon">🏥</div>
-  <h1>AI Health Assessment & Fitness Report</h1>
-  <p>Comprehensive Health Analysis · Global WHO / AHA / CDC / NIH Standards</p>
-  <span class="ai-badge">⚡ AI-POWERED ANALYSIS · 300+ HEALTH METRICS</span>
-</div>
+<header>Health Intelligence</header>
 
 <div class="container">
 
-  <!-- ===== FORM: PERSONAL INFO ===== -->
-  <div class="form-card">
-    <div class="section-title"><span class="section-icon">👤</span> Personal Information</div>
-    <div class="form-grid">
-      <div class="form-group">
-        <label>Full Name</label>
-        <input type="text" id="name" placeholder="e.g. John Smith" />
-      </div>
-      <div class="form-group">
-        <label>Age (years)</label>
-        <input type="number" id="age" min="10" max="100" placeholder="e.g. 30" />
-      </div>
-      <div class="form-group">
-        <label>Biological Sex</label>
-        <select id="gender">
-          <option value="">-- Select --</option>
-          <option value="male">Male</option>
-          <option value="female">Female</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label>Height (cm)</label>
-        <input type="number" id="height" min="100" max="250" placeholder="e.g. 175" />
-        <span class="hint">1 inch = 2.54 cm</span>
-      </div>
-      <div class="form-group">
-        <label>Weight (kg)</label>
-        <input type="number" id="weight" min="20" max="300" placeholder="e.g. 75" />
-        <span class="hint">1 lb = 0.453 kg</span>
-      </div>
-      <div class="form-group">
-        <label>Ethnicity</label>
-        <select id="ethnicity">
-          <option value="general">General / Caucasian</option>
-          <option value="asian">Asian</option>
-          <option value="african">African / African-American</option>
-          <option value="hispanic">Hispanic / Latino</option>
-          <option value="middleeastern">Middle Eastern</option>
-        </select>
-      </div>
-    </div>
-  </div>
+<div class="card">
 
-  <!-- ===== FORM: BODY MEASUREMENTS ===== -->
-  <div class="form-card">
-    <div class="section-title"><span class="section-icon">📏</span> Body Measurements (Optional but Recommended)</div>
-    <div class="form-grid">
-      <div class="form-group">
-        <label>Waist Circumference (cm)</label>
-        <input type="number" id="waist" min="40" max="200" placeholder="e.g. 85" />
-        <span class="hint">Measured at belly button level</span>
-      </div>
-      <div class="form-group">
-        <label>Hip Circumference (cm)</label>
-        <input type="number" id="hip" min="40" max="200" placeholder="e.g. 95" />
-        <span class="hint">Widest part of hips</span>
-      </div>
-      <div class="form-group">
-        <label>Neck Circumference (cm)</label>
-        <input type="number" id="neck" min="20" max="70" placeholder="e.g. 38" />
-        <span class="hint">Just below larynx</span>
-      </div>
-      <div class="form-group">
-        <label>Wrist Circumference (cm)</label>
-        <input type="number" id="wrist" min="10" max="30" placeholder="e.g. 17" />
-        <span class="hint">Non-dominant wrist</span>
-      </div>
-      <div class="form-group">
-        <label>Chest Circumference (cm)</label>
-        <input type="number" id="chest" min="50" max="180" placeholder="e.g. 100" />
-      </div>
-      <div class="form-group">
-        <label>Thigh Circumference (cm)</label>
-        <input type="number" id="thigh" min="30" max="100" placeholder="e.g. 55" />
-      </div>
-    </div>
-  </div>
+<h2>Patient Input</h2>
 
-  <!-- ===== FORM: VITALS ===== -->
-  <div class="form-card">
-    <div class="section-title"><span class="section-icon">💓</span> Vital Signs</div>
-    <div class="form-grid">
-      <div class="form-group">
-        <label>Systolic Blood Pressure (mmHg)</label>
-        <input type="number" id="sbp" min="60" max="250" placeholder="e.g. 120" />
-      </div>
-      <div class="form-group">
-        <label>Diastolic Blood Pressure (mmHg)</label>
-        <input type="number" id="dbp" min="40" max="160" placeholder="e.g. 80" />
-      </div>
-      <div class="form-group">
-        <label>Resting Heart Rate (bpm)</label>
-        <input type="number" id="rhr" min="30" max="150" placeholder="e.g. 70" />
-      </div>
-      <div class="form-group">
-        <label>Fasting Blood Glucose (mg/dL)</label>
-        <input type="number" id="glucose" min="50" max="400" placeholder="e.g. 90" />
-        <span class="hint">After 8+ hours fasting</span>
-      </div>
-      <div class="form-group">
-        <label>Total Cholesterol (mg/dL)</label>
-        <input type="number" id="cholesterol" min="100" max="500" placeholder="e.g. 190" />
-      </div>
-      <div class="form-group">
-        <label>Body Temperature (°F)</label>
-        <input type="number" id="temp" min="95" max="105" step="0.1" placeholder="e.g. 98.6" />
-      </div>
-    </div>
-  </div>
+<div class="grid">
 
-  <!-- ===== FORM: LIFESTYLE ===== -->
-  <div class="form-card">
-    <div class="section-title"><span class="section-icon">🏃</span> Lifestyle & Activity</div>
-    <div class="form-grid">
-      <div class="form-group">
-        <label>Activity Level</label>
-        <select id="activity">
-          <option value="1.2">Sedentary (little or no exercise)</option>
-          <option value="1.375">Lightly Active (1-3 days/week)</option>
-          <option value="1.55" selected>Moderately Active (3-5 days/week)</option>
-          <option value="1.725">Very Active (6-7 days/week)</option>
-          <option value="1.9">Extra Active (athlete/physical job)</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label>Fitness Goal</label>
-        <select id="goal">
-          <option value="loss">Weight Loss</option>
-          <option value="maintain">Maintain Weight</option>
-          <option value="gain">Muscle Gain</option>
-          <option value="endurance">Build Endurance</option>
-          <option value="flexibility">Flexibility & Mobility</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label>Current Fitness Level</label>
-        <select id="fitLevel">
-          <option value="beginner">Beginner (< 3 months)</option>
-          <option value="intermediate">Intermediate (3-12 months)</option>
-          <option value="advanced">Advanced (1+ years)</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label>Sleep Duration (hours/night)</label>
-        <input type="number" id="sleep" min="2" max="14" step="0.5" placeholder="e.g. 7" />
-      </div>
-      <div class="form-group">
-        <label>Water Intake (liters/day)</label>
-        <input type="number" id="water" min="0" max="10" step="0.1" placeholder="e.g. 2.0" />
-      </div>
-      
+<input id="name" placeholder="Full Name">
+<input id="age" placeholder="Age">
+<input id="height" placeholder="Height (cm)">
+<input id="weight" placeholder="Weight (kg)">
+<input id="waist" placeholder="Waist (cm)">
+<input id="steps" placeholder="Daily Steps">
+<input id="sleep" placeholder="Sleep Hours">
+<input id="stress" placeholder="Stress (1-10)">
+<input id="hr" placeholder="Resting Heart Rate">
+
+</div>
+
+<button onclick="generateProgram()">Generate 30-Day Program</button>
+
+</div>
+
+<div id="output" class="card" style="display:none"></div>
+
+</div>
+
+<script>
+
+function generateProgram(){
+
+let age=+document.getElementById("age").value
+let height=+document.getElementById("height").value/100
+let weight=+document.getElementById("weight").value
+let waist=+document.getElementById("waist").value
+let steps=+document.getElementById("steps").value
+let sleep=+document.getElementById("sleep").value
+let stress=+document.getElementById("stress").value
+let hr=+document.getElementById("hr").value
+
+if(!age||!height||!weight){
+alert("Please fill required fields")
+return
+}
+
+/* ================= METRICS ================= */
+
+let bmi = weight/(height*height)
+let bodyFat = (1.2*bmi)+(0.23*age)-16.2
+let bmr = (10*weight)+(6.25*(height*100))-(5*age)+5
+let vo2 = 15*(220-age)/hr
+
+/* ================= PROGRAM ================= */
+
+let program=[
+"🔥 Day 1: Power Walk Activation + 10K Step Challenge",
+"🧠 Day 2: Mental Reset + Breathing Control",
+"💪 Day 3: Full Body Strength Foundation",
+"⚡ Day 4: HIIT Fat Burn Circuit",
+"🧘 Day 5: Mobility Flow + Flexibility",
+"🏃 Day 6: Endurance Walk Challenge",
+"💧 Day 7: Recovery + Hydration Focus",
+"🔥 Day 8: Fat Burn Interval Training",
+"🧠 Day 9: Stress Reset Meditation",
+"💪 Day 10: Core Strength Training",
+"⚡ Day 11: Speed & Agility Workout",
+"🧘 Day 12: Yoga Recovery Flow",
+"🏃 Day 13: Long Walk Endurance",
+"🔥 Day 14: Fat Loss Circuit",
+"🧠 Day 15: Sleep & Mind Reset",
+"💪 Day 16: Upper Body Strength",
+"⚡ Day 17: Cardio Intervals",
+"🧘 Day 18: Deep Stretch Recovery",
+"🏃 Day 19: Step Challenge 12K",
+"🔥 Day 20: Full Body Blast",
+"💪 Day 21: Strength Progression",
+"🧠 Day 22: Focus Training",
+"⚡ Day 23: Explosive Cardio",
+"🧘 Day 24: Active Recovery",
+"🏃 Day 25: Endurance Peak",
+"🔥 Day 26: Fat Burn Extreme",
+"💪 Day 27: Core Strength Fusion",
+"🧠 Day 28: Calm & Recovery",
+"⚡ Day 29: Speed Endurance",
+"🏆 Day 30: Final Transformation Challenge"
+]
+
+let html=`<h2>🔥 Elite 30-Day Transformation Program</h2>`
+
+html+=`
+<div class="metricGrid">
+<div class="metric"><div class="metricValue">${bmi.toFixed(1)}</div>BMI</div>
+<div class="metric"><div class="metricValue">${bodyFat.toFixed(1)}%</div>Body Fat</div>
+<div class="metric"><div class="metricValue">${bmr.toFixed(0)}</div>BMR</div>
+<div class="metric"><div class="metricValue">${vo2.toFixed(1)}</div>VO₂ Max</div>
+</div>
+`
+
+for(let i=0;i<program.length;i++){
+html+=`<div class="programDay">${program[i]}</div>`
+}
+
+/* ================= DISCLAIMER ================= */
+
+html+=`
+<div class="sectionTitle">Disclaimer</div>
+
+<div class="disclaimer">
+This Health Intelligence platform is designed for fitness and wellness guidance only.  
+It does not provide medical diagnosis, treatment, or clinical advice.  
+
+Always consult a qualified healthcare professional before making any major changes to your diet, exercise, or health routine.  
+
+Results are based on general fitness formulas and should be used as motivational and informational insights only.
+</div>
+`
+
+document.getElementById("output").style.display="block"
+document.getElementById("output").innerHTML=html
+
+}
+
+</script>
+
+</body>
+</html>
