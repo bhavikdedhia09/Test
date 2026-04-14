@@ -1,245 +1,148 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
-<title>Health Intelligence</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Avengers Final Health & Training Hub</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 
 <style>
-
+:root{
+ --glass:rgba(12,18,37,.72);
+ --stroke:rgba(255,255,255,.12);
+ --gold:#d6b56d;
+ --gold2:#f7e7b0;
+ --green:#22c55e;
+ --text:#f4f7ff;
+ --muted:#b6c0da;
+ --bg-card:rgba(255,255,255,.05);
+}
+*{box-sizing:border-box}
 body{
-margin:0;
-font-family:Inter;
-background:#eef2f7;
+ margin:0;
+ font-family:Inter,Arial,sans-serif;
+ color:var(--text);
+ background:linear-gradient(135deg,#02030a,#071024,#0c1022);
 }
-
 header{
-background:#0b1220;
-color:white;
-padding:22px;
-text-align:center;
-font-size:22px;
-font-weight:700;
+ text-align:center;
+ padding:28px 16px;
 }
-
-.container{
-max-width:1000px;
-margin:auto;
-padding:25px;
+h1{
+ margin:0;
+ font-size:clamp(28px,5vw,56px);
+ letter-spacing:3px;
+ background:linear-gradient(90deg,#fff,#f7e7b0,#d6b56d);
+ -webkit-background-clip:text;
+ color:transparent;
 }
-
+main{
+ max-width:1200px;
+ margin:auto;
+ padding:16px;
+ display:grid;
+ gap:20px;
+}
+.section{
+ background:var(--glass);
+ backdrop-filter:blur(18px);
+ border:1px solid var(--stroke);
+ border-radius:24px;
+ padding:22px;
+}
 .card{
-background:white;
-border-radius:14px;
-padding:22px;
-box-shadow:0 10px 25px rgba(0,0,0,0.08);
-margin-bottom:18px;
+ background:var(--bg-card);
+ border:1px solid rgba(255,255,255,.1);
+ border-radius:20px;
+ padding:18px;
 }
-
-.grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-gap:10px;
-}
-
-input{
-padding:10px;
-border:1px solid #cbd5e1;
-border-radius:8px;
-}
-
 button{
-background:#1d4ed8;
-color:white;
-padding:12px 16px;
-border:none;
-border-radius:10px;
-cursor:pointer;
-margin-top:10px;
-font-weight:600;
+ border:none;
+ border-radius:14px;
+ padding:11px 16px;
+ font-weight:700;
+ cursor:pointer;
+ background:linear-gradient(135deg,#d6b56d,#f4dfb0);
 }
-
-.metricGrid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
-gap:12px;
-margin-top:12px;
+button.ghost{
+ background:rgba(255,255,255,.08);
+ color:white;
 }
-
-.metric{
-background:#f1f5ff;
-padding:14px;
-border-radius:12px;
-text-align:center;
+input{
+ width:100%;
+ padding:10px;
+ border-radius:10px;
+ border:1px solid rgba(255,255,255,.15);
+ background:rgba(255,255,255,.06);
+ color:white;
+ margin:4px 0;
 }
-
-.metricValue{
-font-size:22px;
-font-weight:800;
-color:#1e3a8a;
+.fade{
+ animation:fade .4s ease;
 }
-
-.sectionTitle{
-margin-top:20px;
-font-size:16px;
-font-weight:800;
-color:#0f172a;
+@keyframes fade{
+ from{opacity:0;transform:translateY(10px)}
+ to{opacity:1}
 }
-
-.programDay{
-background:linear-gradient(90deg,#ecfdf5,#dbeafe);
-padding:10px;
-margin:6px 0;
-border-left:5px solid #10b981;
-font-size:13px;
-font-weight:500;
+.progress{
+ font-size:14px;
+ color:var(--gold2);
+ margin-top:6px;
 }
-
-/* Disclaimer Styling */
-.disclaimer{
-border-left:5px solid #f59e0b;
-background:#fff7ed;
-padding:14px;
-border-radius:10px;
-font-size:13px;
-color:#7c2d12;
-line-height:1.5;
-}
-
 </style>
 </head>
 
 <body>
 
-<header>Health Intelligence</header>
+<header>
+<h1>Avengers Health & Training Hub</h1>
+<p class="small">Elite Fitness · Training · Connect</p>
+</header>
 
-<div class="container">
+<main>
 
+<!-- HEALTH INTELLIGENCE -->
+<section class="section">
+<h2>🧠 Health Intelligence – 30 Day Program</h2>
 <div class="card">
-
-<h2>Patient Input</h2>
-
 <div class="grid">
-
-<input id="name" placeholder="Full Name">
 <input id="age" placeholder="Age">
 <input id="height" placeholder="Height (cm)">
 <input id="weight" placeholder="Weight (kg)">
-<input id="waist" placeholder="Waist (cm)">
 <input id="steps" placeholder="Daily Steps">
-<input id="sleep" placeholder="Sleep Hours">
-<input id="stress" placeholder="Stress (1-10)">
-<input id="hr" placeholder="Resting Heart Rate">
-
 </div>
-
-<button onclick="generateProgram()">Generate 30-Day Program</button>
-
+<button onclick="generateProgram()">Generate Program</button>
+<div id="healthOut"></div>
 </div>
+</section>
 
-<div id="output" class="card" style="display:none"></div>
-
+<!-- TRAINING MODULE -->
+<section class="section">
+<h2>🏋️ Training Exercise Module</h2>
+<div class="card fade" id="exerciseCard">
+<h3 id="exTitle"></h3>
+<ul id="exSteps"></ul>
+<div class="progress" id="exProgress"></div>
+<button onclick="nextExercise()">Next Exercise</button>
+<button class="ghost" onclick="randomExercise()">Random Exercise</button>
 </div>
+</section>
+
+<!-- CONNECT -->
+<section class="section">
+<h2>🔗 Connect</h2>
+<div class="card">
+<p>Connect with Bhavik Dedhia on LinkedIn</p>
+<a href="https://www.linkedin.com/in/bhavikrdedhia" target="_blank">
+<button style="background:#0a66c2;color:white">LinkedIn Connect</button>
+</a>
+</div>
+</section>
+
+</main>
 
 <script>
-
-function generateProgram(){
-
-let age=+document.getElementById("age").value
-let height=+document.getElementById("height").value/100
-let weight=+document.getElementById("weight").value
-let waist=+document.getElementById("waist").value
-let steps=+document.getElementById("steps").value
-let sleep=+document.getElementById("sleep").value
-let stress=+document.getElementById("stress").value
-let hr=+document.getElementById("hr").value
-
-if(!age||!height||!weight){
-alert("Please fill required fields")
-return
-}
-
-/* ================= METRICS ================= */
-
-let bmi = weight/(height*height)
-let bodyFat = (1.2*bmi)+(0.23*age)-16.2
-let bmr = (10*weight)+(6.25*(height*100))-(5*age)+5
-let vo2 = 15*(220-age)/hr
-
-/* ================= PROGRAM ================= */
-
-let program=[
-"🔥 Day 1: Power Walk Activation + 10K Step Challenge",
-"🧠 Day 2: Mental Reset + Breathing Control",
-"💪 Day 3: Full Body Strength Foundation",
-"⚡ Day 4: HIIT Fat Burn Circuit",
-"🧘 Day 5: Mobility Flow + Flexibility",
-"🏃 Day 6: Endurance Walk Challenge",
-"💧 Day 7: Recovery + Hydration Focus",
-"🔥 Day 8: Fat Burn Interval Training",
-"🧠 Day 9: Stress Reset Meditation",
-"💪 Day 10: Core Strength Training",
-"⚡ Day 11: Speed & Agility Workout",
-"🧘 Day 12: Yoga Recovery Flow",
-"🏃 Day 13: Long Walk Endurance",
-"🔥 Day 14: Fat Loss Circuit",
-"🧠 Day 15: Sleep & Mind Reset",
-"💪 Day 16: Upper Body Strength",
-"⚡ Day 17: Cardio Intervals",
-"🧘 Day 18: Deep Stretch Recovery",
-"🏃 Day 19: Step Challenge 12K",
-"🔥 Day 20: Full Body Blast",
-"💪 Day 21: Strength Progression",
-"🧠 Day 22: Focus Training",
-"⚡ Day 23: Explosive Cardio",
-"🧘 Day 24: Active Recovery",
-"🏃 Day 25: Endurance Peak",
-"🔥 Day 26: Fat Burn Extreme",
-"💪 Day 27: Core Strength Fusion",
-"🧠 Day 28: Calm & Recovery",
-"⚡ Day 29: Speed Endurance",
-"🏆 Day 30: Final Transformation Challenge"
-]
-
-let html=`<h2>🔥 Elite 30-Day Transformation Program</h2>`
-
-html+=`
-<div class="metricGrid">
-<div class="metric"><div class="metricValue">${bmi.toFixed(1)}</div>BMI</div>
-<div class="metric"><div class="metricValue">${bodyFat.toFixed(1)}%</div>Body Fat</div>
-<div class="metric"><div class="metricValue">${bmr.toFixed(0)}</div>BMR</div>
-<div class="metric"><div class="metricValue">${vo2.toFixed(1)}</div>VO₂ Max</div>
-</div>
-`
-
-for(let i=0;i<program.length;i++){
-html+=`<div class="programDay">${program[i]}</div>`
-}
-
-/* ================= DISCLAIMER ================= */
-
-html+=`
-<div class="sectionTitle">Disclaimer</div>
-
-<div class="disclaimer">
-This Health Intelligence platform is designed for fitness and wellness guidance only.  
-It does not provide medical diagnosis, treatment, or clinical advice.  
-
-Always consult a qualified healthcare professional before making any major changes to your diet, exercise, or health routine.  
-
-Results are based on general fitness formulas and should be used as motivational and informational insights only.
-</div>
-`
-
-document.getElementById("output").style.display="block"
-document.getElementById("output").innerHTML=html
-
-}
-
-</script>
-
-</body>
-</html>
+const exercises=[
+ {n:"Jumping Jacks",s:["Stand tall","Jump feet out","Raise arms","Repeat"]},
+ {n:"Push Ups",s:["Plank position","Lower chest","Push up"]},
