@@ -8,9 +8,6 @@
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
-
 <style>
 
 body{
@@ -26,11 +23,10 @@ padding:22px;
 text-align:center;
 font-size:22px;
 font-weight:700;
-letter-spacing:1px;
 }
 
 .container{
-max-width:1100px;
+max-width:1000px;
 margin:auto;
 padding:25px;
 }
@@ -39,7 +35,7 @@ padding:25px;
 background:white;
 border-radius:14px;
 padding:22px;
-box-shadow:0 10px 30px rgba(0,0,0,0.08);
+box-shadow:0 10px 25px rgba(0,0,0,0.08);
 margin-bottom:18px;
 }
 
@@ -93,26 +89,6 @@ font-weight:800;
 color:#0f172a;
 }
 
-.reportBox{
-background:#f8fafc;
-border-left:4px solid #2563eb;
-padding:14px;
-border-radius:8px;
-margin-top:10px;
-}
-
-.badge{
-display:inline-block;
-padding:6px 12px;
-border-radius:8px;
-font-size:12px;
-font-weight:700;
-}
-
-.green{background:#dcfce7;color:#166534;}
-.yellow{background:#fef9c3;color:#854d0e;}
-.red{background:#fee2e2;color:#991b1b;}
-
 .programDay{
 background:linear-gradient(90deg,#ecfdf5,#dbeafe);
 padding:10px;
@@ -133,7 +109,7 @@ font-weight:500;
 
 <div class="card">
 
-<h2>Patient Clinical Input</h2>
+<h2>Patient Input</h2>
 
 <div class="grid">
 
@@ -145,23 +121,21 @@ font-weight:500;
 <input id="steps" placeholder="Daily Steps">
 <input id="sleep" placeholder="Sleep Hours">
 <input id="stress" placeholder="Stress (1-10)">
-<input id="water" placeholder="Water Intake (L)">
 <input id="hr" placeholder="Resting Heart Rate">
 
 </div>
 
-<button onclick="generateReport()">Generate Report</button>
-<button onclick="downloadPDF()">Download Premium Report</button>
+<button onclick="generateProgram()">Generate 30-Day Program</button>
 
 </div>
 
-<div id="report" class="card" style="display:none"></div>
+<div id="output" class="card" style="display:none"></div>
 
 </div>
 
 <script>
 
-function generateReport(){
+function generateProgram(){
 
 let age=+document.getElementById("age").value
 let height=+document.getElementById("height").value/100
@@ -172,134 +146,70 @@ let sleep=+document.getElementById("sleep").value
 let stress=+document.getElementById("stress").value
 let hr=+document.getElementById("hr").value
 
-let bmi=weight/(height*height)
-let bodyFat=(1.2*bmi)+(0.23*age)-16.2
-let fatMass=weight*(bodyFat/100)
-let leanMass=weight-fatMass
-let whtr=waist/(height*100)
-
-let bmr=(10*weight)+(6.25*(height*100))-(5*age)+5
-let tdee=bmr*1.4
-let vo2=15*(220-age)/hr
-
-let risk=0
-if(bmi>25)risk++
-if(bodyFat>25)risk++
-if(steps<6000)risk++
-if(sleep<6)risk++
-if(stress>7)risk++
-if(whtr>0.5)risk++
-
-let level="GREEN"
-if(risk>3)level="RED"
-else if(risk>1)level="YELLOW"
-
-/* ===================== ELITE 30 DAY PROGRAM ===================== */
-
-let programThemes=[
-"🔥 Power Walk Challenge (Fat Burn Activation)",
-"🧠 Mental Reset + Breath Control Training",
-"💪 Strength Foundation (Bodyweight Control)",
-"⚡ Explosive Cardio Burst Session",
-"🧘 Mobility Flow + Joint Recovery",
-"🏃 Endurance Builder Mission",
-"💧 Detox + Hydration Focus Day",
-"🔥 HIIT Fat Loss Accelerator",
-"🧠 Stress Reset + Guided Calm Practice",
-"💪 Core Power Stability Training",
-"⚡ Speed & Agility Training",
-"🧘 Deep Stretch Recovery Protocol",
-"🏃 Long Walk Endurance Mission",
-"🔥 Fat Burn Circuit Challenge",
-"🧠 Mindfulness + Focus Training",
-"💪 Upper Body Strength Builder",
-"⚡ Cardio Power Intervals",
-"🧘 Yoga + Flexibility Reset",
-"🏃 Step Count Challenge Day",
-"🔥 Full Body Conditioning Blast"
-]
-
-let program=""
-for(let i=0;i<30;i++){
-program+=`<div class="programDay">Day ${i+1}: ${programThemes[i%programThemes.length]}</div>`
+if(!age||!height||!weight){
+alert("Please fill required fields")
+return
 }
 
-document.getElementById("report").style.display="block"
+/* ================= METRICS ================= */
 
-document.getElementById("report").innerHTML=`
+let bmi = weight/(height*height)
+let bodyFat = (1.2*bmi)+(0.23*age)-16.2
+let bmr = (10*weight)+(6.25*(height*100))-(5*age)+5
+let vo2 = 15*(220-age)/hr
 
-<h2>Clinical Health Summary Report</h2>
+/* ================= ELITE PROGRAM ================= */
 
-<span class="badge ${level==='GREEN'?'green':level==='YELLOW'?'yellow':'red'}">
-Risk Status: ${level}
-</span>
+let program=[
+"🔥 Day 1: Power Walk Activation + 10K Step Challenge",
+"🧠 Day 2: Mental Reset + Breathing Control",
+"💪 Day 3: Full Body Strength Foundation",
+"⚡ Day 4: HIIT Fat Burn Circuit",
+"🧘 Day 5: Mobility Flow + Flexibility",
+"🏃 Day 6: Endurance Walk Challenge",
+"💧 Day 7: Recovery + Hydration Focus",
+"🔥 Day 8: Fat Burn Interval Training",
+"🧠 Day 9: Stress Reset Meditation",
+"💪 Day 10: Core Strength Training",
+"⚡ Day 11: Speed & Agility Workout",
+"🧘 Day 12: Yoga Recovery Flow",
+"🏃 Day 13: Long Walk Endurance",
+"🔥 Day 14: Fat Loss Circuit",
+"🧠 Day 15: Sleep & Mind Reset",
+"💪 Day 16: Upper Body Strength",
+"⚡ Day 17: Cardio Intervals",
+"🧘 Day 18: Deep Stretch Recovery",
+"🏃 Day 19: Step Challenge 12K",
+"🔥 Day 20: Full Body Blast",
+"💪 Day 21: Strength Progression",
+"🧠 Day 22: Focus Training",
+"⚡ Day 23: Explosive Cardio",
+"🧘 Day 24: Active Recovery",
+"🏃 Day 25: Endurance Peak",
+"🔥 Day 26: Fat Burn Extreme",
+"💪 Day 27: Core Strength Fusion",
+"🧠 Day 28: Calm & Recovery",
+"⚡ Day 29: Speed Endurance",
+"🏆 Day 30: Final Transformation Challenge"
+]
 
-<div class="sectionTitle">Executive Clinical Summary</div>
+let html=`<h2>🔥 Elite 30-Day Transformation Program</h2>`
 
-<div class="reportBox">
-The patient presents a ${level} cardiometabolic risk profile based on integrated body composition, metabolic rate,
-and lifestyle indicators. Findings are consistent with preventive health evaluation standards.
-</div>
-
-<div class="sectionTitle">Body Composition Analysis</div>
-
+html+=`
 <div class="metricGrid">
 <div class="metric"><div class="metricValue">${bmi.toFixed(1)}</div>BMI</div>
 <div class="metric"><div class="metricValue">${bodyFat.toFixed(1)}%</div>Body Fat</div>
-<div class="metric"><div class="metricValue">${leanMass.toFixed(1)}</div>Lean Mass</div>
-<div class="metric"><div class="metricValue">${fatMass.toFixed(1)}</div>Fat Mass</div>
-</div>
-
-<div class="sectionTitle">Metabolic Profile</div>
-
-<div class="metricGrid">
 <div class="metric"><div class="metricValue">${bmr.toFixed(0)}</div>BMR</div>
-<div class="metric"><div class="metricValue">${tdee.toFixed(0)}</div>TDEE</div>
 <div class="metric"><div class="metricValue">${vo2.toFixed(1)}</div>VO₂ Max</div>
-<div class="metric"><div class="metricValue">${whtr.toFixed(2)}</div>WHtR</div>
 </div>
-
-<div class="sectionTitle">Doctor Clinical Interpretation</div>
-
-<div class="reportBox">
-• Cardiometabolic Status: ${level}<br>
-• Fitness Level: ${vo2>40?"Above Average":"Needs Improvement"}<br>
-• Body Composition: ${bmi<25?"Healthy Range":"Overweight Indicator"}<br>
-• Lifestyle Stability: ${sleep>=7?"Stable":"Irregular"}<br>
-</div>
-
-<div class="sectionTitle">Elite 30-Day Transformation Program</div>
-
-${program}
-
-<div class="sectionTitle">Clinical Note</div>
-
-<div class="reportBox">
-This report is generated using validated preventive health formulas and is intended strictly for wellness evaluation.
-It does not represent medical diagnosis or treatment advice.
-</div>
-
 `
 
+for(let i=0;i<program.length;i++){
+html+=`<div class="programDay">${program[i]}</div>`
 }
 
-function downloadPDF(){
-
-let element=document.getElementById("report")
-
-html2canvas(element,{scale:2}).then(canvas=>{
-
-const img=canvas.toDataURL("image/png")
-const {jsPDF}=window.jspdf
-const pdf=new jsPDF("p","mm","a4")
-
-pdf.setFillColor(15,23,42)
-pdf.rect(0,0,210,297,"F")
-
-pdf.addImage(img,"PNG",10,10,190,0)
-pdf.save("Health_Intelligence_Premium_Report.pdf")
-
-})
+document.getElementById("output").style.display="block"
+document.getElementById("output").innerHTML=html
 
 }
 
