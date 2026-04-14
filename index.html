@@ -1,29 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>Preventive Health Assessment Platform</title>
+<title>Clinical Health Intelligence Platform</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 
 <style>
 
 body{
-font-family:Inter;
 margin:0;
+font-family:Inter;
 background:#f4f7fb;
 }
 
 header{
 background:linear-gradient(90deg,#0f172a,#2563eb);
 color:white;
-padding:24px;
+padding:22px;
 text-align:center;
 font-size:24px;
 font-weight:700;
@@ -32,117 +28,103 @@ font-weight:700;
 .container{
 max-width:1100px;
 margin:auto;
-padding:30px;
+padding:25px;
 }
 
 .card{
 background:white;
-padding:25px;
+padding:22px;
 border-radius:10px;
 box-shadow:0 10px 20px rgba(0,0,0,0.08);
-margin-bottom:25px;
+margin-bottom:20px;
 }
 
 .grid{
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-gap:15px;
+gap:12px;
 }
 
-input,select{
+input{
 padding:10px;
 border:1px solid #cbd5e1;
 border-radius:6px;
-width:100%;
 }
 
 button{
 background:#2563eb;
 color:white;
-padding:14px 20px;
 border:none;
+padding:12px 18px;
 border-radius:8px;
-margin-top:20px;
+margin-top:15px;
 cursor:pointer;
 }
 
 .metricGrid{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-gap:20px;
-margin-top:20px;
+grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
+gap:15px;
+margin-top:15px;
 }
 
 .metric{
 background:#eef2ff;
-padding:18px;
+padding:15px;
 border-radius:8px;
 text-align:center;
 }
 
 .metricValue{
-font-size:28px;
+font-size:26px;
 font-weight:700;
 color:#1e3a8a;
 }
 
 .sectionTitle{
-font-size:20px;
-margin-top:30px;
+margin-top:20px;
+font-size:18px;
 font-weight:600;
+color:#0f172a;
 }
 
 .programDay{
 background:#ecfdf5;
-padding:10px;
-margin:6px 0;
-border-left:5px solid #10b981;
+padding:8px;
+margin:5px 0;
+border-left:4px solid #10b981;
+font-size:13px;
 }
 
 </style>
-
 </head>
 
 <body>
 
-<header>Preventive Health Intelligence System</header>
+<header>Clinical Preventive Health Intelligence System</header>
 
 <div class="container">
 
 <div class="card">
 
-<h2>Patient Health Assessment</h2>
+<h2>Patient Assessment</h2>
 
 <div class="grid">
 
 <input id="name" placeholder="Full Name">
 <input id="age" placeholder="Age">
-
 <input id="height" placeholder="Height (cm)">
 <input id="weight" placeholder="Weight (kg)">
-<input id="waist" placeholder="Waist Circumference (cm)">
-
+<input id="waist" placeholder="Waist (cm)">
 <input id="steps" placeholder="Daily Steps">
 <input id="sleep" placeholder="Sleep Hours">
-<input id="stress" placeholder="Stress Level (1-10)">
-<input id="water" placeholder="Water Intake (Liters)">
-<input id="restHR" placeholder="Resting Heart Rate">
-
-<select id="smoking">
-<option>No Smoking</option>
-<option>Occasional</option>
-<option>Daily</option>
-</select>
-
-<select id="alcohol">
-<option>No Alcohol</option>
-<option>Moderate</option>
-<option>High</option>
-</select>
+<input id="stress" placeholder="Stress (1-10)">
+<input id="water" placeholder="Water (L)">
+<input id="restHR" placeholder="Resting HR">
 
 </div>
 
-<button onclick="analyzeHealth()">Analyze Health</button>
+<button onclick="analyze()">Analyze Health</button>
 
 </div>
 
@@ -152,216 +134,131 @@ border-left:5px solid #10b981;
 
 <script>
 
-function analyzeHealth(){
+function analyze(){
 
 let name=document.getElementById("name").value
-let age=parseFloat(document.getElementById("age").value)
-let height=parseFloat(document.getElementById("height").value)/100
-let weight=parseFloat(document.getElementById("weight").value)
-let waist=parseFloat(document.getElementById("waist").value)
+let age=+document.getElementById("age").value
+let height=+document.getElementById("height").value/100
+let weight=+document.getElementById("weight").value
+let waist=+document.getElementById("waist").value
+let steps=+document.getElementById("steps").value
+let sleep=+document.getElementById("sleep").value
+let stress=+document.getElementById("stress").value
+let water=+document.getElementById("water").value
+let hr=+document.getElementById("restHR").value
 
-let steps=parseFloat(document.getElementById("steps").value)
-let sleep=parseFloat(document.getElementById("sleep").value)
-let stress=parseFloat(document.getElementById("stress").value)
-let water=parseFloat(document.getElementById("water").value)
-let restHR=parseFloat(document.getElementById("restHR").value)
-
-if(!name || !age || !height || !weight){
-alert("Please fill required fields")
+if(!name||!age||!height||!weight){
+alert("Fill required fields")
 return
 }
 
-let bmi=weight/(height*height)
+//// GLOBAL STANDARD CALCULATIONS
 
-let bodyFat=(1.2*bmi)+(0.23*age)-5.4
+let bmi = weight/(height*height)
 
-let fatMass=weight*(bodyFat/100)
+// Deurenberg Body Fat
+let bodyFat = (1.20*bmi)+(0.23*age)-16.2
 
-let leanMass=weight-fatMass
+let fatMass = weight*(bodyFat/100)
+let leanMass = weight-fatMass
 
-let waistHeightRatio=waist/(height*100)
+let waistHeightRatio = waist/(height*100)
 
-let bmr=(10*weight)+(6.25*(height*100))-(5*age)+5
+// Mifflin St Jeor BMR
+let bmr = (10*weight)+(6.25*(height*100))-(5*age)+5
 
-let dailyCalories=bmr*1.4
+let tdee = bmr*1.375
 
-let healthScore=calculateScore(bmi,steps,sleep,stress,water)
+// MACROS
+let protein = weight*1.8
+let fat = (tdee*0.25)/9
+let carbs = (tdee-(protein*4 + fat*9))/4
 
-let program=fitnessProgram()
-
-displayReport(name,bmi,bodyFat,leanMass,fatMass,waistHeightRatio,bmr,dailyCalories,healthScore,program)
-
-}
-
-function calculateScore(bmi,steps,sleep,stress,water){
-
+// HEALTH SCORE
 let score=100
-
 if(bmi>25)score-=10
 if(steps<6000)score-=10
 if(sleep<6)score-=10
 if(stress>7)score-=10
 if(water<2)score-=5
 
-return score
+score=Math.max(0,score)
 
-}
-
-function fitnessProgram(){
-
-let tasks=[
-
-"30-minute brisk walking session",
-"Mobility yoga and stretching routine",
-"Bodyweight strength training circuit",
-"Core stability and balance exercises",
-"Cycling endurance workout",
-"Flexibility stretching session",
-"Breathing meditation and relaxation",
-
-"Interval walking training",
-"Upper body resistance training",
-"Lower body strength exercises",
-"Balance and stability training",
-"Posture correction exercises",
-"Cardio endurance session",
-"Active recovery yoga session",
-
-"Functional strength training",
-"Stair climbing workout",
-"Resistance band exercises",
-"Core plank challenge",
-"Deep stretching routine",
-"Agility drills workout",
-"Mindfulness meditation",
-
-"Hill walking challenge",
-"Full body conditioning routine",
-"Mobility flow training",
-"Stability balance drills",
-"Endurance cardio session",
-"Recovery mobility exercises",
-"Yoga flexibility flow",
-
-"Outdoor walking adventure",
-"Fitness celebration challenge"
-
-]
-
-let output=""
-
-tasks.forEach((t,i)=>{
-
-output+=`<div class="programDay">Day ${i+1}: ${t}</div>`
-
-})
-
-return output
-
-}
-
-function displayReport(name,bmi,bodyFat,leanMass,fatMass,whr,bmr,calories,score,program){
+let program = generate30Day()
 
 document.getElementById("report").style.display="block"
 
 document.getElementById("report").innerHTML=`
 
-<h1>Executive Preventive Health Report</h1>
+<h2>Executive Health Report</h2>
 
 <b>Patient:</b> ${name}
 
-<div class="sectionTitle">Executive Health Summary</div>
-
-<p>
-Based on the health information provided, this assessment evaluates key indicators of body composition,
-metabolic function, and lifestyle habits. These metrics help identify areas of strength as well as
-opportunities for improving long-term wellness and physical fitness.
-</p>
-
-<p>
-The calculated health score of <b>${score}/100</b> reflects the balance between physical activity,
-sleep quality, hydration, and body composition indicators.
-</p>
-
-<div class="sectionTitle">Body Composition Analysis</div>
+<div class="sectionTitle">Body Composition (Global Standard)</div>
 
 <div class="metricGrid">
 
 <div class="metric"><div class="metricValue">${bmi.toFixed(1)}</div>BMI</div>
-<div class="metric"><div class="metricValue">${bodyFat.toFixed(1)}%</div>Body Fat %</div>
-<div class="metric"><div class="metricValue">${leanMass.toFixed(1)} kg</div>Lean Body Mass</div>
-<div class="metric"><div class="metricValue">${fatMass.toFixed(1)} kg</div>Fat Mass</div>
+<div class="metric"><div class="metricValue">${bodyFat.toFixed(1)}%</div>Body Fat</div>
+<div class="metric"><div class="metricValue">${leanMass.toFixed(1)}</div>Lean Mass</div>
+<div class="metric"><div class="metricValue">${fatMass.toFixed(1)}</div>Fat Mass</div>
 
 </div>
 
-<p>
-Body composition analysis provides insight into the proportion of lean tissue and fat mass within the body.
-Maintaining a healthy balance supports metabolic efficiency, cardiovascular endurance, and musculoskeletal health.
-</p>
-
-<div class="sectionTitle">Metabolic Health Indicators</div>
+<div class="sectionTitle">Metabolic Health (Calculator Standard)</div>
 
 <div class="metricGrid">
 
-<div class="metric"><div class="metricValue">${whr.toFixed(2)}</div>Waist-Height Ratio</div>
 <div class="metric"><div class="metricValue">${bmr.toFixed(0)}</div>BMR</div>
-<div class="metric"><div class="metricValue">${calories.toFixed(0)}</div>Daily Energy Need</div>
+<div class="metric"><div class="metricValue">${tdee.toFixed(0)}</div>TDEE</div>
+<div class="metric"><div class="metricValue">${waistHeightRatio.toFixed(2)}</div>WHtR</div>
+<div class="metric"><div class="metricValue">${score}</div>Health Score</div>
 
 </div>
 
+<div class="sectionTitle">Nutrition (Macro Breakdown)</div>
+
+<div class="metricGrid">
+
+<div class="metric"><div class="metricValue">${protein.toFixed(0)}g</div>Protein</div>
+<div class="metric"><div class="metricValue">${fat.toFixed(0)}g</div>Fat</div>
+<div class="metric"><div class="metricValue">${carbs.toFixed(0)}g</div>Carbs</div>
+
+</div>
+
+<div class="sectionTitle">Clinical Interpretation</div>
+
 <p>
-Basal Metabolic Rate represents the amount of energy required by the body to maintain essential physiological
-functions at rest. Daily calorie estimates provide a reference point for maintaining balanced nutrition and
-healthy body weight.
+This assessment follows standardized formulas used in global fitness calculators including BMI,
+Mifflin-St Jeor BMR, Deurenberg Body Fat estimation and TDEE energy modeling.
+The results represent metabolic health, energy balance, and nutritional requirements.
 </p>
 
-<div class="sectionTitle">Lifestyle Recommendations</div>
-
-<ul>
-
-<li>Maintain daily physical activity levels above 8,000 steps where possible.</li>
-<li>Aim for consistent sleep duration of 7–8 hours per night.</li>
-<li>Hydrate regularly throughout the day to support metabolic health.</li>
-<li>Incorporate strength and mobility exercises multiple times per week.</li>
-
-</ul>
-
-<div class="sectionTitle">30-Day Wellness & Fitness Program</div>
+<div class="sectionTitle">30-Day Adaptive Fitness Program</div>
 
 ${program}
-
-<br>
-
-<button onclick="downloadPDF()">Download Health Report</button>
-
-<p style="margin-top:30px;font-size:12px">
-
-This report is a digitally generated health assessment created based on the information provided by the user and general wellness guidelines. It is intended for informational and educational purposes only and should not be considered medical advice, diagnosis, or treatment. Always consult a qualified physician or healthcare professional before making any health-related decisions.
-
-</p>
 
 `
 
 }
 
-async function downloadPDF(){
+function generate30Day(){
 
-const {jsPDF}=window.jspdf
+let base=[
+"Brisk walking 30 min",
+"Mobility & stretching",
+"Bodyweight strength",
+"Core stability training",
+"Cycling endurance",
+"Yoga recovery",
+"Breathing meditation"
+]
 
-let report=document.getElementById("report")
-
-html2canvas(report).then(canvas=>{
-
-let img=canvas.toDataURL("image/png")
-
-let pdf=new jsPDF("p","mm","a4")
-
-pdf.addImage(img,"PNG",10,10,190,0)
-
-pdf.save("Health_Assessment_Report.pdf")
-
-})
-
+let out=""
+for(let i=0;i<30;i++){
+out+=`<div class="programDay">Day ${i+1}: ${base[i%7]}</div>`
+}
+return out
 }
 
 </script>
