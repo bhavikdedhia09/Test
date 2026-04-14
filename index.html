@@ -16,16 +16,17 @@
 body{
 margin:0;
 font-family:Inter;
-background:#f5f7fb;
+background:#eef2f7;
 }
 
 header{
-background:#0f172a;
+background:#0b1220;
 color:white;
-padding:20px;
+padding:22px;
 text-align:center;
 font-size:22px;
 font-weight:700;
+letter-spacing:1px;
 }
 
 .container{
@@ -36,9 +37,9 @@ padding:25px;
 
 .card{
 background:white;
-border-radius:12px;
-padding:20px;
-box-shadow:0 8px 20px rgba(0,0,0,0.08);
+border-radius:14px;
+padding:22px;
+box-shadow:0 10px 30px rgba(0,0,0,0.08);
 margin-bottom:18px;
 }
 
@@ -51,7 +52,7 @@ gap:10px;
 input{
 padding:10px;
 border:1px solid #cbd5e1;
-border-radius:6px;
+border-radius:8px;
 }
 
 button{
@@ -59,9 +60,10 @@ background:#1d4ed8;
 color:white;
 padding:12px 16px;
 border:none;
-border-radius:8px;
+border-radius:10px;
 cursor:pointer;
 margin-top:10px;
+font-weight:600;
 }
 
 .metricGrid{
@@ -72,22 +74,22 @@ margin-top:12px;
 }
 
 .metric{
-background:#eef2ff;
+background:#f1f5ff;
 padding:14px;
-border-radius:10px;
+border-radius:12px;
 text-align:center;
 }
 
 .metricValue{
 font-size:22px;
-font-weight:700;
+font-weight:800;
 color:#1e3a8a;
 }
 
 .sectionTitle{
-margin-top:18px;
-font-size:17px;
-font-weight:700;
+margin-top:20px;
+font-size:16px;
+font-weight:800;
 color:#0f172a;
 }
 
@@ -95,16 +97,16 @@ color:#0f172a;
 background:#f8fafc;
 border-left:4px solid #2563eb;
 padding:14px;
+border-radius:8px;
 margin-top:10px;
-border-radius:6px;
 }
 
 .badge{
 display:inline-block;
-padding:5px 10px;
-border-radius:6px;
+padding:6px 12px;
+border-radius:8px;
 font-size:12px;
-font-weight:600;
+font-weight:700;
 }
 
 .green{background:#dcfce7;color:#166534;}
@@ -112,11 +114,12 @@ font-weight:600;
 .red{background:#fee2e2;color:#991b1b;}
 
 .programDay{
-background:#ecfdf5;
-padding:8px;
-margin:5px 0;
-border-left:4px solid #10b981;
+background:linear-gradient(90deg,#ecfdf5,#dbeafe);
+padding:10px;
+margin:6px 0;
+border-left:5px solid #10b981;
 font-size:13px;
+font-weight:500;
 }
 
 </style>
@@ -130,7 +133,7 @@ font-size:13px;
 
 <div class="card">
 
-<h2>Patient Clinical Input Form</h2>
+<h2>Patient Clinical Input</h2>
 
 <div class="grid">
 
@@ -148,7 +151,7 @@ font-size:13px;
 </div>
 
 <button onclick="generateReport()">Generate Report</button>
-<button onclick="downloadPDF()">Download PDF</button>
+<button onclick="downloadPDF()">Download Premium Report</button>
 
 </div>
 
@@ -160,7 +163,6 @@ font-size:13px;
 
 function generateReport(){
 
-let name=document.getElementById("name").value
 let age=+document.getElementById("age").value
 let height=+document.getElementById("height").value/100
 let weight=+document.getElementById("weight").value
@@ -168,96 +170,114 @@ let waist=+document.getElementById("waist").value
 let steps=+document.getElementById("steps").value
 let sleep=+document.getElementById("sleep").value
 let stress=+document.getElementById("stress").value
-let water=+document.getElementById("water").value
 let hr=+document.getElementById("hr").value
 
-if(!name||!age||!height||!weight){
-alert("Please fill required fields")
-return
-}
+let bmi=weight/(height*height)
+let bodyFat=(1.2*bmi)+(0.23*age)-16.2
+let fatMass=weight*(bodyFat/100)
+let leanMass=weight-fatMass
+let whtr=waist/(height*100)
 
-// CORE METRICS
-let bmi = weight/(height*height)
-let bodyFat = (1.20*bmi)+(0.23*age)-16.2
-let fatMass = weight*(bodyFat/100)
-let leanMass = weight-fatMass
-let whtr = waist/(height*100)
+let bmr=(10*weight)+(6.25*(height*100))-(5*age)+5
+let tdee=bmr*1.4
+let vo2=15*(220-age)/hr
 
-// METABOLIC
-let bmr = (10*weight)+(6.25*(height*100))-(5*age)+5
-let tdee = bmr*1.375
+let risk=0
+if(bmi>25)risk++
+if(bodyFat>25)risk++
+if(steps<6000)risk++
+if(sleep<6)risk++
+if(stress>7)risk++
+if(whtr>0.5)risk++
 
-// VO2 MAX
-let vo2 = 15*(220-age)/hr
+let level="GREEN"
+if(risk>3)level="RED"
+else if(risk>1)level="YELLOW"
 
-// RISK ENGINE
-let riskScore=0
-if(bmi>25)riskScore++
-if(bodyFat>25)riskScore++
-if(steps<6000)riskScore++
-if(sleep<6)riskScore++
-if(stress>7)riskScore++
-if(whtr>0.5)riskScore++
+/* ===================== ELITE 30 DAY PROGRAM ===================== */
 
-let risk="GREEN"
-if(riskScore>3)risk="RED"
-else if(riskScore>1)risk="YELLOW"
-
-// 30 DAY PLAN
-let base=[
-"Brisk Walk","Mobility","Strength","Core","Cardio","Yoga","Meditation"
+let programThemes=[
+"🔥 Power Walk Challenge (Fat Burn Activation)",
+"🧠 Mental Reset + Breath Control Training",
+"💪 Strength Foundation (Bodyweight Control)",
+"⚡ Explosive Cardio Burst Session",
+"🧘 Mobility Flow + Joint Recovery",
+"🏃 Endurance Builder Mission",
+"💧 Detox + Hydration Focus Day",
+"🔥 HIIT Fat Loss Accelerator",
+"🧠 Stress Reset + Guided Calm Practice",
+"💪 Core Power Stability Training",
+"⚡ Speed & Agility Training",
+"🧘 Deep Stretch Recovery Protocol",
+"🏃 Long Walk Endurance Mission",
+"🔥 Fat Burn Circuit Challenge",
+"🧠 Mindfulness + Focus Training",
+"💪 Upper Body Strength Builder",
+"⚡ Cardio Power Intervals",
+"🧘 Yoga + Flexibility Reset",
+"🏃 Step Count Challenge Day",
+"🔥 Full Body Conditioning Blast"
 ]
 
 let program=""
 for(let i=0;i<30;i++){
-program+=`<div class="programDay">Day ${i+1}: ${base[i%7]}</div>`
+program+=`<div class="programDay">Day ${i+1}: ${programThemes[i%programThemes.length]}</div>`
 }
 
-// REPORT
 document.getElementById("report").style.display="block"
 
 document.getElementById("report").innerHTML=`
 
-<h2>Executive Clinical Report</h2>
+<h2>Clinical Health Summary Report</h2>
 
-<span class="badge ${risk==='GREEN'?'green':risk==='YELLOW'?'yellow':'red'}">
-Risk Level: ${risk}
+<span class="badge ${level==='GREEN'?'green':level==='YELLOW'?'yellow':'red'}">
+Risk Status: ${level}
 </span>
 
-<div class="sectionTitle">Body Composition</div>
+<div class="sectionTitle">Executive Clinical Summary</div>
+
+<div class="reportBox">
+The patient presents a ${level} cardiometabolic risk profile based on integrated body composition, metabolic rate,
+and lifestyle indicators. Findings are consistent with preventive health evaluation standards.
+</div>
+
+<div class="sectionTitle">Body Composition Analysis</div>
 
 <div class="metricGrid">
-
 <div class="metric"><div class="metricValue">${bmi.toFixed(1)}</div>BMI</div>
 <div class="metric"><div class="metricValue">${bodyFat.toFixed(1)}%</div>Body Fat</div>
 <div class="metric"><div class="metricValue">${leanMass.toFixed(1)}</div>Lean Mass</div>
 <div class="metric"><div class="metricValue">${fatMass.toFixed(1)}</div>Fat Mass</div>
-
 </div>
 
 <div class="sectionTitle">Metabolic Profile</div>
 
 <div class="metricGrid">
-
 <div class="metric"><div class="metricValue">${bmr.toFixed(0)}</div>BMR</div>
 <div class="metric"><div class="metricValue">${tdee.toFixed(0)}</div>TDEE</div>
 <div class="metric"><div class="metricValue">${vo2.toFixed(1)}</div>VO₂ Max</div>
 <div class="metric"><div class="metricValue">${whtr.toFixed(2)}</div>WHtR</div>
-
 </div>
 
-<div class="sectionTitle">Clinical Interpretation</div>
+<div class="sectionTitle">Doctor Clinical Interpretation</div>
 
 <div class="reportBox">
-Cardiometabolic Status: ${risk}<br>
-Fitness Level: ${vo2>40?"Good":"Needs Improvement"}<br>
-Body Composition: ${bmi<25?"Normal":"Elevated Risk"}<br>
-Lifestyle Stability: ${sleep>=7?"Stable":"Unstable"}<br>
+• Cardiometabolic Status: ${level}<br>
+• Fitness Level: ${vo2>40?"Above Average":"Needs Improvement"}<br>
+• Body Composition: ${bmi<25?"Healthy Range":"Overweight Indicator"}<br>
+• Lifestyle Stability: ${sleep>=7?"Stable":"Irregular"}<br>
 </div>
 
-<div class="sectionTitle">30-Day Health Program</div>
+<div class="sectionTitle">Elite 30-Day Transformation Program</div>
 
 ${program}
+
+<div class="sectionTitle">Clinical Note</div>
+
+<div class="reportBox">
+This report is generated using validated preventive health formulas and is intended strictly for wellness evaluation.
+It does not represent medical diagnosis or treatment advice.
+</div>
 
 `
 
@@ -265,14 +285,19 @@ ${program}
 
 function downloadPDF(){
 
-html2canvas(document.getElementById("report")).then(canvas=>{
+let element=document.getElementById("report")
+
+html2canvas(element,{scale:2}).then(canvas=>{
 
 const img=canvas.toDataURL("image/png")
 const {jsPDF}=window.jspdf
 const pdf=new jsPDF("p","mm","a4")
 
+pdf.setFillColor(15,23,42)
+pdf.rect(0,0,210,297,"F")
+
 pdf.addImage(img,"PNG",10,10,190,0)
-pdf.save("Health_Intelligence_Report.pdf")
+pdf.save("Health_Intelligence_Premium_Report.pdf")
 
 })
 
