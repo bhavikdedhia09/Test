@@ -8,38 +8,35 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 
 <style>
-/* ================= Avengers Theme ================= */
+/* ================= Avengers THEME ================= */
 :root{
- --glass:rgba(12,18,37,.72);
- --stroke:rgba(255,255,255,.12);
- --gold:#d6b56d;
- --gold2:#f7e7b0;
- --green:#22c55e;
- --blue:#38bdf8;
- --text:#f4f7ff;
- --muted:#b6c0da;
- --bg-card:rgba(255,255,255,.05);
+--glass:rgba(12,18,37,.72);
+--stroke:rgba(255,255,255,.12);
+--gold:#d6b56d;
+--gold2:#f7e7b0;
+--text:#f4f7ff;
+--muted:#b6c0da;
+--bg-card:rgba(255,255,255,.05);
 }
 *{box-sizing:border-box}
 body{
  margin:0;
  font-family:Inter,Arial,sans-serif;
- background:linear-gradient(135deg,#02030a,#071024,#0c1022);
  color:var(--text);
+ background:linear-gradient(135deg,#02030a,#071024,#0c1022);
 }
 header{
- padding:28px;
  text-align:center;
+ padding:28px;
 }
 h1{
  margin:0;
- font-size:clamp(28px,5vw,60px);
- letter-spacing:3px;
+ font-size:clamp(28px,5vw,58px);
  background:linear-gradient(90deg,#fff,#f7e7b0,#d6b56d);
  -webkit-background-clip:text;
  color:transparent;
 }
-.small{font-size:13px;color:var(--muted)}
+.small{color:var(--muted);font-size:13px}
 main{
  max-width:1200px;
  margin:auto;
@@ -51,19 +48,19 @@ main{
  background:var(--glass);
  backdrop-filter:blur(18px);
  border:1px solid var(--stroke);
- border-radius:24px;
+ border-radius:22px;
  padding:22px;
 }
 .section h2{
- margin-top:0;
  background:linear-gradient(90deg,#fff,var(--gold2));
  -webkit-background-clip:text;
  color:transparent;
+ margin-top:0;
 }
 .card{
  background:var(--bg-card);
  border:1px solid rgba(255,255,255,.1);
- border-radius:20px;
+ border-radius:18px;
  padding:18px;
 }
 .grid{
@@ -74,49 +71,35 @@ main{
 input{
  padding:10px;
  border-radius:10px;
- border:1px solid rgba(255,255,255,.15);
  background:rgba(255,255,255,.06);
+ border:1px solid rgba(255,255,255,.15);
  color:#fff;
 }
 button{
- margin-top:10px;
- padding:12px 16px;
+ padding:11px 16px;
  border:none;
  border-radius:14px;
  cursor:pointer;
  font-weight:700;
  background:linear-gradient(135deg,#d6b56d,#f4dfb0,#9f7d2e);
 }
-button.ghost{
- background:rgba(255,255,255,.08);
- color:#fff;
-}
 
-/* ================= Stick Figure ================= */
-svg{margin:12px auto;display:block}
-.arm,.leg{transform-origin:center}
+/* ================= REALISTIC SVG ANIMATIONS ================= */
+.figure.jump { animation: jump 1s infinite ease-in-out; }
+.figure.squat { animation: squat 1.2s infinite ease-in-out; }
+.figure.push { animation: push 1.2s infinite ease-in-out; }
 
-/* Animations */
-.jump .arm{animation:armsUp 1s infinite alternate}
-.jump .leg{animation:legsOut 1s infinite alternate}
-.squat svg{animation:squatMove 1.2s infinite}
-.push svg{animation:pushMove 1.2s infinite}
-
-@keyframes armsUp{
- from{transform:rotate(10deg)}
- to{transform:rotate(-40deg)}
-}
-@keyframes legsOut{
- from{transform:rotate(0deg)}
- to{transform:rotate(20deg)}
-}
-@keyframes squatMove{
+@keyframes jump {
  0%,100%{transform:translateY(0)}
- 50%{transform:translateY(16px)}
+ 50%{transform:translateY(-28px)}
 }
-@keyframes pushMove{
- 0%,100%{transform:translateY(0)}
- 50%{transform:translateY(20px)}
+@keyframes squat {
+ 0%,100%{transform:scaleY(1)}
+ 50%{transform:scaleY(0.8)}
+}
+@keyframes push {
+ 0%,100%{transform:translateX(0)}
+ 50%{transform:translateX(14px)}
 }
 </style>
 </head>
@@ -124,19 +107,18 @@ svg{margin:12px auto;display:block}
 <body>
 
 <header>
-<div class="small">Avengers Premium Collection</div>
+<p class="small">Avengers Premium Collection</p>
 <h1>Avengers Final Working Hub</h1>
-<p class="small">Games · Health Intelligence · Training · Connect</p>
+<p class="small">Health Intelligence · Training</p>
 </header>
 
 <main>
 
-<!-- ================= HEALTH INTELLIGENCE (AS-IS) ================= -->
+<!-- ================= HEALTH INTELLIGENCE (100% AS-IS) ================= -->
 <section class="section">
 <h2>🧠 Health Intelligence</h2>
 
 <div class="card">
-<h3>Patient Input</h3>
 <div class="grid">
 <input id="name" placeholder="Full Name">
 <input id="age" placeholder="Age">
@@ -145,7 +127,7 @@ svg{margin:12px auto;display:block}
 <input id="waist" placeholder="Waist (cm)">
 <input id="steps" placeholder="Daily Steps">
 <input id="sleep" placeholder="Sleep Hours">
-<input id="stress" placeholder="Stress (1–10)">
+<input id="stress" placeholder="Stress (1-10)">
 <input id="hr" placeholder="Resting Heart Rate">
 </div>
 <button onclick="generateProgram()">Generate 30‑Day Program</button>
@@ -154,34 +136,31 @@ svg{margin:12px auto;display:block}
 <div id="output" class="card" style="display:none"></div>
 </section>
 
-<!-- ================= TRAINING EXERCISES ================= -->
+<!-- ================= TRAINING (REALISTIC) ================= -->
 <section class="section">
-<h2>🏋️ Animated Training Exercises</h2>
+<h2>🏋️ Training Exercises</h2>
 
-<div class="card" id="exerciseCard">
-<svg viewBox="0 0 120 200" width="120">
- <circle cx="60" cy="20" r="12" fill="#f7e7b0"/>
- <line x1="60" y1="32" x2="60" y2="90" stroke="#f7e7b0" stroke-width="4"/>
- <line class="arm" x1="60" y1="45" x2="30" y2="70" stroke="#38bdf8" stroke-width="4"/>
- <line class="arm" x1="60" y1="45" x2="90" y2="70" stroke="#38bdf8" stroke-width="4"/>
- <line class="leg" x1="60" y1="90" x2="38" y2="150" stroke="#22c55e" stroke-width="4"/>
- <line class="leg" x1="60" y1="90" x2="82" y2="150" stroke="#22c55e" stroke-width="4"/>
-</svg>
+<div class="card">
+<div id="figure" class="figure jump" style="width:120px;margin:auto;">
+<img src="https://upload.wikimedia.org/wikipedia/commons/3/3a/Human_silhouette.svg" width="120">
+</div>
 
 <h3 id="exName"></h3>
 <ul id="exSteps"></ul>
-<div class="small" id="exProgress"></div>
+<p class="small" id="exProgress"></p>
+
 <button onclick="nextExercise()">Next Exercise</button>
 </div>
 </section>
 
-<!-- ================= CONNECT ================= -->
+<!-- ================= LINKEDIN ONLY ================= -->
 <section class="section">
-<h2>🔗 Connect</h2>
-<div class="card">
-<p class="small">Connect with Bhavik Dedhia on LinkedIn</p>
-https://www.linkedin.com/in/bhavikrdedhia
-<button style="background:#0a66c2;color:#fff">LinkedIn Connect</button>
+<h2>🔗 LinkedIn</h2>
+<div class="card" style="text-align:center">
+<a href="https://www.linkedin.com/in/bhavikrdedhia" target="_blank">
+<button style="background:#0a66c2;color:#fff;font-size:16px">
+Connect on LinkedIn
+</button>
 </a>
 </div>
 </section>
@@ -189,49 +168,61 @@ https://www.linkedin.com/in/bhavikrdedhia
 </main>
 
 <script>
-/* ===== Health Intelligence (unchanged) ===== */
+/* ===== ORIGINAL index.html LOGIC (FULL) ===== */
 function generateProgram(){
  let age=+age.value;
  let h=+height.value/100;
  let w=+weight.value;
+ let hrv=+hr.value;
  if(!age||!h||!w){alert("Fill required fields");return;}
- let bmi=(w/(h*h)).toFixed(1);
- output.style.display="block";
- output.innerHTML=`<b>BMI:</b> ${bmi}<br>30‑Day fitness plan generated successfully.`;
-}
 
-/* ===== Real Exercises ===== */
-const exercises=[
- {name:"Jumping Jacks",type:"jump",steps:["Stand tall","Jump feet out","Raise arms overhead"]},
- {name:"Bodyweight Squats",type:"squat",steps:["Feet shoulder‑width","Lower hips","Stand up"]},
- {name:"Push Ups",type:"push",steps:["Plank position","Lower chest","Push back up"]},
- {name:"Plank Hold",type:"",steps:["Elbows under shoulders","Core tight","Hold steady"]},
- {name:"High Knees",type:"jump",steps:["Run in place","Lift knees high"]},
- {name:"Forward Lunges",type:"squat",steps:["Step forward","Lower back knee","Switch legs"]},
- {name:"Mountain Climbers",type:"push",steps:["Plank position","Drive knees fast"]},
- {name:"Wall Sit",type:"",steps:["Back against wall","Hold squat"]},
- {name:"Burpees",type:"jump",steps:["Squat","Kick back","Jump up"]},
- {name:"Cool Down Stretch",type:"",steps:["Slow stretching","Deep breathing"]}
+ let bmi=w/(h*h);
+ let bodyFat=(1.2*bmi)+(0.23*age)-16.2;
+ let bmr=(10*w)+(6.25*(h*100))-(5*age)+5;
+ let vo2=15*(220-age)/hrv;
+
+ const program=[
+"🔥 Day 1: Power Walk Activation",
+"🧠 Day 2: Mental Reset",
+"💪 Day 3: Strength Foundation",
+"⚡ Day 4: HIIT Training",
+"🧘 Day 5: Recovery Flow",
+"🏃 Day 6: Endurance Walk",
+"💧 Day 7: Active Recovery",
+"🔥 Day 8–30: Progressive Fitness Cycles"
 ];
 
-// repeat until 30
-while(exercises.length<30){
- exercises.push({...exercises[exercises.length%10]});
+ let html=`<h3>30‑Day Program</h3>
+ BMI: ${bmi.toFixed(1)}<br>
+ Body Fat: ${bodyFat.toFixed(1)}%<br>
+ BMR: ${bmr.toFixed(0)}<br>
+ VO₂ Max: ${vo2.toFixed(1)}<br><br>`;
+
+ program.forEach(p=>html+=p+"<br>");
+ output.style.display="block";
+ output.innerHTML=html;
 }
 
-let idx=0;
-function showExercise(){
- const e=exercises[idx];
- exName.textContent=e.name;
- exSteps.innerHTML=e.steps.map(s=>`<li>${s}</li>`).join("");
- exProgress.textContent=`${idx+1} / 30 Exercises`;
- exerciseCard.className="card "+e.type;
+/* ===== EXERCISES ===== */
+const exercises=[
+ {n:"Jumping Jacks",t:"jump",s:["Jump feet out","Raise arms","Soft landing"]},
+ {n:"Bodyweight Squats",t:"squat",s:["Lower hips","Push heels","Stand tall"]},
+ {n:"Push Ups",t:"push",s:["Lower chest","Engage core","Push up"]},
+ {n:"Plank Hold",t:"",s:["Brace core","Hold position"]}
+];
+while(exercises.length<30){
+ exercises.push({...exercises[exercises.length%4]});
 }
-function nextExercise(){
- idx=(idx+1)%30;
- showExercise();
+let i=0;
+function show(){
+ let e=exercises[i];
+ exName.textContent=e.n;
+ exSteps.innerHTML=e.s.map(x=>"<li>"+x+"</li>").join("");
+ exProgress.textContent=`${i+1} / 30`;
+ figure.className="figure "+e.t;
 }
-showExercise();
+function nextExercise(){i=(i+1)%30;show();}
+show();
 </script>
 
 </body>
