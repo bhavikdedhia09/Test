@@ -1,19 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Avengers Final Health & Training Hub</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Avengers Final Working Hub</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 
 <style>
+/* ========== Avengers Theme ========== */
 :root{
  --glass:rgba(12,18,37,.72);
  --stroke:rgba(255,255,255,.12);
  --gold:#d6b56d;
  --gold2:#f7e7b0;
  --green:#22c55e;
+ --blue:#38bdf8;
  --text:#f4f7ff;
  --muted:#b6c0da;
  --bg-card:rgba(255,255,255,.05);
@@ -22,8 +24,8 @@
 body{
  margin:0;
  font-family:Inter,Arial,sans-serif;
- color:var(--text);
  background:linear-gradient(135deg,#02030a,#071024,#0c1022);
+ color:var(--text);
 }
 header{
  text-align:center;
@@ -31,18 +33,19 @@ header{
 }
 h1{
  margin:0;
- font-size:clamp(28px,5vw,56px);
+ font-size:clamp(28px,5vw,60px);
  letter-spacing:3px;
  background:linear-gradient(90deg,#fff,#f7e7b0,#d6b56d);
  -webkit-background-clip:text;
  color:transparent;
 }
+.small{font-size:13px;color:var(--muted)}
 main{
  max-width:1200px;
  margin:auto;
  padding:16px;
  display:grid;
- gap:20px;
+ gap:18px;
 }
 .section{
  background:var(--glass);
@@ -51,91 +54,101 @@ main{
  border-radius:24px;
  padding:22px;
 }
+.section h2{
+ margin-top:0;
+ background:linear-gradient(90deg,#fff,var(--gold2));
+ -webkit-background-clip:text;
+ color:transparent;
+}
 .card{
  background:var(--bg-card);
  border:1px solid rgba(255,255,255,.1);
  border-radius:20px;
  padding:18px;
 }
-button{
- border:none;
- border-radius:14px;
- padding:11px 16px;
- font-weight:700;
- cursor:pointer;
- background:linear-gradient(135deg,#d6b56d,#f4dfb0);
-}
-button.ghost{
- background:rgba(255,255,255,.08);
- color:white;
-}
 input{
  width:100%;
  padding:10px;
+ margin:5px 0;
  border-radius:10px;
  border:1px solid rgba(255,255,255,.15);
  background:rgba(255,255,255,.06);
- color:white;
- margin:4px 0;
+ color:#fff;
+}
+button{
+ margin-top:10px;
+ padding:12px 16px;
+ border:none;
+ border-radius:14px;
+ cursor:pointer;
+ font-weight:700;
+ background:linear-gradient(135deg,#d6b56d,#f4dfb0,#9f7d2e);
+}
+button.ghost{
+ background:rgba(255,255,255,.08);
+ color:#fff;
 }
 .fade{
- animation:fade .4s ease;
+ animation:fade .35s ease;
 }
 @keyframes fade{
- from{opacity:0;transform:translateY(10px)}
- to{opacity:1}
+ from{opacity:0;transform:translateY(12px)}
+ to{opacity:1;transform:none}
 }
-.progress{
- font-size:14px;
- color:var(--gold2);
- margin-top:6px;
-}
+.grid{display:grid;gap:14px}
+.grid-2{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
 </style>
 </head>
 
 <body>
 
 <header>
-<h1>Avengers Health & Training Hub</h1>
-<p class="small">Elite Fitness · Training · Connect</p>
+<div class="small">Avengers Premium Collection</div>
+<h1>Avengers Final Working Hub</h1>
+<p class="small">Games · Health Intelligence · Training · Connect</p>
 </header>
 
 <main>
 
-<!-- HEALTH INTELLIGENCE -->
+<!-- ================= HEALTH INTELLIGENCE (from index.html) ================= -->
 <section class="section">
-<h2>🧠 Health Intelligence – 30 Day Program</h2>
+<h2>🧠 Health Intelligence</h2>
+<div class="grid grid-2">
 <div class="card">
-<div class="grid">
+<h3>Patient Input</h3>
 <input id="age" placeholder="Age">
 <input id="height" placeholder="Height (cm)">
 <input id="weight" placeholder="Weight (kg)">
+<input id="waist" placeholder="Waist (cm)">
 <input id="steps" placeholder="Daily Steps">
+<button onclick="generateProgram()">Generate 30‑Day Program</button>
 </div>
-<button onclick="generateProgram()">Generate Program</button>
-<div id="healthOut"></div>
+<div class="card">
+<h3>Output</h3>
+<div id="healthOut" class="small">Enter details to generate program.</div>
+</div>
 </div>
 </section>
 
-<!-- TRAINING MODULE -->
+<!-- ================= TRAINING EXERCISES ================= -->
 <section class="section">
-<h2>🏋️ Training Exercise Module</h2>
+<h2>🏋️ Animated Training Exercises</h2>
 <div class="card fade" id="exerciseCard">
-<h3 id="exTitle"></h3>
+<h3 id="exName"></h3>
 <ul id="exSteps"></ul>
-<div class="progress" id="exProgress"></div>
+<div class="small" id="exProgress"></div>
 <button onclick="nextExercise()">Next Exercise</button>
 <button class="ghost" onclick="randomExercise()">Random Exercise</button>
 </div>
 </section>
 
-<!-- CONNECT -->
+<!-- ================= CONNECT ================= -->
 <section class="section">
 <h2>🔗 Connect</h2>
 <div class="card">
-<p>Connect with Bhavik Dedhia on LinkedIn</p>
-<a href="https://www.linkedin.com/in/bhavikrdedhia" target="_blank">
-<button style="background:#0a66c2;color:white">LinkedIn Connect</button>
+<p class="small">Connect with Bhavik Dedhia on LinkedIn</p>
+<a href="https://www.linkedin.com/in/bhavikrdedhia" target="_blank" style="text-decoration:none">
+<button style="background:#0a66c2;color:#fff">LinkedIn Connect</button>
 </a>
 </div>
 </section>
@@ -143,6 +156,73 @@ input{
 </main>
 
 <script>
+/* ================= HEALTH PROGRAM ================= */
+function generateProgram(){
+ const a=+age.value, h=+height.value/100, w=+weight.value;
+ if(!a||!h||!w){alert("Please fill required fields");return;}
+ const bmi=(w/(h*h)).toFixed(1);
+ const program=[
+ "Power Walk + Stretch",
+ "Full Body Strength",
+ "HIIT Cardio",
+ "Mobility & Recovery",
+ "Endurance Walk",
+ "Core Training",
+ "Active Recovery"
+ ];
+ let html=`<b>BMI:</b> ${bmi}<br><br><b>30‑Day Plan Preview:</b><br>`;
+ program.forEach((p,i)=>html+=`Day ${i+1}: ${p}<br>`);
+ healthOut.innerHTML=html;
+}
+
+/* ================= EXERCISES ================= */
 const exercises=[
- {n:"Jumping Jacks",s:["Stand tall","Jump feet out","Raise arms","Repeat"]},
+ {n:"Jumping Jacks",s:["Stand upright","Jump feet out","Raise arms","Repeat"]},
  {n:"Push Ups",s:["Plank position","Lower chest","Push up"]},
+ {n:"Squats",s:["Feet shoulder-width","Lower hips","Stand tall"]},
+ {n:"Plank Hold",s:["Elbows under shoulders","Engage core","Hold"]},
+ {n:"Lunges",s:["Step forward","Lower knee","Alternate legs"]},
+ {n:"High Knees",s:["Run in place","Lift knees high"]},
+ {n:"Burpees",s:["Squat","Kick back","Jump up"]},
+ {n:"Mountain Climbers",s:["Plank","Drive knees fast"]},
+ {n:"Wall Sit",s:["Back on wall","Hold seated"]},
+ {n:"Leg Raises",s:["Lie flat","Raise legs"]},
+ {n:"Crunches",s:["Knees bent","Lift shoulders"]},
+ {n:"Glute Bridges",s:["Feet on floor","Lift hips"]},
+ {n:"Step Ups",s:["Step onto platform","Switch legs"]},
+ {n:"Jump Squats",s:["Squat","Explosive jump"]},
+ {n:"Arm Circles",s:["Extend arms","Rotate circles"]},
+ {n:"Butt Kicks",s:["Run in place","Kick heels back"]},
+ {n:"Side Lunges",s:["Step sideways","Lower hips"]},
+ {n:"Calf Raises",s:["Stand tall","Raise heels"]},
+ {n:"Bicycle Crunch",s:["Alternate elbow-knee"]},
+ {n:"Toe Touches",s:["Raise legs","Touch toes"]},
+ {n:"Skaters",s:["Side jumps","Balance landing"]},
+ {n:"Superman Hold",s:["Lie flat","Lift arms & legs"]},
+ {n:"March in Place",s:["Lift knees slowly"]},
+ {n:"Shadow Boxing",s:["Punch air","Move feet"]},
+ {n:"Bridge Hold",s:["Lift hips","Hold position"]},
+ {n:"Arm Punches",s:["Extend punches","Engage core"]},
+ {n:"Standing Twists",s:["Twist torso","Controlled motion"]},
+ {n:"Neck Mobility",s:["Gentle tilts","Slow circles"]},
+ {n:"Cool Down Stretch",s:["Stretch body","Deep breathing"]},
+ {n:"Breathing Exercise",s:["Inhale deeply","Slow exhale"]}
+];
+
+let exIndex=0;
+function showExercise(i){
+ const e=exercises[i];
+ exName.textContent=e.n;
+ exSteps.innerHTML=e.s.map(x=>`<li>${x}</li>`).join("");
+ exProgress.textContent=`${i+1} / 30 Exercises`;
+ exerciseCard.classList.remove("fade");
+ void exerciseCard.offsetWidth;
+ exerciseCard.classList.add("fade");
+}
+function nextExercise(){exIndex=(exIndex+1)%30;showExercise(exIndex);}
+function randomExercise(){exIndex=Math.floor(Math.random()*30);showExercise(exIndex);}
+showExercise(0);
+</script>
+
+</body>
+</html>
