@@ -1,11 +1,12 @@
 ```html
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 <meta charset="UTF-8">
-<title>Advanced Health Intelligence Center</title>
+<title>Clinical Wellness Health Analytics Platform</title>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
 
@@ -13,61 +14,63 @@ body{
 font-family:Arial;
 background:#0f172a;
 color:white;
-text-align:center;
-padding:20px;
+margin:0;
+padding:30px;
 }
 
 h1{
-color:#22c55e;
-margin-bottom:20px;
+text-align:center;
+color:#38bdf8;
 }
 
 .container{
+max-width:1000px;
+margin:auto;
 background:#1e293b;
-padding:20px;
-margin:20px auto;
+padding:25px;
 border-radius:10px;
-width:420px;
-box-shadow:0 0 10px rgba(0,0,0,0.5);
 }
 
-input,select,button{
+input,select{
+width:100%;
 padding:8px;
-margin:5px;
-border-radius:5px;
+margin:6px 0;
+border-radius:6px;
 border:none;
-width:90%;
 }
 
 button{
-background:#22c55e;
-color:white;
+padding:10px;
+background:#38bdf8;
+border:none;
+border-radius:6px;
 cursor:pointer;
-}
-
-button:hover{
-background:#16a34a;
-}
-
-.result{
 margin-top:10px;
-font-weight:bold;
-line-height:1.6;
 }
 
-.dashboard{
-background:#111827;
+.report{
+margin-top:20px;
+background:#020617;
 padding:20px;
 border-radius:10px;
-width:650px;
-margin:auto;
 }
 
-.metric{
-display:flex;
-justify-content:space-between;
-padding:6px;
-border-bottom:1px solid #374151;
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:10px;
+}
+
+td,th{
+border:1px solid #334155;
+padding:8px;
+text-align:center;
+}
+
+canvas{
+background:white;
+border-radius:10px;
+margin-top:25px;
 }
 
 </style>
@@ -75,412 +78,194 @@ border-bottom:1px solid #374151;
 
 <body>
 
-<h1>Health Intelligence Center</h1>
-
-<div class="dashboard">
-
-<h2>Critical Health Metrics Reference</h2>
-
-<div class="metric">BMI <span>18.5 – 24.9</span></div>
-<div class="metric">Blood Pressure <span>120 / 80</span></div>
-<div class="metric">Heart Rate <span>60 – 100 bpm</span></div>
-<div class="metric">Oxygen Level <span>95% – 100%</span></div>
-<div class="metric">Blood Sugar <span>70 – 100 mg/dL</span></div>
-<div class="metric">Cholesterol <span>&lt; 200 mg/dL</span></div>
-
-</div>
-
-
-<!-- HEALTH SCORE -->
+<h1>Clinical Wellness Analytics Platform</h1>
 
 <div class="container">
 
-<h2>Personal Health Score</h2>
+<h2>Health Profile</h2>
 
-<input id="age" placeholder="Age">
-<input id="sleep" placeholder="Sleep Hours">
-<input id="steps" placeholder="Daily Steps">
+<input id="name" placeholder="Name">
 
-<select id="smoke">
-<option value="0">Non Smoker</option>
-<option value="20">Smoker</option>
-</select>
-
-<button onclick="healthScore()">Calculate Score</button>
-
-<div id="score" class="result"></div>
-
-</div>
-
-
-<!-- BMI -->
-
-<div class="container">
-
-<h2>BMI Calculator</h2>
-
-<input id="weight" placeholder="Weight (kg)">
-<input id="height" placeholder="Height (cm)">
-
-<button onclick="bmi()">Calculate BMI</button>
-
-<div id="bmiResult" class="result"></div>
-
-</div>
-
-
-<!-- BMR -->
-
-<div class="container">
-
-<h2>BMR & Daily Calories</h2>
-
-<input id="bmrWeight" placeholder="Weight kg">
-<input id="bmrHeight" placeholder="Height cm">
-<input id="bmrAge" placeholder="Age">
+<input id="age" type="number" placeholder="Age">
 
 <select id="gender">
-<option value="male">Male</option>
-<option value="female">Female</option>
+<option>Male</option>
+<option>Female</option>
 </select>
 
-<button onclick="bmr()">Calculate</button>
+<input id="height" type="number" placeholder="Height (cm)">
+<input id="weight" type="number" placeholder="Weight (kg)">
+<input id="waist" type="number" placeholder="Waist Circumference (cm)">
+<input id="hr" type="number" placeholder="Resting Heart Rate">
 
-<div id="bmrResult" class="result"></div>
+<input id="sleep" type="number" placeholder="Sleep Hours">
 
-</div>
-
-
-<!-- WATER -->
-
-<div class="container">
-
-<h2>Water Intake Calculator</h2>
-
-<input id="waterWeight" placeholder="Weight kg">
-
-<button onclick="water()">Calculate</button>
-
-<div id="waterResult" class="result"></div>
-
-</div>
-
-
-<!-- HEART RATE -->
-
-<div class="container">
-
-<h2>Heart Rate Zone Calculator</h2>
-
-<input id="hrAge" placeholder="Age">
-
-<button onclick="heartRate()">Calculate</button>
-
-<div id="hrResult" class="result"></div>
-
-</div>
-
-
-<!-- BIO AGE -->
-
-<div class="container">
-
-<h2>Biological Age Estimator</h2>
-
-<input id="realAge" placeholder="Your Age">
-
-<select id="exercise">
-<option value="-5">Exercise Daily</option>
-<option value="0">Exercise Sometimes</option>
-<option value="5">No Exercise</option>
+<select id="activity">
+<option value="1.2">Sedentary</option>
+<option value="1.375">Light Activity</option>
+<option value="1.55">Moderate Exercise</option>
+<option value="1.725">Heavy Exercise</option>
 </select>
 
-<button onclick="bioAge()">Estimate</button>
+<button onclick="generateReport()">Generate Clinical Report</button>
 
-<div id="bioResult" class="result"></div>
+<div id="report" class="report"></div>
 
-</div>
-
-
-<!-- DISEASE RISK -->
-
-<div class="container">
-
-<h2>Disease Risk Predictor</h2>
-
-<select id="sugar">
-<option value="low">Normal Sugar</option>
-<option value="high">High Sugar</option>
-</select>
-
-<select id="bp">
-<option value="normal">Normal BP</option>
-<option value="high">High BP</option>
-</select>
-
-<button onclick="risk()">Check Risk</button>
-
-<div id="riskResult" class="result"></div>
+<canvas id="healthChart"></canvas>
 
 </div>
-
-
-<!-- STRESS -->
-
-<div class="container">
-
-<h2>Mental Stress Check</h2>
-
-<select id="stress">
-<option value="low">Low Stress</option>
-<option value="medium">Moderate Stress</option>
-<option value="high">High Stress</option>
-</select>
-
-<button onclick="stressCheck()">Check</button>
-
-<div id="stressResult" class="result"></div>
-
-</div>
-
-
-<!-- HABIT -->
-
-<div class="container">
-
-<h2>Daily Health Habit Generator</h2>
-
-<button onclick="habit()">Generate Habit</button>
-
-<div id="habitResult" class="result"></div>
-
-</div>
-
-
-<!-- REPORT -->
-
-<div class="container">
-
-<h2>Download Full Health Report</h2>
-
-<button onclick="downloadReport()">Download PDF</button>
-
-</div>
-
-
 
 <script>
 
-let results={}
+function generateReport(){
 
-function healthScore(){
-
+let name=document.getElementById("name").value
+let age=parseFloat(document.getElementById("age").value)
+let gender=document.getElementById("gender").value
+let height=parseFloat(document.getElementById("height").value)
+let weight=parseFloat(document.getElementById("weight").value)
+let waist=parseFloat(document.getElementById("waist").value)
+let hr=parseFloat(document.getElementById("hr").value)
 let sleep=parseFloat(document.getElementById("sleep").value)
-let steps=parseFloat(document.getElementById("steps").value)
-let smoke=parseFloat(document.getElementById("smoke").value)
+let activity=parseFloat(document.getElementById("activity").value)
 
-let score=100
+let bmi=(weight/((height/100)*(height/100))).toFixed(1)
 
-if(sleep<6) score-=15
-if(steps<5000) score-=20
-if(steps>9000) score+=5
-
-score-=smoke
-
-results.healthScore=score
-
-document.getElementById("score").innerHTML="Health Score: "+score+"/100"
-
-}
-
-
-
-function bmi(){
-
-let w=parseFloat(document.getElementById("weight").value)
-let h=parseFloat(document.getElementById("height").value)/100
-
-let bmi=w/(h*h)
-
-let category="Normal"
-
-if(bmi<18.5) category="Underweight"
-else if(bmi<25) category="Normal"
-else if(bmi<30) category="Overweight"
-else category="Obese"
-
-results.bmi=bmi.toFixed(2)
-results.bmiCategory=category
-
-document.getElementById("bmiResult").innerHTML="BMI: "+bmi.toFixed(2)+" ("+category+")"
-
-}
-
-
-
-function bmr(){
-
-let w=parseFloat(document.getElementById("bmrWeight").value)
-let h=parseFloat(document.getElementById("bmrHeight").value)
-let a=parseFloat(document.getElementById("bmrAge").value)
-let g=document.getElementById("gender").value
+let bmiStatus="Normal"
+if(bmi<18.5) bmiStatus="Underweight"
+if(bmi>=25) bmiStatus="Overweight"
+if(bmi>=30) bmiStatus="Obese"
 
 let bmr
 
-if(g=="male"){
-bmr=10*w+6.25*h-5*a+5
+if(gender=="Male"){
+bmr=10*weight+6.25*height-5*age+5
 }else{
-bmr=10*w+6.25*h-5*a-161
+bmr=10*weight+6.25*height-5*age-161
 }
 
-results.bmr=Math.round(bmr)
+let calories=Math.round(bmr*activity)
 
-document.getElementById("bmrResult").innerHTML="BMR: "+Math.round(bmr)+" kcal/day"
+let water=(weight*0.035).toFixed(2)
 
-}
+let maxHR=220-age
+let fatBurn=Math.round(maxHR*0.6)
+let cardio=Math.round(maxHR*0.75)
+let peak=Math.round(maxHR*0.9)
 
+let cardioScore=100-hr
+let metabolicScore=100-Math.abs(22-bmi)*5
+let sleepScore=sleep*12
+let fitnessScore=activity*40
+let obesityScore=waist>100?60:90
 
+let healthScore=Math.round((cardioScore+metabolicScore+sleepScore+fitnessScore+obesityScore)/5)
 
-function water(){
+let biologicalAge=Math.round(age+(bmi-22)+(sleep<7?3:-2)+(hr>80?2:-1))
 
-let w=parseFloat(document.getElementById("waterWeight").value)
+let diabetesRisk=bmi>27? "Moderate":"Low"
+let heartRisk=hr>85? "Elevated":"Normal"
 
-let water=w*0.035
+document.getElementById("report").innerHTML=`
 
-results.water=water.toFixed(2)
+<h2>Clinical Health Diagnostic Report</h2>
 
-document.getElementById("waterResult").innerHTML="Recommended Water: "+water.toFixed(2)+" L"
+<p><b>Name:</b> ${name}</p>
+<p><b>Health Intelligence Score:</b> ${healthScore}/100</p>
 
-}
+<table>
 
+<tr>
+<th>Assessment</th>
+<th>Result</th>
+</tr>
 
+<tr>
+<td>BMI</td>
+<td>${bmi} (${bmiStatus})</td>
+</tr>
 
-function heartRate(){
+<tr>
+<td>Basal Metabolic Rate</td>
+<td>${Math.round(bmr)} kcal</td>
+</tr>
 
-let age=parseFloat(document.getElementById("hrAge").value)
+<tr>
+<td>Daily Calorie Needs</td>
+<td>${calories} kcal</td>
+</tr>
 
-let maxHR=208-(0.7*age)
+<tr>
+<td>Hydration Requirement</td>
+<td>${water} L/day</td>
+</tr>
 
-let z1=(maxHR*0.5).toFixed(0)
-let z2=(maxHR*0.6).toFixed(0)
-let z3=(maxHR*0.7).toFixed(0)
-let z4=(maxHR*0.8).toFixed(0)
-let z5=(maxHR*0.9).toFixed(0)
+<tr>
+<td>Biological Age</td>
+<td>${biologicalAge}</td>
+</tr>
 
-results.maxHR=maxHR.toFixed(0)
+<tr>
+<td>Heart Rate Zones</td>
+<td>
+Fat Burn: ${fatBurn} bpm<br>
+Cardio: ${cardio} bpm<br>
+Peak: ${peak} bpm
+</td>
+</tr>
 
-document.getElementById("hrResult").innerHTML=
-"Max HR: "+maxHR.toFixed(0)+" bpm<br>"+
-"Zone1 Recovery: "+z1+"-"+z2+" bpm<br>"+
-"Zone2 Fat Burn: "+z2+"-"+z3+" bpm<br>"+
-"Zone3 Aerobic: "+z3+"-"+z4+" bpm<br>"+
-"Zone4 Performance: "+z4+"-"+z5+" bpm<br>"+
-"Zone5 Maximum: "+z5+"-"+maxHR.toFixed(0)+" bpm"
+<tr>
+<td>Diabetes Risk</td>
+<td>${diabetesRisk}</td>
+</tr>
 
-}
+<tr>
+<td>Heart Risk</td>
+<td>${heartRisk}</td>
+</tr>
 
+</table>
 
+<h3>Clinical Recommendations</h3>
 
-function bioAge(){
+<ul>
+<li>Maintain BMI between 18.5 and 24.9</li>
+<li>Exercise at least 30 minutes daily</li>
+<li>Drink ${water} liters of water daily</li>
+<li>Maintain 7–8 hours of sleep</li>
+</ul>
 
-let age=parseFloat(document.getElementById("realAge").value)
-let ex=parseInt(document.getElementById("exercise").value)
+`
 
-let bio=age+ex
-
-results.bioAge=bio
-
-document.getElementById("bioResult").innerHTML="Biological Age: "+bio
-
-}
-
-
-
-function risk(){
-
-let sugar=document.getElementById("sugar").value
-let bp=document.getElementById("bp").value
-
-let result="Low Risk"
-
-if(sugar=="high" || bp=="high") result="Moderate Risk"
-if(sugar=="high" && bp=="high") result="High Risk"
-
-results.diseaseRisk=result
-
-document.getElementById("riskResult").innerHTML="Disease Risk: "+result
-
-}
-
-
-
-function stressCheck(){
-
-let s=document.getElementById("stress").value
-
-let msg="Healthy"
-
-if(s=="medium") msg="Moderate Stress"
-if(s=="high") msg="High Burnout Risk"
-
-results.stress=msg
-
-document.getElementById("stressResult").innerHTML=msg
-
-}
-
-
-
-function habit(){
-
-let exercises=[5000,7000,8000,10000]
-let push=[10,15,20]
-let water=[2,2.5,3]
-let stretch=[5,8,10]
-
-let habits=[
-
-"Walk "+exercises[Math.floor(Math.random()*exercises.length)]+" steps today",
-"Drink "+water[Math.floor(Math.random()*water.length)]+"L water",
-"Do "+push[Math.floor(Math.random()*push.length)]+" pushups",
-"Stretch for "+stretch[Math.floor(Math.random()*stretch.length)]+" minutes",
-"Meditate for 5 minutes",
-"Eat 2 fruits today",
-"Avoid processed sugar today",
-"Take a 10 minute walk",
-"Sleep before 11 PM"
-
-]
-
-let random=habits[Math.floor(Math.random()*habits.length)]
-
-document.getElementById("habitResult").innerHTML=random
+drawChart(cardioScore,metabolicScore,fitnessScore,sleepScore,obesityScore)
 
 }
 
+function drawChart(cardio,metabolism,fitness,sleep,obesity){
 
+new Chart(document.getElementById("healthChart"),{
 
-function downloadReport(){
+type:"radar",
 
-const { jsPDF } = window.jspdf
-let doc=new jsPDF()
+data:{
+labels:["Cardio","Metabolism","Fitness","Sleep","Weight Risk"],
 
-doc.setFontSize(18)
-doc.text("Personal Health Assessment Report",20,20)
+datasets:[{
+label:"Health Analytics",
+data:[cardio,metabolism,fitness,sleep,obesity]
+}]
+},
 
-doc.setFontSize(12)
-
-let y=40
-
-for(let key in results){
-
-doc.text(key+" : "+results[key],20,y)
-
-y+=10
-
+options:{
+scales:{
+r:{
+min:0,
+max:100
+}
+}
 }
 
-doc.save("Health_Report.pdf")
+})
 
 }
 
@@ -488,4 +273,3 @@ doc.save("Health_Report.pdf")
 
 </body>
 </html>
-```
