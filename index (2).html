@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Avengers Final Working Hub</title>
+<style>
+/* ── Base ── */
+:root{
+  --glass:rgba(12,18,37,.72);
+  --stroke:rgba(255,255,255,.12);
+  --gold:#d6b56d;
+  --gold2:#f7e7b0;
+  --green:#22c55e;
+  --green-dark:#16a34a;
+  --blue:#38bdf8;
+  --text:#f4f7ff;
+  --muted:#b6c0da;
+  --bg-card:rgba(255,255,255,.05);
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Inter,Arial,sans-serif;
+  color:var(--text);
+  background:linear-gradient(135deg,#02030a 0%,#071024 38%,#0c1022 100%);
+  overflow-x:hidden;
+}
+
+/* ── Header ── */
+header{padding:28px 16px 18px;text-align:center}
+h1{
+  margin:0;
+  font-size:clamp(28px,5vw,60px);
+  letter-spacing:3px;
+  text-transform:uppercase;
+  background:linear-gradient(90deg,#fff,#f7e7b0,#d6b56d,#fff);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.badge-top{
+  display:inline-flex;padding:8px 14px;
+  border:1px solid rgba(214,181,109,.22);border-radius:999px;
+  background:rgba(255,255,255,.04);color:var(--gold2);
+  font-size:12px;letter-spacing:1.6px;text-transform:uppercase;
+}
+
+/* ── Layout ── */
+main{max-width:1200px;margin:0 auto;padding:16px;display:grid;gap:18px}
+.section{
+  background:var(--glass);
+  backdrop-filter:blur(18px);
+  border:1px solid var(--stroke);
+  border-radius:24px;
+  padding:22px;
+  box-shadow:0 18px 60px rgba(0,0,0,.35);
+}
+.section h2{
+  margin-top:0;
+  background:linear-gradient(90deg,#fff,var(--gold2));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  letter-spacing:1px;
+}
+.grid{display:grid;gap:14px}
+.games{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.healthWrap{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+.dashWrap{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+
+/* ── Cards ── */
+.card{
+  background:var(--bg-card);
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:20px;
+  padding:18px;
+}
+.card h3{margin-top:0;color:var(--gold2)}
+
+/* ── Inputs & Buttons ── */
+button,input{font:inherit}
+input{
+  width:100%;padding:11px 14px;
+  border-radius:12px;border:1px solid rgba(255,255,255,.12);
+  background:rgba(255,255,255,.05);color:var(--text);outline:none;
+  margin:4px 0;
+}
+input::placeholder{color:var(--muted)}
+button{
+  cursor:pointer;border:none;border-radius:14px;
+  padding:11px 16px;
+  background:linear-gradient(135deg,#d6b56d,#f4dfb0 45%,#9f7d2e);
+  color:#1b1202;font-weight:800;
+  transition:opacity .2s;
+}
+button:hover{opacity:.85}
+button.ghost{
+  background:rgba(255,255,255,.08);
+  color:#fff;
+  border:1px solid rgba(255,255,255,.1);
+}
+button.ghost:hover{background:rgba(255,255,255,.15)}
+button.green-btn{
+  background:linear-gradient(135deg,var(--green),var(--green-dark));
+  color:#fff;
+}
+
+/* ── Tags ── */
+.tag{
+  display:inline-block;padding:4px 10px;border-radius:999px;
+  background:rgba(214,181,109,.14);color:var(--gold2);
+  border:1px solid rgba(214,181,109,.26);margin:3px 6px 3px 0;font-size:12px;
+}
+.tag-blue{background:rgba(56,189,248,.12);color:var(--blue);border-color:rgba(56,189,248,.3)}
+.tag-green{background:rgba(34,197,94,.12);color:var(--green);border-color:rgba(34,197,94,.3)}
+.small{color:var(--muted);font-size:13px}
+
+/* ── Tic Tac Toe ── */
+#ttt{display:grid;grid-template-columns:repeat(3,84px);gap:10px;justify-content:center;margin:10px 0}
+.tttCell{width:84px;height:84px;font-size:30px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:#fff;border-radius:18px}
+
+/* ── iframe ── */
+iframe{width:100%;min-height:520px;border:0;border-radius:16px;background:white}
+
+/* ── Health Dashboard specific ── */
+.health-inputs{display:flex;flex-wrap:wrap;gap:8px}
+.health-inputs input{width:calc(50% - 4px);min-width:120px}
+
+.meter-wrap{text-align:center}
+canvas{display:block;margin:10px auto}
+
+.challenge-text{
+  font-size:18px;color:var(--gold2);
+  min-height:40px;margin:10px 0;
+  padding:12px;background:rgba(247,231,176,.06);
+  border-radius:12px;border:1px solid rgba(247,231,176,.15);
+}
+
+/* ── XP / Level ── */
+.level-label{color:var(--blue);font-size:20px;font-weight:700;margin:8px 0}
+.progress{background:rgba(255,255,255,.08);height:18px;border-radius:999px;overflow:hidden;margin:8px 0}
+.bar{height:18px;width:0%;border-radius:999px;transition:width .4s ease;
+  background:linear-gradient(90deg,var(--green),#4ade80)}
+
+/* ── Streak ── */
+.streak-display{font-size:36px;font-weight:800;color:var(--gold2);margin:6px 0}
+
+/* ── Badges ── */
+.badge-item{
+  display:inline-flex;flex-direction:column;align-items:center;
+  background:linear-gradient(135deg,rgba(214,181,109,.15),rgba(214,181,109,.05));
+  border:1px solid rgba(214,181,109,.3);
+  padding:12px 16px;margin:8px;border-radius:14px;
+  cursor:pointer;font-weight:bold;color:var(--gold2);
+  font-size:13px;transition:transform .15s;
+}
+.badge-item:hover{transform:scale(1.05)}
+
+/* ── Score text ── */
+.score-label{font-size:22px;font-weight:700;margin:8px 0;color:var(--gold2)}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="badge-top">Avengers Premium Collection</div>
+  <h1>Avengers Final Working Hub</h1>
+  <p class="small">All-in-one: Games · Health Dashboard · Tasks · Connect</p>
+</header>
+
+<main>
+
+  <!-- ══════════════════════════════════════════════
+       SECTION 1 — GAMES
+  ══════════════════════════════════════════════ -->
+  <section class="section">
+    <h2>🎮 Games</h2>
+    <div class="grid games">
+
+      <!-- Tic Tac Toe -->
+      <div class="card">
+        <h3>1. Tic Tac Toe</h3>
+        <div id="ttt"></div>
+        <div class="small" id="tttMsg">Player X starts.</div>
+        <button class="ghost" onclick="resetTtt()" style="margin-top:10px">Reset</button>
+      </div>
+
+      <!-- Word Finder -->
+      <div class="card">
+        <h3>2. Word Finder</h3>
+        <div class="small">Moderate word finder. Use Show Answer if needed.</div>
+        <div id="wfHint" class="small" style="margin-top:6px"></div>
+        <div id="wfLetters" style="font-size:28px;letter-spacing:8px;margin:10px 0"></div>
+        <input id="wfInput" placeholder="Type the word">
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
+          <button onclick="checkWF()">Check</button>
+          <button class="ghost" onclick="showWFAnswer()">Show Answer</button>
+          <button class="ghost" onclick="nextWF()">Next Word</button>
+        </div>
+        <div class="small" id="wfMsg"></div>
+      </div>
+
+      <!-- Trivia -->
+      <div class="card">
+        <h3>3. Trivia Vault</h3>
+        <div id="triviaQ"></div>
+        <div id="triviaOpts" class="grid" style="margin-top:10px"></div>
+        <div class="small" id="triviaMsg"></div>
+        <button class="ghost" onclick="nextTrivia()" style="margin-top:10px">Next Question</button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════
+       SECTION 2 — HEALTH AI DASHBOARD (from index_01)
+  ══════════════════════════════════════════════ -->
+  <section class="section">
+    <h2>❤️ Health AI Dashboard</h2>
+    <div class="dashWrap">
+
+      <!-- Health Input + Score -->
+      <div class="card">
+        <h3>Health Input</h3>
+        <div class="health-inputs">
+          <input id="age"    placeholder="Age">
+          <input id="height" placeholder="Height (cm)">
+          <input id="weight" placeholder="Weight (kg)">
+          <input id="sleep"  placeholder="Sleep (hrs)">
+          <input id="steps"  placeholder="Steps">
+          <input id="water"  placeholder="Water (L)">
+          <input id="stress" placeholder="Stress (1–10)">
+        </div>
+        <button class="green-btn" onclick="analyze()" style="margin-top:12px;width:100%">Analyze Health</button>
+
+        <div class="meter-wrap" style="margin-top:16px">
+          <canvas id="meter" width="180" height="180"></canvas>
+          <div class="score-label" id="scoreText">—</div>
+        </div>
+      </div>
+
+      <!-- Trend + Level + Streak -->
+      <div style="display:flex;flex-direction:column;gap:14px">
+
+        <div class="card">
+          <h3>Health Trend</h3>
+          <canvas id="chart" width="320" height="160"></canvas>
+        </div>
+
+        <div class="card">
+          <h3>Level System</h3>
+          <div class="level-label">Level <span id="level">1</span></div>
+          <div class="progress"><div class="bar" id="xpBar"></div></div>
+          <div class="small" id="xpText">0 XP</div>
+        </div>
+
+        <div class="card">
+          <h3>Streak 🔥</h3>
+          <div class="streak-display" id="streak">0 Days</div>
+        </div>
+
+      </div>
+
+      <!-- Challenge -->
+      <div class="card">
+        <h3>Daily Challenge</h3>
+        <div id="challenge" class="challenge-text"></div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
+          <button class="green-btn" onclick="completeChallenge()">✅ Complete</button>
+          <button class="ghost" onclick="newChallenge()">🔄 New Challenge</button>
+        </div>
+
+        <h3 style="margin-top:20px">Health Badges</h3>
+        <div id="badges"></div>
+        <canvas id="badgeCanvas" width="500" height="300" style="display:none"></canvas>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════
+       SECTION 3 — HEALTH TASKS + CALCULATOR
+  ══════════════════════════════════════════════ -->
+  <section class="section">
+    <h2>🏃 Health Section</h2>
+    <div class="healthWrap">
+      <div class="card">
+        <h3>Get Healthy Task</h3>
+        <button onclick="getHealthyTask()">Get Healthy Task</button>
+        <div id="taskOut" style="margin-top:12px"></div>
+      </div>
+      <div class="card">
+        <h3>Fitness &amp; Health Calculator</h3>
+        <iframe src="https://www.calculator.net/fitness-and-health-calculator.html"
+                sandbox="allow-scripts allow-forms allow-same-origin allow-popups"></iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════
+       SECTION 4 — CONNECT
+  ══════════════════════════════════════════════ -->
+  <section class="section">
+    <h2>🔗 Connect</h2>
+    <div class="card">
+      <h3>LinkedIn</h3>
+      <p class="small">Connect with Bhavik Dedhia on LinkedIn.</p>
+      <a href="https://www.linkedin.com/in/bhavikrdedhia" target="_blank" rel="noopener noreferrer"
+         style="display:inline-block;text-decoration:none;padding:11px 20px;border-radius:14px;
+                background:linear-gradient(135deg,#0a66c2,#2a93f7);color:#fff;font-weight:800">
+        Open LinkedIn Profile
+      </a>
+    </div>
+  </section>
+
+</main>
+
+<script>
+/* ══════════════════════════════════════════
+   GAMES — Tic Tac Toe
+══════════════════════════════════════════ */
+const tttEl=document.getElementById('ttt');
+let board=Array(9).fill(''), turn='X', over=false;
+const tttMsg=document.getElementById('tttMsg');
+
+function drawTtt(){
+  tttEl.innerHTML='';
+  board.forEach((v,i)=>{
+    const b=document.createElement('button');
+    b.className='tttCell';
+    b.textContent=v;
+    b.onclick=()=>playTtt(i);
+    tttEl.appendChild(b);
+  });
+}
+function win(b,p){
+  return[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]]
+    .some(l=>l.every(i=>b[i]===p));
+}
+function playTtt(i){
+  if(over||board[i])return;
+  board[i]=turn; drawTtt();
+  if(win(board,turn)){tttMsg.textContent='Player '+turn+' wins!'; over=true; return;}
+  if(!board.includes('')){tttMsg.textContent='Draw!'; over=true; return;}
+  turn=turn==='X'?'O':'X';
+  tttMsg.textContent="Player "+turn+"'s turn.";
+}
+function resetTtt(){board=Array(9).fill(''); turn='X'; over=false; tttMsg.textContent='Player X starts.'; drawTtt();}
+resetTtt();
+
+/* ══════════════════════════════════════════
+   GAMES — Word Finder
+══════════════════════════════════════════ */
+const wfBank=[
+  {w:'MARVEL',h:'Superhero universe'},{w:'HEROIC',h:'Brave and noble'},
+  {w:'GALAXY',h:'A huge system of stars'},{w:'POWERS',h:'Special abilities'},
+  {w:'PLANET',h:'A world in space'},{w:'AVENGER',h:'A force for justice'},
+  {w:'VIBRANT',h:'Full of energy'},{w:'MISSION',h:'A special task'},
+  {w:'CAPTAIN',h:'A leader role'},{w:'THUNDER',h:'Loud storm sound'}
+];
+let wfIndex=0, wfCurrent='';
+function shuffleWord(w){return w.split('').sort(()=>Math.random()-.5).join(' ')}
+function nextWF(){
+  const item=wfBank[wfIndex%wfBank.length]; wfCurrent=item.w;
+  document.getElementById('wfHint').textContent='Hint: '+item.h;
+  document.getElementById('wfLetters').textContent=shuffleWord(wfCurrent);
+  document.getElementById('wfInput').value='';
+  document.getElementById('wfMsg').textContent='';
+  wfIndex++;
+}
+function checkWF(){
+  const ans=document.getElementById('wfInput').value.trim().toUpperCase();
+  document.getElementById('wfMsg').textContent=ans===wfCurrent?'✅ Correct!':'❌ Try again.';
+}
+function showWFAnswer(){document.getElementById('wfMsg').textContent='Answer: '+wfCurrent;}
+nextWF();
+
+/* ══════════════════════════════════════════
+   GAMES — Trivia Vault
+══════════════════════════════════════════ */
+const triviaBank=[
+  {q:'Which movie featured Shah Rukh Khan and Deepika Padukone in 2023?',o:['Jawan','Pathaan','Dunki','Fighter'],a:0},
+  {q:'Which film starred Aamir Khan as a coach in 2001?',o:['Lagaan','3 Idiots','PK','Dangal'],a:0},
+  {q:'Which movie starred Salman Khan as Chulbul Pandey?',o:['Dabangg','Sultan','Kick','Tiger Zinda Hai'],a:0},
+  {q:'Which film is the debut of Hrithik Roshan?',o:['Kaho Naa... Pyaar Hai','Refugee','Dhoom 2','Koi... Mil Gaya'],a:0},
+  {q:'Which film starred Ranbir Kapoor as a musician?',o:['Rockstar','Barfi!','Sanju','YJHD'],a:0},
+  {q:'Which film was a wrestling biopic featuring Aamir Khan?',o:['Dangal','PK','Ghajini','Taare Zameen Par'],a:0},
+  {q:'Which movie featured Shah Rukh Khan as a dwarf?',o:['Zero','Fan','Don 2','Ra.One'],a:0},
+  {q:'Which film featured Deepika Padukone as Padmavati?',o:['Padmaavat','Bajirao Mastani','Piku','Chhapaak'],a:0},
+  {q:'Which film had the song "Apna Time Aayega"?',o:['Gully Boy','83','Pathaan','Dunki'],a:0},
+  {q:'Which film starred Vicky Kaushal as Sam Manekshaw?',o:['Sam Bahadur','Uri','Sardar Udham','Fighter'],a:0},
+  {q:'Which film starred Kartik Aaryan in Bhool Bhulaiyaa sequel?',o:['Bhool Bhulaiyaa 2','Freddy','Shehzada','Love Aaj Kal'],a:0},
+  {q:'Which film starred Ranbir Kapoor in a 2023 action drama?',o:['Animal','Sanju','Tamasha','Brahmāstra'],a:0},
+  {q:'Which film featured Alia Bhatt in a 2022 crime drama?',o:['Gangubai Kathiawadi','Darlings','Brahmāstra','Raazi'],a:0},
+  {q:'Which film starred Shahid Kapoor as a cricketer?',o:['Jersey','Kabir Singh','Haider','Phata Poster Nikhla Hero'],a:0},
+  {q:'Which film starred Akshay Kumar in a space-themed mission movie?',o:['Mission Mangal','Sooryavanshi','Kesari','Baby'],a:0},
+  {q:'Which film starred Ajay Devgn in a 2020 period war drama?',o:['Tanhaji','Drishyam 2','Shaitaan','Singham Returns'],a:0},
+  {q:'Which film starred Ranveer Singh and Deepika Padukone in 2015?',o:['Bajirao Mastani','Ram-Leela','Dil Dhadakne Do','Padmaavat'],a:0},
+  {q:'Which film starred Priyanka Chopra as an athlete?',o:['Mary Kom','Fashion','Barfi!','7 Khoon Maaf'],a:0},
+  {q:'Which film starred Rani Mukerji as a cop in 2014?',o:['Mardaani','Hichki','Black','Bunty Aur Babli'],a:0},
+  {q:'Which 2024 film starred Hrithik Roshan as an Air Force officer?',o:['Fighter','War 2','Krrish 4','Lakshya'],a:0}
+];
+let tq=0;
+function renderTrivia(){
+  const d=triviaBank[tq%triviaBank.length];
+  document.getElementById('triviaQ').textContent=d.q;
+  const box=document.getElementById('triviaOpts');
+  box.innerHTML='';
+  d.o.forEach((x,i)=>{
+    const b=document.createElement('button');
+    b.className='ghost'; b.textContent=x;
+    b.onclick=()=>document.getElementById('triviaMsg').textContent=i===d.a?'✅ Correct!':'❌ Try again.';
+    box.appendChild(b);
+  });
+  document.getElementById('triviaMsg').textContent='';
+}
+function nextTrivia(){tq++; renderTrivia();}
+renderTrivia();
+
+/* ══════════════════════════════════════════
+   HEALTH DASHBOARD — Challenges
+══════════════════════════════════════════ */
+const baseChallenges=[
+  'Walk 8000 steps','Drink 2 liters of water','Meditate for 5 minutes',
+  'Stretch for 10 minutes','Eat a fruit','Sleep before 11 PM',
+  'Do 20 squats','Take stairs instead of elevator',
+  'Avoid sugar today','Practice deep breathing'
+];
+const challenges=Array.from({length:350},(_,i)=>
+  `${baseChallenges[i%baseChallenges.length]} (#${i+1})`
+);
+let challengePool=[], currentChallenge='';
+
+function resetChallenges(){challengePool=[...challenges].sort(()=>Math.random()-.5);}
+function newChallenge(){
+  if(!challengePool.length) resetChallenges();
+  currentChallenge=challengePool.pop();
+  document.getElementById('challenge').textContent=currentChallenge;
+}
+
+/* ══════════════════════════════════════════
+   HEALTH DASHBOARD — XP & Level
+══════════════════════════════════════════ */
+let xp=0, level=1;
+function gainXP(v){
+  xp+=v;
+  if(xp>=level*100){level++; xp=0; alert('🎉 Level Up! You are now Level '+level);}
+  updateXP();
+}
+function updateXP(){
+  document.getElementById('level').textContent=level;
+  document.getElementById('xpBar').style.width=((xp/(level*100))*100)+'%';
+  document.getElementById('xpText').textContent=xp+' XP';
+}
+
+/* ══════════════════════════════════════════
+   HEALTH DASHBOARD — Streak
+══════════════════════════════════════════ */
+let streak=0;
+function updateStreak(){
+  streak++;
+  document.getElementById('streak').textContent=streak+' Days';
+}
+
+/* ══════════════════════════════════════════
+   HEALTH DASHBOARD — Badges
+══════════════════════════════════════════ */
+let badges=[];
+function awardBadge(task){
+  badges.push({task, date:new Date().toLocaleDateString()});
+  renderBadges();
+}
+function renderBadges(){
+  document.getElementById('badges').innerHTML=badges.map((b,i)=>`
+    <div class="badge-item" onclick="downloadBadge(${i})">
+      🏅 Badge<br><small style="color:var(--muted)">${b.date}</small>
+    </div>
+  `).join('');
+}
+function downloadBadge(i){
+  const b=badges[i];
+  const canvas=document.getElementById('badgeCanvas');
+  const ctx=canvas.getContext('2d');
+
+  // Background
+  ctx.fillStyle='#071024'; ctx.fillRect(0,0,500,300);
+
+  // Gold border
+  ctx.strokeStyle='#d6b56d'; ctx.lineWidth=4;
+  ctx.strokeRect(10,10,480,280);
+
+  // Title
+  ctx.fillStyle='#f7e7b0'; ctx.font='bold 26px Arial'; ctx.textAlign='center';
+  ctx.fillText('HEALTH ACHIEVEMENT BADGE',250,70);
+
+  // Divider
+  ctx.strokeStyle='rgba(214,181,109,.4)'; ctx.lineWidth=1;
+  ctx.beginPath(); ctx.moveTo(40,90); ctx.lineTo(460,90); ctx.stroke();
+
+  // Task
+  ctx.fillStyle='#38bdf8'; ctx.font='17px Arial';
+  ctx.fillText('Task: '+b.task,250,150);
+
+  // Date
+  ctx.fillStyle='#f4f7ff'; ctx.font='15px Arial';
+  ctx.fillText('Date: '+b.date,250,200);
+
+  // Medal emoji area
+  ctx.font='40px Arial'; ctx.fillText('🏅',250,255);
+
+  setTimeout(()=>{
+    const link=document.createElement('a');
+    link.download='health_badge.png';
+    link.href=canvas.toDataURL();
+    link.click();
+  },100);
+}
+
+/* ══════════════════════════════════════════
+   HEALTH DASHBOARD — Complete Challenge
+══════════════════════════════════════════ */
+function completeChallenge(){
+  if(!currentChallenge){alert('Generate a challenge first!'); return;}
+  gainXP(50);
+  updateStreak();
+  awardBadge(currentChallenge);
+}
+
+/* ══════════════════════════════════════════
+   HEALTH DASHBOARD — Analyze
+══════════════════════════════════════════ */
+let scores=[];
+function getValue(id){return parseFloat(document.getElementById(id).value)||0;}
+
+function analyze(){
+  const h=getValue('height'), w=getValue('weight');
+  if(!h||!w){alert('Please enter height and weight.'); return;}
+
+  const bmi=w/((h/100)**2);
+  let score=100;
+  if(bmi<18.5||bmi>25) score-=15;
+
+  const sleep=getValue('sleep'), steps=getValue('steps'),
+        water=getValue('water'), stress=getValue('stress');
+  if(sleep&&(sleep<6||sleep>9)) score-=10;
+  if(steps&&steps<5000) score-=10;
+  if(water&&water<1.5) score-=10;
+  if(stress&&stress>7) score-=10;
+
+  score=Math.max(0,score);
+  scores.push(score);
+  drawMeter(score);
+  drawChart();
+  document.getElementById('scoreText').textContent='Health Score: '+score+' / 100';
+}
+
+function drawMeter(score){
+  const c=document.getElementById('meter');
+  const ctx=c.getContext('2d');
+  ctx.clearRect(0,0,180,180);
+
+  // BG ring
+  ctx.beginPath(); ctx.arc(90,90,70,0,2*Math.PI);
+  ctx.strokeStyle='rgba(255,255,255,.1)'; ctx.lineWidth=14; ctx.stroke();
+
+  // Score arc
+  const color=score>=70?'#22c55e':score>=40?'#facc15':'#ef4444';
+  ctx.beginPath();
+  ctx.arc(90,90,70,-Math.PI/2,(score/100)*2*Math.PI-Math.PI/2);
+  ctx.strokeStyle=color; ctx.lineWidth=14; ctx.stroke();
+
+  // Label
+  ctx.fillStyle='#f7e7b0'; ctx.font='bold 26px Arial'; ctx.textAlign='center';
+  ctx.fillText(score,90,98);
+  ctx.fillStyle='var(--muted)'; ctx.font='12px Arial';
+  ctx.fillText('/100',90,116);
+}
+
+function drawChart(){
+  const c=document.getElementById('chart');
+  const ctx=c.getContext('2d');
+  ctx.clearRect(0,0,320,160);
+  if(scores.length<1) return;
+
+  // Line
+  ctx.beginPath();
+  scores.forEach((s,i)=>{
+    const x=i*(320/Math.max(scores.length-1,1)), y=160-(s/100)*150;
+    i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+  });
+  ctx.strokeStyle='#d6b56d'; ctx.lineWidth=2; ctx.stroke();
+
+  // Dots
+  scores.forEach((s,i)=>{
+    const x=i*(320/Math.max(scores.length-1,1)), y=160-(s/100)*150;
+    ctx.beginPath(); ctx.arc(x,y,4,0,2*Math.PI);
+    ctx.fillStyle='#f7e7b0'; ctx.fill();
+  });
+}
+
+/* ══════════════════════════════════════════
+   HEALTH SECTION — Healthy Tasks (500+)
+══════════════════════════════════════════ */
+const tasks=['Drink water after waking up.','Brush your teeth.','Floss daily.','Take a short walk.','Eat a balanced breakfast.','Include vegetables in meals.','Choose fruit as a snack.','Stretch for 5 minutes.','Sit with good posture.','Take movement breaks during work.','Sleep 7–9 hours.','Avoid screens before bed.','Wash hands before meals.','Limit sugary drinks.','Reduce junk food.','Cook at home more often.','Plan meals ahead.','Keep healthy snacks ready.','Exercise regularly.','Do strength training.','Do cardio.','Practice deep breathing.','Spend time outdoors.','Keep your space tidy.','Track your progress.','Meditate for 5 minutes.','Eat slowly and mindfully.','Stop eating when full.','Drink enough water through the day.','Use stairs instead of elevator.','Stand up after sitting too long.','Pack a healthy lunch.','Prepare vegetables in advance.','Reduce late-night snacking.','Get sunlight in the morning.','Sleep and wake at consistent times.','Check posture while sitting.','Take a short break every hour.','Read instead of scrolling.','Write down one gratitude each day.','Keep your phone away while eating.','Walk after meals.','Do light stretching in the morning.','Do light stretching before bed.','Keep a regular meal schedule.','Avoid overeating.','Eat protein with meals.','Include whole grains.','Limit processed foods.','Choose homemade meals more often.','Brush twice a day.','Replace your toothbrush regularly.','Use mouthwash if needed.','Shower regularly.','Wear clean clothes.','Trim nails regularly.','Wash face daily.','Apply sunscreen.','Keep skin clean and moisturized.','Stay hydrated in hot weather.','Rest when feeling unwell.','Take medicine as prescribed.','Keep doctor appointments.','Get dental checkups.','Get eye checkups.','Monitor blood pressure if needed.','Monitor blood sugar if needed.','Maintain a healthy weight.','Keep a healthy waistline.','Follow health advice from a doctor.','Avoid smoking.','Avoid secondhand smoke.','Limit alcohol.','Avoid recreational drugs.','Stay away from addictive habits.','Practice stress management.','Talk to someone when stressed.','Journal your thoughts.','Listen to calming music.','Spend time in nature.','Take deep breaths during stress.','Break tasks into smaller steps.','Keep a simple daily plan.','Set realistic goals.','Celebrate small progress.','Use a to-do list.','Review goals weekly.','Avoid multitasking too much.','Focus on one task at a time.','Keep your desk organized.','Clean your room regularly.','Open windows for fresh air.','Reduce clutter.','Maintain good lighting.','Take breaks from loud noise.','Protect your hearing.','Wear comfortable shoes.','Maintain good foot hygiene.','Stretch calves and ankles.','Warm up before exercise.','Cool down after exercise.','Increase activity gradually.','Choose active hobbies.','Dance for exercise.','Ride a bicycle.','Swim when possible.','Play a sport.','Do yoga.','Do Pilates.','Practice balance exercises.','Strengthen core muscles.','Work on flexibility.','Track steps daily.','Walk during phone calls.','Park farther away.','Take the stairs.','Do bodyweight exercises.','Do push-ups.','Do squats.','Do lunges.','Do planks.','Do jumping jacks.','Do brisk walking.','Do light jogging.','Do interval training.','Stretch hamstrings.','Stretch shoulders.','Stretch back muscles.','Stretch neck gently.','Roll shoulders back.','Drink water before workouts.','Eat after workouts.','Rest between hard workouts.','Sleep enough for recovery.','Listen to your body.','Avoid overtraining.','Keep workout clothes clean.','Keep shoes in good condition.','Maintain exercise consistency.','Increase daily movement.','Reduce long sitting periods.','Get up and walk around.','Use a standing desk sometimes.','Sit with feet flat.','Keep screen at eye level.','Support lower back.','Avoid slouching.','Stretch wrists and hands.','Take care of joint health.','Warm up joints gently.','Eat a colorful plate.','Include leafy greens.','Include legumes.','Include nuts and seeds.','Include dairy or alternatives.','Include lean proteins.','Reduce fried foods.','Reduce packaged snacks.','Read nutrition labels.','Watch portion size.','Plan grocery shopping.','Buy healthy staples.','Keep fruits visible.','Keep water accessible.','Prepare breakfast ahead.','Avoid skipping meals.','Limit excess caffeine.','Avoid energy drinks.','Drink herbal tea if desired.','Eat enough fiber.','Support digestion with food.','Avoid rushing meals.','Chew food properly.','Eat dinner earlier.','Choose healthy desserts sometimes.','Keep sweets occasional.','Make healthy swaps.','Use less sugar in tea or coffee.','Use less salt.','Use healthy cooking oils.','Steam or bake instead of fry.','Grill food carefully.','Add spices for flavor.','Try new healthy recipes.','Cook a batch meal.','Freeze healthy portions.','Use leftovers wisely.','Avoid food waste.','Keep kitchen clean.','Store food safely.','Wash produce before eating.','Carry a water bottle.','Refill water regularly.','Track daily hydration.','Drink before you feel thirsty.','Hydrate during exercise.','Hydrate in hot weather.','Hydrate after waking.','Hydrate before meals.','Hydrate before bed moderately.','Sleep in a quiet room.','Sleep in a dark room.','Keep bedtime consistent.','Wake up at a fixed time.','Avoid heavy late meals.','Limit late caffeine.','Create a bedtime routine.','Read before sleep.','Dim lights at night.','Keep your phone away from bed.','Use an alarm instead of checking phone.','Avoid late-night work if possible.','Relax before sleeping.','Take a warm shower at night.','Use comfortable bedding.','Maintain a healthy mattress.','Keep room temperature pleasant.','Avoid napping too long.','Nap early if needed.','Get enough nighttime sleep.','Track sleep quality.','Manage insomnia by routine.','Reduce anxiety before bed.','Practice breathing exercises.','Try guided meditation.','Use relaxation techniques.','Clear your mind with journaling.','Keep a worry list for tomorrow.','Stop caffeine in afternoon.','Maintain sleep discipline.','Wake with natural light.','Spend time outside daily.','Walk in the park.','Sit in sunlight briefly.','Improve mood with daylight.','Keep windows open when suitable.','Avoid staying indoors all day.','Combine social and physical activity.','Invite a friend to walk.','Join a class or group.','Call family regularly.','Check on loved ones.','Maintain healthy relationships.','Avoid toxic conversations.','Set boundaries politely.','Ask for help when needed.','Offer help to others.','Practice kindness daily.','Smile at people.','Express appreciation.','Keep learning something new.','Read a book.','Learn a useful skill.','Practice a hobby.','Reduce passive screen time.','Limit social media scrolling.','Avoid doomscrolling.','Use phone intentionally.','Turn off unnecessary notifications.','Keep digital clutter low.','Organize files and photos.','Back up important data.','Keep passwords secure.','Review commitments weekly.','Say no when overloaded.','Protect personal time.','Make time for rest.','Balance work and life.','Set work boundaries.','Finish work on time.','Take lunch breaks.','Eat away from the desk.','Stretch during work breaks.','Walk during breaks.','Close work tasks at day end.','Write tomorrow\u2019s priorities.','Keep a simple calendar.','Avoid overbooking.','Prepare for busy days.','Keep emergency contacts ready.','Keep important documents organized.','Check health insurance details.','Keep a first aid kit.','Know basic first aid.','Learn CPR basics.','Keep prescriptions updated.','Store medicines safely.','Dispose expired medicines properly.','Keep vaccination records.','Stay updated on vaccines.','Protect yourself in crowds.','Wash hands after public places.','Cover coughs and sneezes.','Avoid touching face often.','Clean frequently touched surfaces.','Ventilate rooms regularly.','Stay home when contagious.','Use tissues properly.','Replace masks when necessary.','Follow hygiene during travel.','Walk 10,000 steps if appropriate.','Do 30 minutes of activity.','Alternate sitting and standing.','Build a morning routine.','Build an evening routine.','Use a habit tracker.','Review habits every Sunday.','Keep goals visible.','Reward consistency.','Track water intake.','Track meals if helpful.','Track workouts.','Track mood.','Track sleep.','Track stress triggers.','Identify healthy patterns.','Remove one unhealthy habit.','Replace with a better habit.','Prepare for temptation.','Plan healthy alternatives.','Keep healthy foods nearby.','Keep unhealthy foods out of sight.','Shop with a list.','Avoid shopping hungry.','Read ingredient lists.','Compare healthier options.','Eat at regular intervals.','Maintain stable energy.','Avoid extreme dieting.','Avoid crash diets.','Be patient with progress.','Focus on sustainability.','Build habits slowly.','Stay consistent over perfect.','Be kind to yourself.','Accept occasional setbacks.','Resume quickly after mistakes.','Learn from slip-ups.','Keep long-term goals in mind.','Make healthy choices easier.','Prepare breakfast the night before.','Pack gym clothes in advance.','Keep shoes ready by the door.','Keep water on your desk.','Keep fruits washed and ready.','Keep nuts in small portions.','Freeze healthy meals.','Use meal prep containers.','Set reminders to move.','Set reminders to drink water.','Set bedtime reminders.','Set reminders for medicines.','Use a step counter.','Use a sleep tracker.','Use a fitness app.','Use a notes app for habits.','Keep a paper planner.','Plan your week on Sunday.','Review your health goals monthly.','Check improvement regularly.','Take one rest day.','Use active recovery.','Do light yoga on rest days.','Take leisurely walks.','Avoid guilt on rest days.','Rest without overthinking.','Sleep more after heavy activity.','Rehydrate after sweating.','Eat a recovery meal.','Check for soreness safely.','Ice or heat when appropriate.','Consult a professional for pain.','Avoid ignoring persistent pain.','Maintain correct form in exercise.','Learn proper technique.','Use safe equipment.','Inspect equipment before use.','Warm up before lifting.','Breathe properly during exercise.','Exhale during effort.','Build gradual progress.','Increase weights carefully.','Increase duration carefully.','Increase intensity carefully.','Prevent injury with form.','Recover from illness fully.','Return to exercise gradually.','Keep vaccinations current.','Follow travel health precautions.','Pack needed medications when traveling.','Sleep well before travel.','Stay hydrated during travel.','Walk during long trips.','Stretch on long flights.','Avoid sitting too long while traveling.','Carry healthy snacks while traveling.','Choose healthier meals when out.','Avoid overeating at restaurants.','Share large portions.','Drink water before ordering more food.','Practice calm breathing.','Use positive self-talk.','Stop negative rumination.','Spend time on meaningful work.','Make time for joy.','Laugh often.','Listen to uplifting content.','Reduce exposure to stress news.','Protect your peace.','Create a calm morning.','Create a calm night.','Keep your home comfortable.','Use plants or natural elements.','Keep a healthy environment.','Open blinds in the morning.','Reduce noise at night.','Keep chores manageable.','Break tasks into small steps.','Ask for support early.','Delegate when possible.','Keep your schedule realistic.','Avoid perfectionism.','Focus on progress.','Practice patience.','Use affirmations if helpful.','Keep a positive mindset.','Be proactive about health.','Book checkups in advance.','Follow screening guidelines.','Keep symptom notes.','Share concerns with doctors.','Track medications side effects.','Store emergency numbers.','Keep important health records.','Know your family history.','Discuss risks with a doctor.','Learn about nutrition.','Learn about exercise.','Learn about sleep hygiene.','Learn about stress management.','Build a morning walk habit.','Build a post-lunch walk habit.','Build a pre-bed wind-down habit.','Practice gratitude at night.','Review tomorrow\u2019s tasks calmly.','Avoid checking work late.','Keep weekends restorative.','Use weekends for recovery.','Spend time with loved ones.','Do something that makes you happy.','Maintain oral hygiene.','Maintain scalp hygiene.','Maintain ear hygiene carefully.','Keep nails clean.','Keep feet clean and dry.','Wear breathable clothes.','Use clean towels.','Change bedsheets regularly.','Clean your water bottle.','Clean your lunch box.','Clean your phone screen.','Clean your keyboard.','Wash workout clothes.','Air out shoes.','Replace worn-out shoes.','Check vision needs.','Use prescribed glasses or lenses.','Rest eyes from screens.','Follow the 20-20-20 rule.','Blink often.','Adjust screen brightness.','Sit at proper distance from screens.','Avoid eye strain.','Keep neck relaxed.','Check ergonomics at desk.','Use a supportive chair.','Use foot support if needed.','Keep wrists neutral.','Take microbreaks.','Move every hour.','Practice good breathing posture.','Strengthen back muscles.','Strengthen legs.','Strengthen glutes.','Improve mobility.','Improve endurance.','Improve balance.','Improve coordination.','Build daily discipline.','Stay accountable.','Share goals with someone.','Join a healthy challenge.','Celebrate milestones.','Adjust goals when needed.','Keep trying after setbacks.','Avoid comparison.','Focus on your own progress.','Stay committed.','Make health a priority.','Repeat the habits daily.'];
+let taskIndex=0;
+function getHealthyTask(){
+  document.getElementById('taskOut').innerHTML=
+    '<span class="tag">Healthy Task</span> '+tasks[taskIndex%tasks.length];
+  taskIndex++;
+}
+
+/* ══════════════════════════════════════════
+   INIT
+══════════════════════════════════════════ */
+resetChallenges();
+newChallenge();
+updateXP();
+</script>
+</body>
+</html>
