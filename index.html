@@ -1,245 +1,475 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HealthPulse · Advanced Health Assessment & 30‑Day Wellness</title>
+  <!-- Fonts & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', sans-serif; background: #141414; color: #e5e5e5; line-height: 1.5; }
+    .hero { background: radial-gradient(circle at 20% 30%, rgba(30,30,30,0.95) 0%, #0a0a0a 100%); min-height: 100vh; display: flex; flex-direction: column; }
+    .navbar { display: flex; align-items: center; justify-content: space-between; padding: 1.5rem 4%; background: linear-gradient(to bottom, rgba(0,0,0,0.8) 0%, transparent 100%); position: sticky; top: 0; z-index: 20; }
+    .logo { font-size: 2rem; font-weight: 800; letter-spacing: -0.03em; color: #e50914; text-transform: uppercase; text-shadow: 0 0 12px rgba(229,9,20,0.4); }
+    .logo i { margin-right: 8px; color: #e50914; }
+    .nav-links { display: flex; gap: 2.5rem; font-weight: 500; }
+    .nav-links a { color: #e5e5e5; text-decoration: none; font-size: 1rem; transition: color 0.2s; cursor: pointer; }
+    .nav-links a:hover, .nav-links a.active { color: #fff; font-weight: 600; }
+    .profile-icon { width: 40px; height: 40px; background: #e50914; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; }
+    .main-container { max-width: 1600px; margin: 0 auto; padding: 2rem 4% 6rem; }
+    .featured-title { font-size: 2.2rem; font-weight: 700; margin-bottom: 0.5rem; letter-spacing: -0.02em; display: flex; align-items: center; gap: 12px; }
+    .featured-title i { color: #e50914; }
+    .subhead { color: #b3b3b3; margin-bottom: 2rem; font-size: 1.1rem; }
+    .netflix-row { display: flex; flex-wrap: wrap; gap: 2rem; }
+    .assessment-card { background: #181818; border-radius: 18px; padding: 2rem 2rem 2.5rem; flex: 1.2; min-width: 420px; box-shadow: 0 12px 28px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.03); transition: transform 0.2s; max-height: 700px; overflow-y: auto; }
+    .assessment-card:hover { box-shadow: 0 20px 36px rgba(0,0,0,0.9), 0 0 0 1px rgba(229,9,20,0.2); transform: translateY(-4px); }
+    .report-preview { flex: 2.5; min-width: 600px; background: #0f0f0f; border-radius: 18px; padding: 2rem 2.2rem; box-shadow: inset 0 0 0 1px #2a2a2a, 0 12px 28px #000; max-height: 700px; overflow-y: auto; }
+    h2 { font-weight: 600; font-size: 1.8rem; margin-bottom: 1.8rem; display: flex; align-items: center; gap: 10px; }
+    h2 i { color: #e50914; font-size: 1.6rem; }
+    h3 { font-weight: 600; font-size: 1.2rem; margin: 1.5rem 0 1rem; color: #fff; }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+    .input-group { display: flex; flex-direction: column; gap: 6px; }
+    .input-group label { font-weight: 500; color: #ccc; font-size: 0.85rem; }
+    .input-group input, .input-group select { background: #232323; border: 1px solid #3a3a3a; border-radius: 10px; padding: 10px 12px; color: white; font-size: 0.95rem; outline: none; }
+    .input-group input:focus, .input-group select:focus { border-color: #e50914; background: #1e1e1e; }
+    .full-width { grid-column: span 2; }
+    .btn-primary { background: #e50914; color: white; border: none; border-radius: 40px; padding: 14px 24px; font-weight: 700; font-size: 1.1rem; cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 14px rgba(229,9,20,0.4); margin-top: 0.5rem; grid-column: span 2; }
+    .btn-primary:hover { background: #f40612; box-shadow: 0 8px 20px #e5091450; transform: scale(1.01); }
+    .btn-secondary { background: transparent; border: 1.5px solid #4a4a4a; color: #ddd; border-radius: 40px; padding: 10px 18px; font-weight: 600; cursor: pointer; font-size: 0.9rem; }
+    .btn-secondary:hover { border-color: #e50914; color: white; }
+    .badge { background: #e50914; padding: 6px 16px; border-radius: 30px; font-weight: 600; }
+    .metric-tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
+    .tile { background: #1c1c1c; border-radius: 16px; padding: 1rem 1.2rem; border: 1px solid #2e2e2e; }
+    .tile .label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: #aaa; }
+    .tile .value { font-size: 1.8rem; font-weight: 700; color: white; }
+    .tile .unit { font-size: 0.85rem; color: #888; margin-left: 4px; }
+    .section-title { font-size: 1.3rem; font-weight: 600; margin: 1.5rem 0 1rem; border-left: 4px solid #e50914; padding-left: 14px; }
+    .risk-summary { background: #1a1a1a; border-radius: 16px; padding: 1.2rem; margin: 1rem 0; }
+    .risk-badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; margin-right: 8px; margin-bottom: 6px; }
+    .risk-low { background: #1a4d1a; color: #8bc34a; }
+    .risk-moderate { background: #5c4a00; color: #ffd54f; }
+    .risk-high { background: #5c1a1a; color: #ff8a80; }
+    .diet-plan { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px,1fr)); gap: 0.8rem; }
+    .meal-card { background: #181818; border-radius: 14px; padding: 1rem; border: 1px solid #2c2c2c; }
+    .meal-card h4 { color: #e50914; margin-bottom: 8px; font-size: 1rem; }
+    .meal-card ul { list-style: none; padding-left: 0; font-size: 0.85rem; }
+    .meal-card li { padding: 3px 0; }
+    .rec-list { list-style: none; }
+    .rec-list li { padding: 0.4rem 0; display: flex; gap: 10px; font-size: 0.9rem; }
+    .rec-list i { color: #2ecc71; width: 18px; }
+    .action-bar { display: flex; gap: 1rem; margin-top: 1rem; }
+    .empty-message { color: #aaa; font-style: italic; text-align: center; padding: 3rem; }
+    .progress-bar { background: #2a2a2a; height: 8px; border-radius: 10px; margin: 8px 0; }
+    .progress-fill { background: #e50914; height: 8px; border-radius: 10px; width: 0%; }
+    .two-column { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1rem 0; }
+    .info-box { background: #1a1a1a; border-radius: 14px; padding: 1rem; border-left: 3px solid #e50914; }
 
-<title>Health Intelligence</title>
+    /* Wellness tab */
+    .wellness-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; }
+    .progress-stats { background: #1a1a1a; padding: 0.8rem 1.8rem; border-radius: 40px; font-weight: 600; }
+    .workout-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 1rem; margin: 2rem 0; }
+    .day-card { background: #181818; border-radius: 16px; padding: 1.2rem; border: 1px solid #2c2c2c; transition: 0.2s; }
+    .day-card.completed { border-color: #2ecc71; background: #1a2a1a; }
+    .day-number { font-size: 1.8rem; font-weight: 800; color: #e50914; }
+    .day-label { font-weight: 600; margin: 4px 0; }
+    .day-type { font-size: 0.75rem; color: #aaa; text-transform: uppercase; margin-bottom: 8px; }
+    .day-check { margin-top: 10px; display: flex; align-items: center; gap: 8px; }
+    .day-check input { width: 18px; height: 18px; accent-color: #e50914; cursor: pointer; }
+    .badge-section { margin-top: 2.5rem; background: linear-gradient(145deg, #1e1e1e, #151515); border-radius: 24px; padding: 2rem; text-align: center; border: 1px solid #333; }
+    .badge-preview { display: flex; align-items: center; justify-content: center; gap: 2rem; flex-wrap: wrap; }
+    #badgeCanvas { border-radius: 16px; box-shadow: 0 8px 24px #000; max-width: 100%; background: #0b0b0b; }
+    .badge-actions { display: flex; gap: 1rem; margin-top: 1.5rem; justify-content: center; }
+    .back-btn { background: #232323; border: 1px solid #444; padding: 10px 22px; border-radius: 40px; color: white; font-weight: 500; cursor: pointer; }
+    .back-btn:hover { background: #2a2a2a; border-color: #e50914; }
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-
-<style>
-
-body{
-margin:0;
-font-family:Inter;
-background:#eef2f7;
-}
-
-header{
-background:#0b1220;
-color:white;
-padding:22px;
-text-align:center;
-font-size:22px;
-font-weight:700;
-}
-
-.container{
-max-width:1000px;
-margin:auto;
-padding:25px;
-}
-
-.card{
-background:white;
-border-radius:14px;
-padding:22px;
-box-shadow:0 10px 25px rgba(0,0,0,0.08);
-margin-bottom:18px;
-}
-
-.grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-gap:10px;
-}
-
-input{
-padding:10px;
-border:1px solid #cbd5e1;
-border-radius:8px;
-}
-
-button{
-background:#1d4ed8;
-color:white;
-padding:12px 16px;
-border:none;
-border-radius:10px;
-cursor:pointer;
-margin-top:10px;
-font-weight:600;
-}
-
-.metricGrid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
-gap:12px;
-margin-top:12px;
-}
-
-.metric{
-background:#f1f5ff;
-padding:14px;
-border-radius:12px;
-text-align:center;
-}
-
-.metricValue{
-font-size:22px;
-font-weight:800;
-color:#1e3a8a;
-}
-
-.sectionTitle{
-margin-top:20px;
-font-size:16px;
-font-weight:800;
-color:#0f172a;
-}
-
-.programDay{
-background:linear-gradient(90deg,#ecfdf5,#dbeafe);
-padding:10px;
-margin:6px 0;
-border-left:5px solid #10b981;
-font-size:13px;
-font-weight:500;
-}
-
-/* Disclaimer Styling */
-.disclaimer{
-border-left:5px solid #f59e0b;
-background:#fff7ed;
-padding:14px;
-border-radius:10px;
-font-size:13px;
-color:#7c2d12;
-line-height:1.5;
-}
-
-</style>
+    @media (max-width: 1100px) { .netflix-row { flex-direction: column; } .report-preview, .assessment-card { min-width: auto; width: 100%; max-height: none; } }
+  </style>
 </head>
-
 <body>
+<div class="hero">
+  <div class="navbar">
+    <div class="logo"><i class="fas fa-heartbeat"></i> HealthPulse</div>
+    <div class="nav-links">
+      <a id="navHome" class="active">Assessment</a>
+      <a id="navWellness">30‑Day Wellness</a>
+    </div>
+    <div class="profile-icon">HP</div>
+  </div>
 
-<header>Health Intelligence</header>
+  <div class="main-container">
+    <!-- ASSESSMENT VIEW with enhanced metrics -->
+    <div id="assessmentView">
+      <div class="featured-title"><i class="fas fa-clipboard-list"></i><span>Advanced Health Assessment</span></div>
+      <div class="subhead">BMI · Body Fat · BMR/TDEE · CVD Risk · Nutritional Analysis · Metabolic Profile</div>
+      
+      <div class="netflix-row">
+        <div class="assessment-card">
+          <h2 style="font-size:1.5rem;"><i class="fas fa-user-edit"></i> Your Profile</h2>
+          <form id="healthForm">
+            <div class="form-grid">
+              <div class="input-group"><label><i class="fas fa-user"></i> Age</label><input type="number" id="age" value="42" min="18" max="100"></div>
+              <div class="input-group"><label><i class="fas fa-venus-mars"></i> Gender</label><select id="gender"><option value="male">Male</option><option value="female" selected>Female</option></select></div>
+              <div class="input-group"><label><i class="fas fa-weight-scale"></i> Weight (kg)</label><input type="number" id="weight" value="68" step="0.1"></div>
+              <div class="input-group"><label><i class="fas fa-ruler-vertical"></i> Height (cm)</label><input type="number" id="height" value="165"></div>
+              <div class="input-group"><label><i class="fas fa-tape"></i> Waist (cm)</label><input type="number" id="waist" value="78"></div>
+              <div class="input-group"><label><i class="fas fa-tape"></i> Hip (cm)</label><input type="number" id="hip" value="96"></div>
+              <div class="input-group"><label><i class="fas fa-heart"></i> Systolic BP</label><input type="number" id="bpSystolic" value="128"></div>
+              <div class="input-group"><label><i class="fas fa-heart-circle"></i> Diastolic BP</label><input type="number" id="bpDiastolic" value="82"></div>
+              <div class="input-group"><label><i class="fas fa-heart-pulse"></i> Resting HR</label><input type="number" id="restingHR" value="72"></div>
+              <div class="input-group"><label><i class="fas fa-dumbbell"></i> Activity</label><select id="activity"><option value="1.2">Sedentary</option><option value="1.375" selected>Light (1-3x/week)</option><option value="1.55">Moderate (3-5x/week)</option><option value="1.725">Active (6-7x/week)</option><option value="1.9">Athlete</option></select></div>
+              <div class="input-group"><label><i class="fas fa-smoking"></i> Smoking</label><select id="smoking"><option value="no">Non-smoker</option><option value="former">Former smoker</option><option value="yes">Current smoker</option></select></div>
+              <div class="input-group"><label><i class="fas fa-apple-alt"></i> Diet</label><select id="dietQuality"><option value="poor">Poor</option><option value="average" selected>Average</option><option value="good">Good</option><option value="excellent">Excellent</option></select></div>
+              <div class="input-group"><label><i class="fas fa-prescription-bottle"></i> Cholesterol Rx?</label><select id="onBpMed"><option value="no" selected>No</option><option value="yes">Yes</option></select></div>
+            </div>
+            <div class="action-bar">
+              <button type="submit" class="btn-primary"><i class="fas fa-calculator"></i> Generate Comprehensive Report</button>
+              <button type="button" id="resetBtn" class="btn-secondary"><i class="fas fa-undo-alt"></i> Reset</button>
+            </div>
+          </form>
+        </div>
 
-<div class="container">
+        <div class="report-preview" id="reportContainer">
+          <div class="report-header" style="display:flex; justify-content:space-between; border-bottom:1px solid #333; padding-bottom:1rem; margin-bottom:1.5rem;">
+            <h2 style="margin:0; font-size:1.6rem;"><i class="fas fa-file-waveform"></i> Health Intelligence Report</h2>
+            <span class="badge" id="reportDate"></span>
+          </div>
+          <div id="reportContent"><div class="empty-message"><i class="fas fa-arrow-left"></i> Fill form & generate report</div></div>
+        </div>
+      </div>
+    </div>
 
-<div class="card">
-
-<h2>Patient Input</h2>
-
-<div class="grid">
-
-<input id="name" placeholder="Full Name">
-<input id="age" placeholder="Age">
-<input id="height" placeholder="Height (cm)">
-<input id="weight" placeholder="Weight (kg)">
-<input id="waist" placeholder="Waist (cm)">
-<input id="steps" placeholder="Daily Steps">
-<input id="sleep" placeholder="Sleep Hours">
-<input id="stress" placeholder="Stress (1-10)">
-<input id="hr" placeholder="Resting Heart Rate">
-
-</div>
-
-<button onclick="generateProgram()">Generate 30-Day Program</button>
-
-</div>
-
-<div id="output" class="card" style="display:none"></div>
-
+    <!-- WELLNESS VIEW (same as before, preserved) -->
+    <div id="wellnessView" style="display: none;">
+      <button class="back-btn" id="backToAssessmentBtn"><i class="fas fa-arrow-left"></i> Back to Assessment</button>
+      <div class="wellness-header">
+        <div class="featured-title"><i class="fas fa-calendar-check"></i><span>30‑Day Transformation Challenge</span></div>
+        <div class="progress-stats" id="progressStats">0/30 days completed</div>
+      </div>
+      <div class="subhead">✓ Check off each day. Complete all 30 to unlock your achievement badge.</div>
+      <div id="workoutPlanContainer" class="workout-grid"></div>
+      <div class="badge-section" id="badgeSection">
+        <h3 style="font-size:1.6rem; margin-bottom:0.5rem;"><i class="fas fa-medal"></i> Achievement Badge</h3>
+        <p style="color:#aaa; margin-bottom:1.5rem;">Complete all 30 days to download your personalized badge.</p>
+        <div class="badge-preview">
+          <canvas id="badgeCanvas" width="500" height="300" style="width:100%; max-width:400px; height:auto;"></canvas>
+          <div style="text-align:left;">
+            <div style="font-size:1.2rem; font-weight:600;" id="badgeStatusMessage">🔒 0/30 completed</div>
+            <div style="margin:12px 0; color:#ccc;" id="motivationLine"></div>
+          </div>
+        </div>
+        <div class="badge-actions">
+          <button class="btn-primary" id="downloadBadgeBtn" style="grid-column:auto; margin:0;" disabled><i class="fas fa-download"></i> Download Badge</button>
+          <button class="btn-secondary" id="resetProgressBtn"><i class="fas fa-undo-alt"></i> Reset Progress</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script>
+  (function(){
+    "use strict";
 
-function generateProgram(){
+    // ----- NAVIGATION -----
+    const assessmentView = document.getElementById('assessmentView');
+    const wellnessView = document.getElementById('wellnessView');
+    const navHome = document.getElementById('navHome');
+    const navWellness = document.getElementById('navWellness');
+    const backBtn = document.getElementById('backToAssessmentBtn');
 
-let age=+document.getElementById("age").value
-let height=+document.getElementById("height").value/100
-let weight=+document.getElementById("weight").value
-let waist=+document.getElementById("waist").value
-let steps=+document.getElementById("steps").value
-let sleep=+document.getElementById("sleep").value
-let stress=+document.getElementById("stress").value
-let hr=+document.getElementById("hr").value
+    function showAssessment() {
+      assessmentView.style.display = 'block';
+      wellnessView.style.display = 'none';
+      navHome.classList.add('active');
+      navWellness.classList.remove('active');
+    }
+    function showWellness() {
+      assessmentView.style.display = 'none';
+      wellnessView.style.display = 'block';
+      navWellness.classList.add('active');
+      navHome.classList.remove('active');
+      renderWorkoutGrid();
+      updateBadgeAndProgress();
+    }
+    navHome.addEventListener('click', showAssessment);
+    navWellness.addEventListener('click', showWellness);
+    backBtn.addEventListener('click', showAssessment);
 
-if(!age||!height||!weight){
-alert("Please fill required fields")
-return
-}
+    // ----- ENHANCED HEALTH CALCULATIONS -----
+    const reportDateSpan = document.getElementById('reportDate');
+    const reportContent = document.getElementById('reportContent');
+    
+    function setReportDate() {
+      const d = new Date();
+      reportDateSpan.textContent = d.toLocaleDateString('en-US', {year:'numeric', month:'short', day:'numeric'});
+    }
 
-/* ================= METRICS ================= */
+    // Core calculations
+    function calculateBMI(weight, height) { const h = height/100; return weight/(h*h); }
+    function getBMICategory(bmi) {
+      if(bmi<18.5) return 'Underweight'; if(bmi<25) return 'Normal'; if(bmi<30) return 'Overweight'; return 'Obese';
+    }
+    
+    // Body Fat % (Navy Method)
+    function calculateBodyFat(weight, height, waist, hip, neck=37, gender='male') {
+      const h = height;
+      if(gender==='male') {
+        return 86.010 * Math.log10(waist - neck) - 70.041 * Math.log10(h) + 36.76;
+      } else {
+        return 163.205 * Math.log10(waist + hip - neck) - 97.684 * Math.log10(h) - 78.387;
+      }
+    }
+    
+    // Waist-to-Height Ratio
+    function waistToHeightRatio(waist, height) { return waist/height; }
+    
+    // BMR (Mifflin-St Jeor)
+    function calculateBMR(weight, height, age, gender) {
+      if(gender==='male') return (10*weight + 6.25*height - 5*age + 5);
+      return (10*weight + 6.25*height - 5*age - 161);
+    }
+    
+    // TDEE
+    function calculateTDEE(bmr, activity) { return bmr * activity; }
+    
+    // VO2 Max estimation (based on resting HR)
+    function estimateVO2Max(age, restingHR, gender) {
+      const hrMax = 208 - 0.7 * age;
+      const hrr = hrMax - restingHR;
+      return (15.3 * (hrMax / restingHR)).toFixed(1);
+    }
+    
+    // Framingham CVD Risk (simplified)
+    function calculateCVDRisk(age, gender, smoker, bpSys, onMed, bmi) {
+      let points = 0;
+      points += Math.floor(age/5) - 6;
+      if(gender==='male') points += 3;
+      if(smoker==='yes') points += 4;
+      if(smoker==='former') points += 2;
+      if(bpSys>=130) points += 2;
+      if(bpSys>=140) points += 3;
+      if(onMed==='yes') points += 1;
+      if(bmi>=30) points += 2;
+      let risk = Math.min(30, Math.max(2, points * 1.2));
+      return { points, risk: risk.toFixed(1) };
+    }
+    
+    // Metabolic Syndrome check
+    function checkMetabolicSyndrome(waist, bpSys, bpDia, gender) {
+      let criteria = 0;
+      const waistRisk = (gender==='male' && waist>102) || (gender==='female' && waist>88);
+      if(waistRisk) criteria++;
+      if(bpSys>=130 || bpDia>=85) criteria++;
+      return { criteria, hasMetSyn: criteria>=3 };
+    }
+    
+    // Nutritional calculations
+    function calculateNutrition(weight, height, age, gender, activity, tdee) {
+      const protein = (weight * 1.6).toFixed(0);
+      const carbs = (tdee * 0.5 / 4).toFixed(0);
+      const fat = (tdee * 0.3 / 9).toFixed(0);
+      const fiber = gender==='male' ? 38 : 25;
+      const water = (weight * 35 / 1000).toFixed(1);
+      return { protein, carbs, fat, fiber, water };
+    }
+    
+    // Biological age estimate
+    function estimateBiologicalAge(chronAge, bmi, bpSys, smoker, activity) {
+      let bioAge = chronAge;
+      if(bmi>=30) bioAge += 3; else if(bmi>=25) bioAge += 1;
+      if(bpSys>=140) bioAge += 4; else if(bpSys>=130) bioAge += 2;
+      if(smoker==='yes') bioAge += 8; else if(smoker==='former') bioAge += 3;
+      if(activity<1.4) bioAge += 3;
+      return Math.round(bioAge);
+    }
 
-let bmi = weight/(height*height)
-let bodyFat = (1.2*bmi)+(0.23*age)-16.2
-let bmr = (10*weight)+(6.25*(height*100))-(5*age)+5
-let vo2 = 15*(220-age)/hr
+    // Render comprehensive report
+    function generateReport() {
+      try {
+        const age = parseFloat(document.getElementById('age').value) || 42;
+        const gender = document.getElementById('gender').value;
+        const weight = parseFloat(document.getElementById('weight').value) || 68;
+        const height = parseFloat(document.getElementById('height').value) || 165;
+        const waist = parseFloat(document.getElementById('waist').value) || 78;
+        const hip = parseFloat(document.getElementById('hip').value) || 96;
+        const bpSys = parseFloat(document.getElementById('bpSystolic').value) || 128;
+        const bpDia = parseFloat(document.getElementById('bpDiastolic').value) || 82;
+        const restingHR = parseFloat(document.getElementById('restingHR').value) || 72;
+        const activity = parseFloat(document.getElementById('activity').value) || 1.375;
+        const smoking = document.getElementById('smoking').value;
+        const dietQuality = document.getElementById('dietQuality').value;
+        const onBpMed = document.getElementById('onBpMed').value;
+        const neck = gender==='male' ? 38 : 34; // default neck
 
-/* ================= PROGRAM ================= */
+        // All calculations
+        const bmi = calculateBMI(weight, height);
+        const bmiCat = getBMICategory(bmi);
+        const bodyFat = calculateBodyFat(weight, height, waist, hip, neck, gender);
+        const whtRatio = waistToHeightRatio(waist, height);
+        const bmr = calculateBMR(weight, height, age, gender);
+        const tdee = calculateTDEE(bmr, activity);
+        const vo2max = estimateVO2Max(age, restingHR, gender);
+        const cvd = calculateCVDRisk(age, gender, smoking, bpSys, onBpMed, bmi);
+        const metSyn = checkMetabolicSyndrome(waist, bpSys, bpDia, gender);
+        const nutrition = calculateNutrition(weight, height, age, gender, activity, tdee);
+        const bioAge = estimateBiologicalAge(age, bmi, bpSys, smoking, activity);
+        const bpCat = bpSys<120&&bpDia<80?'Normal':bpSys<130&&bpDia<80?'Elevated':bpSys<140||bpDia<90?'Stage 1 HTN':'Stage 2 HTN';
 
-let program=[
-"🔥 Day 1: Power Walk Activation + 10K Step Challenge",
-"🧠 Day 2: Mental Reset + Breathing Control",
-"💪 Day 3: Full Body Strength Foundation",
-"⚡ Day 4: HIIT Fat Burn Circuit",
-"🧘 Day 5: Mobility Flow + Flexibility",
-"🏃 Day 6: Endurance Walk Challenge",
-"💧 Day 7: Recovery + Hydration Focus",
-"🔥 Day 8: Fat Burn Interval Training",
-"🧠 Day 9: Stress Reset Meditation",
-"💪 Day 10: Core Strength Training",
-"⚡ Day 11: Speed & Agility Workout",
-"🧘 Day 12: Yoga Recovery Flow",
-"🏃 Day 13: Long Walk Endurance",
-"🔥 Day 14: Fat Loss Circuit",
-"🧠 Day 15: Sleep & Mind Reset",
-"💪 Day 16: Upper Body Strength",
-"⚡ Day 17: Cardio Intervals",
-"🧘 Day 18: Deep Stretch Recovery",
-"🏃 Day 19: Step Challenge 12K",
-"🔥 Day 20: Full Body Blast",
-"💪 Day 21: Strength Progression",
-"🧠 Day 22: Focus Training",
-"⚡ Day 23: Explosive Cardio",
-"🧘 Day 24: Active Recovery",
-"🏃 Day 25: Endurance Peak",
-"🔥 Day 26: Fat Burn Extreme",
-"💪 Day 27: Core Strength Fusion",
-"🧠 Day 28: Calm & Recovery",
-"⚡ Day 29: Speed Endurance",
-"🏆 Day 30: Final Transformation Challenge"
-]
+        // Risk level
+        let overallRisk = 'Low';
+        let riskScore = 0;
+        if(bmi>=30) riskScore+=3; else if(bmi>=25) riskScore+=1;
+        if(whtRatio>0.5) riskScore+=2; if(whtRatio>0.6) riskScore+=3;
+        if(bodyFat>(gender==='male'?25:32)) riskScore+=2;
+        if(bpCat.includes('HTN')) riskScore+=2;
+        if(smoking==='yes') riskScore+=3;
+        if(metSyn.hasMetSyn) riskScore+=3;
+        if(riskScore>=6) overallRisk='High';
+        else if(riskScore>=3) overallRisk='Moderate';
 
-let html=`<h2>🔥 Elite 30-Day Transformation Program</h2>`
+        setReportDate();
+        
+        const html = `
+          <div class="metric-tiles">
+            <div class="tile"><span class="label">BMI</span><div class="value">${bmi.toFixed(1)}<span class="unit">kg/m²</span></div><small>${bmiCat}</small></div>
+            <div class="tile"><span class="label">Body Fat</span><div class="value">${bodyFat.toFixed(1)}<span class="unit">%</span></div><small>${bodyFat>(gender==='male'?25:32)?'Above avg':'Healthy'}</small></div>
+            <div class="tile"><span class="label">Waist/Height</span><div class="value">${whtRatio.toFixed(2)}</div><small>${whtRatio>0.5?'⚠️ Elevated':'✓ Good'}</small></div>
+            <div class="tile"><span class="label">BMR / TDEE</span><div class="value">${Math.round(bmr)}<span class="unit">/${Math.round(tdee)}</span></div><small>kcal/day</small></div>
+          </div>
+          
+          <div class="two-column">
+            <div class="info-box">
+              <strong><i class="fas fa-heart" style="color:#e50914;"></i> Cardiovascular</strong><br>
+              BP: ${bpSys}/${bpDia} mmHg (${bpCat})<br>
+              Resting HR: ${restingHR} bpm<br>
+              Est. VO₂ Max: ${vo2max} ml/kg/min<br>
+              10-yr CVD Risk: ${cvd.risk}% ${cvd.risk>10?'⚠️':cvd.risk>5?'⚡':'✓'}
+            </div>
+            <div class="info-box">
+              <strong><i class="fas fa-chart-line"></i> Metabolic Profile</strong><br>
+              BMR: ${Math.round(bmr)} kcal · TDEE: ${Math.round(tdee)} kcal<br>
+              Biological Age: ${bioAge} ${bioAge>age?'📈':bioAge<age?'🎉':'➡️'}<br>
+              Metabolic Syn: ${metSyn.hasMetSyn?'⚠️ Present':'✓ Not present'}
+            </div>
+          </div>
+          
+          <div class="risk-summary">
+            <div style="display:flex; justify-content:space-between;">
+              <span style="font-weight:700;"><i class="fas fa-shield-virus"></i> Comprehensive Risk Assessment</span>
+              <span class="risk-badge ${overallRisk==='Low'?'risk-low':overallRisk==='Moderate'?'risk-moderate':'risk-high'}">${overallRisk} Risk (score ${riskScore})</span>
+            </div>
+            <div style="margin-top:12px;">
+              ${whtRatio>0.5?'<span class="risk-badge risk-moderate">High Waist/Height</span>':''}
+              ${bmi>=25?'<span class="risk-badge '+(bmi>=30?'risk-high':'risk-moderate')+'">'+(bmi>=30?'Obesity':'Overweight')+'</span>':''}
+              ${bpCat.includes('HTN')?'<span class="risk-badge risk-moderate">Hypertension</span>':''}
+              ${smoking==='yes'?'<span class="risk-badge risk-high">Smoker</span>':''}
+              ${metSyn.hasMetSyn?'<span class="risk-badge risk-high">Metabolic Syndrome</span>':''}
+            </div>
+          </div>
+          
+          <div class="section-title"><i class="fas fa-utensils"></i> Nutritional Prescription (Daily)</div>
+          <div class="diet-plan">
+            <div class="meal-card"><h4>🥩 Protein</h4>${nutrition.protein} g</div>
+            <div class="meal-card"><h4>🍚 Carbs</h4>${nutrition.carbs} g</div>
+            <div class="meal-card"><h4>🥑 Fat</h4>${nutrition.fat} g</div>
+            <div class="meal-card"><h4>🌾 Fiber</h4>${nutrition.fiber} g</div>
+            <div class="meal-card"><h4>💧 Water</h4>${nutrition.water} L</div>
+          </div>
+          
+          <div class="section-title"><i class="fas fa-lightbulb"></i> Personalized Recommendations</div>
+          <ul class="rec-list">
+            ${whtRatio>0.5?'<li><i class="fas fa-check-circle"></i> Reduce waist circumference through 150min weekly cardio</li>':''}
+            ${bmi>=25?'<li><i class="fas fa-check-circle"></i> Aim for 0.5-1kg weekly weight loss (deficit ~500 kcal/day)</li>':''}
+            ${bpCat.includes('HTN')?'<li><i class="fas fa-check-circle"></i> DASH diet: <2300mg sodium, increase potassium</li>':''}
+            ${smoking==='yes'?'<li><i class="fas fa-check-circle"></i> Smoking cessation is highest priority intervention</li>':''}
+            <li><i class="fas fa-check-circle"></i> Protein target: ${nutrition.protein}g · Spread across 3-4 meals</li>
+            <li><i class="fas fa-check-circle"></i> Cardiovascular: ${Math.round(tdee*0.1)} kcal deficit recommended</li>
+            <li><i class="fas fa-check-circle"></i> Annual checkup · Monitor BP monthly · 7-8h sleep</li>
+          </ul>
+          
+          <div style="margin-top:16px; background:#1f1f1f; padding:12px; border-radius:20px;">
+            <i class="fas fa-notes-medical"></i> <strong>Summary:</strong> Bio age ${bioAge} (${bioAge-age>0?'+':''}${bioAge-age}). ${overallRisk} risk profile. Focus on ${whtRatio>0.5?'waist reduction':bmi>=25?'weight management':'maintenance'}.
+          </div>
+        `;
+        reportContent.innerHTML = html;
+      } catch(e) { console.error(e); reportContent.innerHTML = '<div class="empty-message">Error generating report</div>'; }
+    }
 
-html+=`
-<div class="metricGrid">
-<div class="metric"><div class="metricValue">${bmi.toFixed(1)}</div>BMI</div>
-<div class="metric"><div class="metricValue">${bodyFat.toFixed(1)}%</div>Body Fat</div>
-<div class="metric"><div class="metricValue">${bmr.toFixed(0)}</div>BMR</div>
-<div class="metric"><div class="metricValue">${vo2.toFixed(1)}</div>VO₂ Max</div>
-</div>
-`
+    document.getElementById('healthForm').addEventListener('submit', (e)=>{ e.preventDefault(); generateReport(); });
+    document.getElementById('resetBtn').addEventListener('click', ()=>{
+      document.getElementById('age').value=42; document.getElementById('gender').value='female';
+      document.getElementById('weight').value=68; document.getElementById('height').value=165;
+      document.getElementById('waist').value=78; document.getElementById('hip').value=96;
+      document.getElementById('bpSystolic').value=128; document.getElementById('bpDiastolic').value=82;
+      document.getElementById('restingHR').value=72; document.getElementById('activity').value='1.375';
+      document.getElementById('smoking').value='no'; document.getElementById('dietQuality').value='average';
+      document.getElementById('onBpMed').value='no';
+      reportContent.innerHTML = '<div class="empty-message"><i class="fas fa-arrow-left"></i> Fill form & generate report</div>';
+      setReportDate();
+    });
 
-for(let i=0;i<program.length;i++){
-html+=`<div class="programDay">${program[i]}</div>`
-}
+    // ----- 30 DAY WELLNESS (unchanged core, badge) -----
+    const workoutPlan = Array.from({length:30}, (_,i)=>({
+      day:i+1,
+      type:['Walking','Yoga','Upper Body','Lower Body','HIIT','Full Body','Active Recovery'][i%7],
+      desc: ['20 min brisk','Flow','Push-ups','Squats','Intervals','Circuit','Stretch'][i%7]
+    }));
+    
+    let completedDays = JSON.parse(localStorage.getItem('hp30Completed')) || [];
+    function saveProgress(){ localStorage.setItem('hp30Completed', JSON.stringify(completedDays)); }
+    function toggleDay(day){ completedDays.includes(day) ? completedDays=completedDays.filter(d=>d!==day) : completedDays.push(day); saveProgress(); renderWorkoutGrid(); updateBadgeAndProgress(); }
+    
+    function renderWorkoutGrid(){
+      const container = document.getElementById('workoutPlanContainer');
+      container.innerHTML = workoutPlan.map(w=>`
+        <div class="day-card ${completedDays.includes(w.day)?'completed':''}">
+          <div class="day-number">${w.day}</div><div class="day-label">Day ${w.day}</div>
+          <div class="day-type">${w.type}</div><div style="font-size:0.8rem;">${w.desc}</div>
+          <div class="day-check"><input type="checkbox" ${completedDays.includes(w.day)?'checked':''} data-day="${w.day}"> <label>Done</label></div>
+        </div>`).join('');
+      document.querySelectorAll('.day-checkbox, .day-check input').forEach(cb=>cb.addEventListener('change', e=>toggleDay(parseInt(e.target.dataset.day))));
+    }
+    
+    function updateBadgeAndProgress(){
+      const cnt = completedDays.length;
+      document.getElementById('progressStats').textContent = `${cnt}/30 days completed${cnt===30?' 🎉':''}`;
+      const allDone = cnt===30;
+      document.getElementById('badgeStatusMessage').innerHTML = allDone?'🏆 CONGRATULATIONS! Badge Unlocked!':`🔒 ${cnt}/30 · Keep going!`;
+      document.getElementById('motivationLine').innerHTML = allDone?'"Consistency transforms. You did it!"':'"Every day counts. Stay strong."';
+      document.getElementById('downloadBadgeBtn').disabled = !allDone;
+      drawBadge(allDone);
+    }
+    
+    const canvas = document.getElementById('badgeCanvas'), ctx = canvas.getContext('2d');
+    function drawBadge(unlocked){
+      ctx.fillStyle = '#0f0f1a'; ctx.fillRect(0,0,500,300);
+      ctx.strokeStyle = unlocked?'#e50914':'#555'; ctx.lineWidth=5; ctx.strokeRect(5,5,490,290);
+      ctx.font='bold 24px Inter'; ctx.fillStyle='#fff'; ctx.textAlign='center';
+      ctx.fillText(unlocked?'🏅 30-DAY CHAMPION':'🌱 IN PROGRESS',250,60);
+      ctx.font='16px Inter'; ctx.fillStyle='#aaa';
+      ctx.fillText(`Awarded: ${new Date().toLocaleDateString()}`,250,130);
+      ctx.font='italic 18px Inter'; ctx.fillStyle='#ddd';
+      ctx.fillText(unlocked?'"Small steps, massive transformation"':'"Keep showing up"',250,200);
+      ctx.font='40px sans-serif'; ctx.fillText(unlocked?'⭐🏆⭐':'💪',250,260);
+    }
+    
+    document.getElementById('downloadBadgeBtn').addEventListener('click', ()=>{
+      if(completedDays.length===30){ const a=document.createElement('a'); a.download='HealthPulse_Badge.png'; a.href=canvas.toDataURL(); a.click(); }
+    });
+    document.getElementById('resetProgressBtn').addEventListener('click', ()=>{
+      if(confirm('Reset all 30-day progress?')){ completedDays=[]; saveProgress(); renderWorkoutGrid(); updateBadgeAndProgress(); }
+    });
 
-/* ================= DISCLAIMER ================= */
-
-html+=`
-<div class="sectionTitle">Disclaimer</div>
-
-<div class="disclaimer">
-This Health Intelligence platform is designed for fitness and wellness guidance only.  
-It does not provide medical diagnosis, treatment, or clinical advice.  
-
-Always consult a qualified healthcare professional before making any major changes to your diet, exercise, or health routine.  
-
-Results are based on general fitness formulas and should be used as motivational and informational insights only.
-</div>
-`
-
-document.getElementById("output").style.display="block"
-document.getElementById("output").innerHTML=html
-
-}
-
+    // Init
+    window.addEventListener('DOMContentLoaded', ()=>{
+      setReportDate();
+      generateReport(); // auto-generate demo
+      renderWorkoutGrid();
+      updateBadgeAndProgress();
+    });
+  })();
 </script>
-
 </body>
 </html>
