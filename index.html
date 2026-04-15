@@ -17,7 +17,8 @@
     .nav-links { display: flex; gap: 2.5rem; font-weight: 500; }
     .nav-links a { color: #e5e5e5; text-decoration: none; font-size: 1rem; transition: color 0.2s; cursor: pointer; }
     .nav-links a:hover, .nav-links a.active { color: #fff; font-weight: 600; }
-    .profile-icon { width: 40px; height: 40px; background: #e50914; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; }
+    .linkedin-icon { color: #0077b5; font-size: 2rem; transition: transform 0.2s, color 0.2s; }
+    .linkedin-icon:hover { color: #00a0dc; transform: scale(1.1); }
     .main-container { max-width: 1600px; margin: 0 auto; padding: 2rem 4% 6rem; }
     .featured-title { font-size: 2.2rem; font-weight: 700; margin-bottom: 0.5rem; letter-spacing: -0.02em; display: flex; align-items: center; gap: 12px; }
     .featured-title i { color: #e50914; }
@@ -65,6 +66,11 @@
     .progress-fill { background: #e50914; height: 8px; border-radius: 10px; width: 0%; }
     .two-column { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1rem 0; }
     .info-box { background: #1a1a1a; border-radius: 14px; padding: 1rem; border-left: 3px solid #e50914; }
+    .disclaimer-box { background: #1e1a1a; border-left: 4px solid #f39c12; padding: 1rem 1.5rem; border-radius: 12px; margin: 1rem 0; font-size: 0.9rem; color: #ddd; line-height: 1.6; }
+    .doctor-report { background: #151515; border-radius: 20px; padding: 1.5rem; margin-top: 1rem; border: 1px solid #2e2e2e; }
+    .report-header-doctor { display: flex; justify-content: space-between; border-bottom: 1px dashed #444; padding-bottom: 0.5rem; margin-bottom: 1rem; }
+    .report-section { margin-bottom: 1.8rem; }
+    .report-section h4 { color: #e50914; font-size: 1.1rem; margin-bottom: 0.8rem; display: flex; align-items: center; gap: 8px; }
 
     /* Wellness tab */
     .wellness-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; }
@@ -79,10 +85,34 @@
     .day-check input { width: 18px; height: 18px; accent-color: #e50914; cursor: pointer; }
     .badge-section { margin-top: 2.5rem; background: linear-gradient(145deg, #1e1e1e, #151515); border-radius: 24px; padding: 2rem; text-align: center; border: 1px solid #333; }
     .badge-preview { display: flex; align-items: center; justify-content: center; gap: 2rem; flex-wrap: wrap; }
-    #badgeCanvas { border-radius: 16px; box-shadow: 0 8px 24px #000; max-width: 100%; background: #0b0b0b; }
+    #badgeCanvas { border-radius: 20px; box-shadow: 0 8px 30px #000, 0 0 0 1px #3a3a3a; max-width: 100%; background: #0b0b0b; }
     .badge-actions { display: flex; gap: 1rem; margin-top: 1.5rem; justify-content: center; }
     .back-btn { background: #232323; border: 1px solid #444; padding: 10px 22px; border-radius: 40px; color: white; font-weight: 500; cursor: pointer; }
     .back-btn:hover { background: #2a2a2a; border-color: #e50914; }
+    .name-input-container { margin: 1rem 0; display: flex; gap: 0.8rem; align-items: center; justify-content: center; }
+    .name-input-container input { background: #232323; border: 1px solid #3a3a3a; border-radius: 40px; padding: 10px 18px; color: white; width: 220px; }
+    .name-input-container input:focus { border-color: #e50914; outline: none; }
+
+    /* Quiz Styles */
+    .quiz-container { max-width: 900px; margin: 0 auto; background: #181818; border-radius: 24px; padding: 2rem; box-shadow: 0 12px 28px #000; border: 1px solid #2a2a2a; }
+    .quiz-header { display: flex; justify-content: space-between; margin-bottom: 1.5rem; align-items: center; }
+    .quiz-progress { font-size: 1.2rem; background: #e50914; padding: 6px 20px; border-radius: 40px; }
+    .quiz-question { font-size: 1.6rem; font-weight: 600; margin-bottom: 2rem; line-height: 1.4; }
+    .quiz-options { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2.5rem; }
+    .quiz-option { background: #232323; border: 1px solid #3a3a3a; border-radius: 16px; padding: 1rem 1.5rem; cursor: pointer; transition: all 0.2s; font-size: 1.1rem; display: flex; align-items: center; }
+    .quiz-option:hover { background: #2a2a2a; border-color: #e50914; }
+    .quiz-option.selected { background: #e50914; color: white; border-color: #e50914; }
+    .quiz-option.correct-highlight { background: #1a4d1a; border-color: #2ecc71; }
+    .quiz-option.wrong-highlight { background: #5c1a1a; border-color: #e74c3c; }
+    .quiz-option span.option-letter { font-weight: 700; margin-right: 20px; background: #0f0f0f; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; border-radius: 30px; }
+    .quiz-feedback { background: #1a1a1a; border-radius: 16px; padding: 1.2rem; margin: 1.5rem 0; border-left: 4px solid #e50914; }
+    .quiz-actions { display: flex; gap: 1rem; justify-content: flex-end; }
+    .quiz-result { text-align: center; padding: 2rem; }
+    .quiz-score { font-size: 4rem; font-weight: 800; color: #e50914; }
+    .quiz-review { margin-top: 2rem; text-align: left; max-height: 400px; overflow-y: auto; }
+    .review-item { background: #1e1e1e; padding: 1rem; border-radius: 12px; margin-bottom: 1rem; }
+    .correct-answer { color: #2ecc71; }
+    .wrong-answer { color: #e74c3c; }
 
     @media (max-width: 1100px) { .netflix-row { flex-direction: column; } .report-preview, .assessment-card { min-width: auto; width: 100%; max-height: none; } }
   </style>
@@ -94,16 +124,18 @@
     <div class="nav-links">
       <a id="navHome" class="active">Assessment</a>
       <a id="navWellness">30‑Day Wellness</a>
+      <a id="navQuiz">Health IQ Quiz</a>
     </div>
-    <div class="profile-icon">HP</div>
+    <a href="https://www.linkedin.com/in/bhavikrdedhia" target="_blank" class="linkedin-icon" title="Connect on LinkedIn">
+      <i class="fab fa-linkedin"></i>
+    </a>
   </div>
 
   <div class="main-container">
-    <!-- ASSESSMENT VIEW with enhanced metrics -->
+    <!-- ASSESSMENT VIEW -->
     <div id="assessmentView">
       <div class="featured-title"><i class="fas fa-clipboard-list"></i><span>Advanced Health Assessment</span></div>
       <div class="subhead">BMI · Body Fat · BMR/TDEE · CVD Risk · Nutritional Analysis · Metabolic Profile</div>
-      
       <div class="netflix-row">
         <div class="assessment-card">
           <h2 style="font-size:1.5rem;"><i class="fas fa-user-edit"></i> Your Profile</h2>
@@ -121,7 +153,6 @@
               <div class="input-group"><label><i class="fas fa-dumbbell"></i> Activity</label><select id="activity"><option value="1.2">Sedentary</option><option value="1.375" selected>Light (1-3x/week)</option><option value="1.55">Moderate (3-5x/week)</option><option value="1.725">Active (6-7x/week)</option><option value="1.9">Athlete</option></select></div>
               <div class="input-group"><label><i class="fas fa-smoking"></i> Smoking</label><select id="smoking"><option value="no">Non-smoker</option><option value="former">Former smoker</option><option value="yes">Current smoker</option></select></div>
               <div class="input-group"><label><i class="fas fa-apple-alt"></i> Diet</label><select id="dietQuality"><option value="poor">Poor</option><option value="average" selected>Average</option><option value="good">Good</option><option value="excellent">Excellent</option></select></div>
-              <div class="input-group"><label><i class="fas fa-prescription-bottle"></i> Cholesterol Rx?</label><select id="onBpMed"><option value="no" selected>No</option><option value="yes">Yes</option></select></div>
             </div>
             <div class="action-bar">
               <button type="submit" class="btn-primary"><i class="fas fa-calculator"></i> Generate Comprehensive Report</button>
@@ -129,7 +160,6 @@
             </div>
           </form>
         </div>
-
         <div class="report-preview" id="reportContainer">
           <div class="report-header" style="display:flex; justify-content:space-between; border-bottom:1px solid #333; padding-bottom:1rem; margin-bottom:1.5rem;">
             <h2 style="margin:0; font-size:1.6rem;"><i class="fas fa-file-waveform"></i> Health Intelligence Report</h2>
@@ -140,7 +170,7 @@
       </div>
     </div>
 
-    <!-- WELLNESS VIEW (same as before, preserved) -->
+    <!-- WELLNESS VIEW -->
     <div id="wellnessView" style="display: none;">
       <button class="back-btn" id="backToAssessmentBtn"><i class="fas fa-arrow-left"></i> Back to Assessment</button>
       <div class="wellness-header">
@@ -150,10 +180,14 @@
       <div class="subhead">✓ Check off each day. Complete all 30 to unlock your achievement badge.</div>
       <div id="workoutPlanContainer" class="workout-grid"></div>
       <div class="badge-section" id="badgeSection">
-        <h3 style="font-size:1.6rem; margin-bottom:0.5rem;"><i class="fas fa-medal"></i> Achievement Badge</h3>
-        <p style="color:#aaa; margin-bottom:1.5rem;">Complete all 30 days to download your personalized badge.</p>
+        <h3 style="font-size:1.6rem; margin-bottom:0.5rem;"><i class="fas fa-medal"></i> Premium Achievement Badge</h3>
+        <p style="color:#aaa; margin-bottom:1.5rem;">Complete all 30 days – then personalize & download your badge.</p>
+        <div class="name-input-container">
+          <label style="color:#ccc;"><i class="fas fa-signature"></i> Your name (optional):</label>
+          <input type="text" id="badgeNameInput" placeholder="e.g. Alex Rivera" maxlength="30">
+        </div>
         <div class="badge-preview">
-          <canvas id="badgeCanvas" width="500" height="300" style="width:100%; max-width:400px; height:auto;"></canvas>
+          <canvas id="badgeCanvas" width="500" height="300" style="width:100%; max-width:450px; height:auto;"></canvas>
           <div style="text-align:left;">
             <div style="font-size:1.2rem; font-weight:600;" id="badgeStatusMessage">🔒 0/30 completed</div>
             <div style="margin:12px 0; color:#ccc;" id="motivationLine"></div>
@@ -165,6 +199,13 @@
         </div>
       </div>
     </div>
+
+    <!-- HEALTH QUIZ VIEW -->
+    <div id="quizView" style="display: none;">
+      <div class="featured-title"><i class="fas fa-brain"></i><span>Health IQ Challenge</span></div>
+      <div class="subhead">50 questions · Learn essential health facts while you play</div>
+      <div class="quiz-container" id="quizContainer"></div>
+    </div>
   </div>
 </div>
 
@@ -175,299 +216,298 @@
     // ----- NAVIGATION -----
     const assessmentView = document.getElementById('assessmentView');
     const wellnessView = document.getElementById('wellnessView');
+    const quizView = document.getElementById('quizView');
     const navHome = document.getElementById('navHome');
     const navWellness = document.getElementById('navWellness');
+    const navQuiz = document.getElementById('navQuiz');
     const backBtn = document.getElementById('backToAssessmentBtn');
 
-    function showAssessment() {
-      assessmentView.style.display = 'block';
-      wellnessView.style.display = 'none';
-      navHome.classList.add('active');
-      navWellness.classList.remove('active');
-    }
-    function showWellness() {
+    function showView(viewId) {
       assessmentView.style.display = 'none';
-      wellnessView.style.display = 'block';
-      navWellness.classList.add('active');
+      wellnessView.style.display = 'none';
+      quizView.style.display = 'none';
       navHome.classList.remove('active');
-      renderWorkoutGrid();
-      updateBadgeAndProgress();
+      navWellness.classList.remove('active');
+      navQuiz.classList.remove('active');
+      if (viewId === 'assessment') { assessmentView.style.display = 'block'; navHome.classList.add('active'); }
+      else if (viewId === 'wellness') { wellnessView.style.display = 'block'; navWellness.classList.add('active'); renderWorkoutGrid(); updateBadgeAndProgress(); }
+      else if (viewId === 'quiz') { quizView.style.display = 'block'; navQuiz.classList.add('active'); initQuiz(); }
     }
-    navHome.addEventListener('click', showAssessment);
-    navWellness.addEventListener('click', showWellness);
-    backBtn.addEventListener('click', showAssessment);
+    navHome.addEventListener('click', () => showView('assessment'));
+    navWellness.addEventListener('click', () => showView('wellness'));
+    navQuiz.addEventListener('click', () => showView('quiz'));
+    backBtn.addEventListener('click', () => showView('assessment'));
 
-    // ----- ENHANCED HEALTH CALCULATIONS -----
+    // ----- HEALTH CALCULATIONS -----
     const reportDateSpan = document.getElementById('reportDate');
     const reportContent = document.getElementById('reportContent');
-    
-    function setReportDate() {
-      const d = new Date();
-      reportDateSpan.textContent = d.toLocaleDateString('en-US', {year:'numeric', month:'short', day:'numeric'});
-    }
+    function setReportDate() { const d = new Date(); reportDateSpan.textContent = d.toLocaleDateString('en-US', {year:'numeric', month:'short', day:'numeric'}); }
+    function calculateBMI(w,h) { return w/(h/100)**2; }
+    function getBMICategory(bmi) { if(bmi<18.5) return 'Underweight'; if(bmi<25) return 'Normal'; if(bmi<30) return 'Overweight'; return 'Obese'; }
+    function calculateBodyFat(weight,height,waist,hip,neck,gender){ const h=height; return gender==='male'?86.010*Math.log10(waist-neck)-70.041*Math.log10(h)+36.76:163.205*Math.log10(waist+hip-neck)-97.684*Math.log10(h)-78.387; }
+    function waistToHeightRatio(w,h){ return w/h; }
+    function calculateBMR(w,h,a,g){ return g==='male'?10*w+6.25*h-5*a+5:10*w+6.25*h-5*a-161; }
+    function calculateTDEE(b,a){ return b*a; }
+    function estimateVO2Max(age,hr){ return (15.3*((208-0.7*age)/hr)).toFixed(1); }
+    function calculateCVDRisk(age,gender,smoker,bpSys,bmi){ let p=Math.floor(age/5)-6; if(gender==='male')p+=3; if(smoker==='yes')p+=4; else if(smoker==='former')p+=2; if(bpSys>=130)p+=2; if(bpSys>=140)p+=3; if(bmi>=30)p+=2; return {points:p, risk: Math.min(30,Math.max(2,p*1.2)).toFixed(1)}; }
+    function checkMetabolicSyndrome(w,s,d,g){ let c=0; if((g==='male'&&w>102)||(g==='female'&&w>88))c++; if(s>=130||d>=85)c++; return {criteria:c, hasMetSyn:c>=3}; }
+    function calculateNutrition(w,h,a,g,act,tdee){ return {protein:(w*1.6).toFixed(0), carbs:(tdee*0.5/4).toFixed(0), fat:(tdee*0.3/9).toFixed(0), fiber:g==='male'?38:25, water:(w*35/1000).toFixed(1)}; }
+    function estimateBiologicalAge(cAge,bmi,bpSys,smoker,act){ let bio=cAge; if(bmi>=30)bio+=3; else if(bmi>=25)bio+=1; if(bpSys>=140)bio+=4; else if(bpSys>=130)bio+=2; if(smoker==='yes')bio+=8; else if(smoker==='former')bio+=3; if(act<1.4)bio+=3; return Math.round(bio); }
 
-    // Core calculations
-    function calculateBMI(weight, height) { const h = height/100; return weight/(h*h); }
-    function getBMICategory(bmi) {
-      if(bmi<18.5) return 'Underweight'; if(bmi<25) return 'Normal'; if(bmi<30) return 'Overweight'; return 'Obese';
-    }
-    
-    // Body Fat % (Navy Method)
-    function calculateBodyFat(weight, height, waist, hip, neck=37, gender='male') {
-      const h = height;
-      if(gender==='male') {
-        return 86.010 * Math.log10(waist - neck) - 70.041 * Math.log10(h) + 36.76;
-      } else {
-        return 163.205 * Math.log10(waist + hip - neck) - 97.684 * Math.log10(h) - 78.387;
-      }
-    }
-    
-    // Waist-to-Height Ratio
-    function waistToHeightRatio(waist, height) { return waist/height; }
-    
-    // BMR (Mifflin-St Jeor)
-    function calculateBMR(weight, height, age, gender) {
-      if(gender==='male') return (10*weight + 6.25*height - 5*age + 5);
-      return (10*weight + 6.25*height - 5*age - 161);
-    }
-    
-    // TDEE
-    function calculateTDEE(bmr, activity) { return bmr * activity; }
-    
-    // VO2 Max estimation (based on resting HR)
-    function estimateVO2Max(age, restingHR, gender) {
-      const hrMax = 208 - 0.7 * age;
-      const hrr = hrMax - restingHR;
-      return (15.3 * (hrMax / restingHR)).toFixed(1);
-    }
-    
-    // Framingham CVD Risk (simplified)
-    function calculateCVDRisk(age, gender, smoker, bpSys, onMed, bmi) {
-      let points = 0;
-      points += Math.floor(age/5) - 6;
-      if(gender==='male') points += 3;
-      if(smoker==='yes') points += 4;
-      if(smoker==='former') points += 2;
-      if(bpSys>=130) points += 2;
-      if(bpSys>=140) points += 3;
-      if(onMed==='yes') points += 1;
-      if(bmi>=30) points += 2;
-      let risk = Math.min(30, Math.max(2, points * 1.2));
-      return { points, risk: risk.toFixed(1) };
-    }
-    
-    // Metabolic Syndrome check
-    function checkMetabolicSyndrome(waist, bpSys, bpDia, gender) {
-      let criteria = 0;
-      const waistRisk = (gender==='male' && waist>102) || (gender==='female' && waist>88);
-      if(waistRisk) criteria++;
-      if(bpSys>=130 || bpDia>=85) criteria++;
-      return { criteria, hasMetSyn: criteria>=3 };
-    }
-    
-    // Nutritional calculations
-    function calculateNutrition(weight, height, age, gender, activity, tdee) {
-      const protein = (weight * 1.6).toFixed(0);
-      const carbs = (tdee * 0.5 / 4).toFixed(0);
-      const fat = (tdee * 0.3 / 9).toFixed(0);
-      const fiber = gender==='male' ? 38 : 25;
-      const water = (weight * 35 / 1000).toFixed(1);
-      return { protein, carbs, fat, fiber, water };
-    }
-    
-    // Biological age estimate
-    function estimateBiologicalAge(chronAge, bmi, bpSys, smoker, activity) {
-      let bioAge = chronAge;
-      if(bmi>=30) bioAge += 3; else if(bmi>=25) bioAge += 1;
-      if(bpSys>=140) bioAge += 4; else if(bpSys>=130) bioAge += 2;
-      if(smoker==='yes') bioAge += 8; else if(smoker==='former') bioAge += 3;
-      if(activity<1.4) bioAge += 3;
-      return Math.round(bioAge);
-    }
-
-    // Render comprehensive report
     function generateReport() {
       try {
-        const age = parseFloat(document.getElementById('age').value) || 42;
-        const gender = document.getElementById('gender').value;
-        const weight = parseFloat(document.getElementById('weight').value) || 68;
-        const height = parseFloat(document.getElementById('height').value) || 165;
-        const waist = parseFloat(document.getElementById('waist').value) || 78;
-        const hip = parseFloat(document.getElementById('hip').value) || 96;
-        const bpSys = parseFloat(document.getElementById('bpSystolic').value) || 128;
-        const bpDia = parseFloat(document.getElementById('bpDiastolic').value) || 82;
-        const restingHR = parseFloat(document.getElementById('restingHR').value) || 72;
-        const activity = parseFloat(document.getElementById('activity').value) || 1.375;
-        const smoking = document.getElementById('smoking').value;
-        const dietQuality = document.getElementById('dietQuality').value;
-        const onBpMed = document.getElementById('onBpMed').value;
-        const neck = gender==='male' ? 38 : 34; // default neck
+        const age = +document.getElementById('age').value||42, gender=document.getElementById('gender').value, weight=+document.getElementById('weight').value||68, height=+document.getElementById('height').value||165;
+        const waist=+document.getElementById('waist').value||78, hip=+document.getElementById('hip').value||96, bpSys=+document.getElementById('bpSystolic').value||128, bpDia=+document.getElementById('bpDiastolic').value||82;
+        const restingHR=+document.getElementById('restingHR').value||72, activity=+document.getElementById('activity').value||1.375, smoking=document.getElementById('smoking').value;
+        const neck=gender==='male'?38:34;
 
-        // All calculations
-        const bmi = calculateBMI(weight, height);
-        const bmiCat = getBMICategory(bmi);
-        const bodyFat = calculateBodyFat(weight, height, waist, hip, neck, gender);
-        const whtRatio = waistToHeightRatio(waist, height);
-        const bmr = calculateBMR(weight, height, age, gender);
-        const tdee = calculateTDEE(bmr, activity);
-        const vo2max = estimateVO2Max(age, restingHR, gender);
-        const cvd = calculateCVDRisk(age, gender, smoking, bpSys, onBpMed, bmi);
-        const metSyn = checkMetabolicSyndrome(waist, bpSys, bpDia, gender);
-        const nutrition = calculateNutrition(weight, height, age, gender, activity, tdee);
-        const bioAge = estimateBiologicalAge(age, bmi, bpSys, smoking, activity);
+        const bmi=calculateBMI(weight,height), bmiCat=getBMICategory(bmi), bodyFat=calculateBodyFat(weight,height,waist,hip,neck,gender);
+        const whtRatio=waistToHeightRatio(waist,height), bmr=calculateBMR(weight,height,age,gender), tdee=calculateTDEE(bmr,activity);
+        const vo2max=estimateVO2Max(age,restingHR), cvd=calculateCVDRisk(age,gender,smoking,bpSys,bmi), metSyn=checkMetabolicSyndrome(waist,bpSys,bpDia,gender);
+        const nutrition=calculateNutrition(weight,height,age,gender,activity,tdee), bioAge=estimateBiologicalAge(age,bmi,bpSys,smoking,activity);
         const bpCat = bpSys<120&&bpDia<80?'Normal':bpSys<130&&bpDia<80?'Elevated':bpSys<140||bpDia<90?'Stage 1 HTN':'Stage 2 HTN';
-
-        // Risk level
-        let overallRisk = 'Low';
-        let riskScore = 0;
-        if(bmi>=30) riskScore+=3; else if(bmi>=25) riskScore+=1;
-        if(whtRatio>0.5) riskScore+=2; if(whtRatio>0.6) riskScore+=3;
-        if(bodyFat>(gender==='male'?25:32)) riskScore+=2;
-        if(bpCat.includes('HTN')) riskScore+=2;
-        if(smoking==='yes') riskScore+=3;
-        if(metSyn.hasMetSyn) riskScore+=3;
-        if(riskScore>=6) overallRisk='High';
-        else if(riskScore>=3) overallRisk='Moderate';
-
-        setReportDate();
         
+        setReportDate();
+
         const html = `
+          <div class="disclaimer-box">
+            <i class="fas fa-exclamation-triangle" style="color:#f39c12;"></i> 
+            <strong>Medical Disclaimer — Important:</strong> This automated health assessment is for educational and informational purposes only. It is not a medical diagnosis, treatment recommendation, or substitute for professional medical advice. Always consult a qualified physician.
+          </div>
           <div class="metric-tiles">
             <div class="tile"><span class="label">BMI</span><div class="value">${bmi.toFixed(1)}<span class="unit">kg/m²</span></div><small>${bmiCat}</small></div>
             <div class="tile"><span class="label">Body Fat</span><div class="value">${bodyFat.toFixed(1)}<span class="unit">%</span></div><small>${bodyFat>(gender==='male'?25:32)?'Above avg':'Healthy'}</small></div>
             <div class="tile"><span class="label">Waist/Height</span><div class="value">${whtRatio.toFixed(2)}</div><small>${whtRatio>0.5?'⚠️ Elevated':'✓ Good'}</small></div>
             <div class="tile"><span class="label">BMR / TDEE</span><div class="value">${Math.round(bmr)}<span class="unit">/${Math.round(tdee)}</span></div><small>kcal/day</small></div>
           </div>
-          
           <div class="two-column">
-            <div class="info-box">
-              <strong><i class="fas fa-heart" style="color:#e50914;"></i> Cardiovascular</strong><br>
-              BP: ${bpSys}/${bpDia} mmHg (${bpCat})<br>
-              Resting HR: ${restingHR} bpm<br>
-              Est. VO₂ Max: ${vo2max} ml/kg/min<br>
-              10-yr CVD Risk: ${cvd.risk}% ${cvd.risk>10?'⚠️':cvd.risk>5?'⚡':'✓'}
-            </div>
-            <div class="info-box">
-              <strong><i class="fas fa-chart-line"></i> Metabolic Profile</strong><br>
-              BMR: ${Math.round(bmr)} kcal · TDEE: ${Math.round(tdee)} kcal<br>
-              Biological Age: ${bioAge} ${bioAge>age?'📈':bioAge<age?'🎉':'➡️'}<br>
-              Metabolic Syn: ${metSyn.hasMetSyn?'⚠️ Present':'✓ Not present'}
-            </div>
+            <div class="info-box"><strong><i class="fas fa-heart" style="color:#e50914;"></i> Cardiovascular</strong><br>BP: ${bpSys}/${bpDia} mmHg (${bpCat})<br>Resting HR: ${restingHR} bpm<br>Est. VO₂ Max: ${vo2max} ml/kg/min<br>10-yr CVD Risk: ${cvd.risk}%</div>
+            <div class="info-box"><strong><i class="fas fa-chart-line"></i> Metabolic Profile</strong><br>BMR: ${Math.round(bmr)} kcal · TDEE: ${Math.round(tdee)} kcal<br>Biological Age: ${bioAge} ${bioAge>age?'📈':bioAge<age?'🎉':'➡️'}<br>Metabolic Syn: ${metSyn.hasMetSyn?'⚠️ Present':'✓ Not present'}</div>
           </div>
-          
-          <div class="risk-summary">
-            <div style="display:flex; justify-content:space-between;">
-              <span style="font-weight:700;"><i class="fas fa-shield-virus"></i> Comprehensive Risk Assessment</span>
-              <span class="risk-badge ${overallRisk==='Low'?'risk-low':overallRisk==='Moderate'?'risk-moderate':'risk-high'}">${overallRisk} Risk (score ${riskScore})</span>
+          <div class="doctor-report">
+            <div class="report-header-doctor"><span style="font-weight:700;"><i class="fas fa-stethoscope"></i> CLINICAL SUMMARY & RECOMMENDATIONS</span></div>
+            <div class="report-section">
+              <h4><i class="fas fa-clipboard-check"></i> Detailed Impression</h4>
+              <p>${age}-year-old ${gender}, height ${height} cm, weight ${weight} kg. BMI ${bmi.toFixed(1)} kg/m² (${bmiCat}). Blood pressure ${bpSys}/${bpDia} mmHg (${bpCat}). Resting heart rate ${restingHR} bpm. Estimated biological age is ${bioAge} years, which is ${bioAge>age?'above':bioAge<age?'below':'equal to'} chronological age. ${metSyn.hasMetSyn?'Criteria for metabolic syndrome are met. ':''}${smoking==='yes'?'Active tobacco use is a significant modifiable risk factor. ':''}Waist-to-height ratio ${whtRatio.toFixed(2)} (${whtRatio>0.5?'elevated, indicating central adiposity':'within desirable range'}). Body fat percentage ${bodyFat.toFixed(1)}% is ${bodyFat>(gender==='male'?25:32)?'above the healthy range':'within healthy limits'}. Estimated 10-year cardiovascular disease risk is approximately ${cvd.risk}%.</p>
             </div>
-            <div style="margin-top:12px;">
-              ${whtRatio>0.5?'<span class="risk-badge risk-moderate">High Waist/Height</span>':''}
-              ${bmi>=25?'<span class="risk-badge '+(bmi>=30?'risk-high':'risk-moderate')+'">'+(bmi>=30?'Obesity':'Overweight')+'</span>':''}
-              ${bpCat.includes('HTN')?'<span class="risk-badge risk-moderate">Hypertension</span>':''}
-              ${smoking==='yes'?'<span class="risk-badge risk-high">Smoker</span>':''}
-              ${metSyn.hasMetSyn?'<span class="risk-badge risk-high">Metabolic Syndrome</span>':''}
+            <div class="report-section">
+              <h4><i class="fas fa-notes-medical"></i> Professional Recommendations</h4>
+              <ul class="rec-list">
+                <li><i class="fas fa-check-circle"></i> <strong>Nutrition:</strong> Aim for ~${nutrition.protein}g protein, ${nutrition.carbs}g carbohydrates, ${nutrition.fat}g fat, and ${nutrition.fiber}g fiber daily. Hydration target ~${nutrition.water}L. Emphasize whole foods, fruits, vegetables, lean proteins, and healthy fats. Limit sodium to <2300 mg/day.</li>
+                <li><i class="fas fa-check-circle"></i> <strong>Physical Activity:</strong> Engage in at least 150 minutes of moderate-intensity aerobic activity weekly, plus two or more days of strength training. Consider aiming for 8,000–10,000 steps per day.</li>
+                <li><i class="fas fa-check-circle"></i> <strong>Weight Management:</strong> ${bmi>=25?`A gradual weight loss of 0.5–1 kg per week (caloric deficit ~500 kcal/day) is advised to reach a healthier BMI range.`:'Maintain current weight through balanced nutrition and regular activity.'}</li>
+                <li><i class="fas fa-check-circle"></i> <strong>Cardiovascular Health:</strong> ${bpCat.includes('HTN')?'Monitor blood pressure regularly. Lifestyle modifications (DASH diet, reduced sodium, increased potassium) are first-line interventions.':'Maintain healthy BP through ongoing lifestyle habits.'}</li>
+                <li><i class="fas fa-check-circle"></i> <strong>Follow-up:</strong> Schedule routine check-ups including lipid panel, fasting glucose, and blood pressure reassessment. ${smoking==='yes'?'Strongly consider smoking cessation resources and support. ':''}Annual preventive care is recommended.</li>
+                <li><i class="fas fa-check-circle"></i> <strong>Sleep & Stress:</strong> Prioritize 7–9 hours of quality sleep per night. Incorporate stress-reduction techniques such as mindfulness, meditation, or yoga.</li>
+              </ul>
             </div>
-          </div>
-          
-          <div class="section-title"><i class="fas fa-utensils"></i> Nutritional Prescription (Daily)</div>
-          <div class="diet-plan">
-            <div class="meal-card"><h4>🥩 Protein</h4>${nutrition.protein} g</div>
-            <div class="meal-card"><h4>🍚 Carbs</h4>${nutrition.carbs} g</div>
-            <div class="meal-card"><h4>🥑 Fat</h4>${nutrition.fat} g</div>
-            <div class="meal-card"><h4>🌾 Fiber</h4>${nutrition.fiber} g</div>
-            <div class="meal-card"><h4>💧 Water</h4>${nutrition.water} L</div>
-          </div>
-          
-          <div class="section-title"><i class="fas fa-lightbulb"></i> Personalized Recommendations</div>
-          <ul class="rec-list">
-            ${whtRatio>0.5?'<li><i class="fas fa-check-circle"></i> Reduce waist circumference through 150min weekly cardio</li>':''}
-            ${bmi>=25?'<li><i class="fas fa-check-circle"></i> Aim for 0.5-1kg weekly weight loss (deficit ~500 kcal/day)</li>':''}
-            ${bpCat.includes('HTN')?'<li><i class="fas fa-check-circle"></i> DASH diet: <2300mg sodium, increase potassium</li>':''}
-            ${smoking==='yes'?'<li><i class="fas fa-check-circle"></i> Smoking cessation is highest priority intervention</li>':''}
-            <li><i class="fas fa-check-circle"></i> Protein target: ${nutrition.protein}g · Spread across 3-4 meals</li>
-            <li><i class="fas fa-check-circle"></i> Cardiovascular: ${Math.round(tdee*0.1)} kcal deficit recommended</li>
-            <li><i class="fas fa-check-circle"></i> Annual checkup · Monitor BP monthly · 7-8h sleep</li>
-          </ul>
-          
-          <div style="margin-top:16px; background:#1f1f1f; padding:12px; border-radius:20px;">
-            <i class="fas fa-notes-medical"></i> <strong>Summary:</strong> Bio age ${bioAge} (${bioAge-age>0?'+':''}${bioAge-age}). ${overallRisk} risk profile. Focus on ${whtRatio>0.5?'waist reduction':bmi>=25?'weight management':'maintenance'}.
+            <div style="margin-top:16px; background:#1f1f1f; padding:12px; border-radius:20px; font-style:italic;">
+              <i class="fas fa-user-md"></i> <strong>Clinical Note:</strong> This report is algorithmically generated based on provided data. It is intended for educational use and should be reviewed by a healthcare professional for personalized medical advice.
+            </div>
           </div>
         `;
         reportContent.innerHTML = html;
-      } catch(e) { console.error(e); reportContent.innerHTML = '<div class="empty-message">Error generating report</div>'; }
+      } catch(e) { reportContent.innerHTML = '<div class="empty-message">Error generating report</div>'; }
     }
 
-    document.getElementById('healthForm').addEventListener('submit', (e)=>{ e.preventDefault(); generateReport(); });
+    document.getElementById('healthForm').addEventListener('submit', e=>{ e.preventDefault(); generateReport(); });
     document.getElementById('resetBtn').addEventListener('click', ()=>{
-      document.getElementById('age').value=42; document.getElementById('gender').value='female';
-      document.getElementById('weight').value=68; document.getElementById('height').value=165;
-      document.getElementById('waist').value=78; document.getElementById('hip').value=96;
-      document.getElementById('bpSystolic').value=128; document.getElementById('bpDiastolic').value=82;
-      document.getElementById('restingHR').value=72; document.getElementById('activity').value='1.375';
-      document.getElementById('smoking').value='no'; document.getElementById('dietQuality').value='average';
-      document.getElementById('onBpMed').value='no';
-      reportContent.innerHTML = '<div class="empty-message"><i class="fas fa-arrow-left"></i> Fill form & generate report</div>';
-      setReportDate();
+      document.getElementById('age').value=42; document.getElementById('gender').value='female'; document.getElementById('weight').value=68; document.getElementById('height').value=165;
+      document.getElementById('waist').value=78; document.getElementById('hip').value=96; document.getElementById('bpSystolic').value=128; document.getElementById('bpDiastolic').value=82;
+      document.getElementById('restingHR').value=72; document.getElementById('activity').value='1.375'; document.getElementById('smoking').value='no'; document.getElementById('dietQuality').value='average';
+      reportContent.innerHTML = '<div class="empty-message"><i class="fas fa-arrow-left"></i> Fill form & generate report</div>'; setReportDate();
     });
 
-    // ----- 30 DAY WELLNESS (unchanged core, badge) -----
-    const workoutPlan = Array.from({length:30}, (_,i)=>({
-      day:i+1,
-      type:['Walking','Yoga','Upper Body','Lower Body','HIIT','Full Body','Active Recovery'][i%7],
-      desc: ['20 min brisk','Flow','Push-ups','Squats','Intervals','Circuit','Stretch'][i%7]
-    }));
-    
+    // ----- WELLNESS (unchanged) -----
+    const workoutPlan = Array.from({length:30}, (_,i)=>({ day:i+1, type:['Walking','Yoga','Upper Body','Lower Body','HIIT','Full Body','Active Recovery'][i%7], desc:['20 min brisk','Flow','Push-ups','Squats','Intervals','Circuit','Stretch'][i%7] }));
     let completedDays = JSON.parse(localStorage.getItem('hp30Completed')) || [];
     function saveProgress(){ localStorage.setItem('hp30Completed', JSON.stringify(completedDays)); }
     function toggleDay(day){ completedDays.includes(day) ? completedDays=completedDays.filter(d=>d!==day) : completedDays.push(day); saveProgress(); renderWorkoutGrid(); updateBadgeAndProgress(); }
-    
     function renderWorkoutGrid(){
       const container = document.getElementById('workoutPlanContainer');
-      container.innerHTML = workoutPlan.map(w=>`
-        <div class="day-card ${completedDays.includes(w.day)?'completed':''}">
-          <div class="day-number">${w.day}</div><div class="day-label">Day ${w.day}</div>
-          <div class="day-type">${w.type}</div><div style="font-size:0.8rem;">${w.desc}</div>
-          <div class="day-check"><input type="checkbox" ${completedDays.includes(w.day)?'checked':''} data-day="${w.day}"> <label>Done</label></div>
-        </div>`).join('');
-      document.querySelectorAll('.day-checkbox, .day-check input').forEach(cb=>cb.addEventListener('change', e=>toggleDay(parseInt(e.target.dataset.day))));
+      container.innerHTML = workoutPlan.map(w=>`<div class="day-card ${completedDays.includes(w.day)?'completed':''}"><div class="day-number">${w.day}</div><div class="day-label">Day ${w.day}</div><div class="day-type">${w.type}</div><div style="font-size:0.8rem;">${w.desc}</div><div class="day-check"><input type="checkbox" ${completedDays.includes(w.day)?'checked':''} data-day="${w.day}"> <label>Done</label></div></div>`).join('');
+      document.querySelectorAll('.day-check input').forEach(cb=>cb.addEventListener('change', e=>toggleDay(parseInt(e.target.dataset.day))));
     }
-    
-    function updateBadgeAndProgress(){
-      const cnt = completedDays.length;
-      document.getElementById('progressStats').textContent = `${cnt}/30 days completed${cnt===30?' 🎉':''}`;
-      const allDone = cnt===30;
-      document.getElementById('badgeStatusMessage').innerHTML = allDone?'🏆 CONGRATULATIONS! Badge Unlocked!':`🔒 ${cnt}/30 · Keep going!`;
-      document.getElementById('motivationLine').innerHTML = allDone?'"Consistency transforms. You did it!"':'"Every day counts. Stay strong."';
-      document.getElementById('downloadBadgeBtn').disabled = !allDone;
-      drawBadge(allDone);
-    }
-    
     const canvas = document.getElementById('badgeCanvas'), ctx = canvas.getContext('2d');
+    const nameInput = document.getElementById('badgeNameInput');
     function drawBadge(unlocked){
-      ctx.fillStyle = '#0f0f1a'; ctx.fillRect(0,0,500,300);
-      ctx.strokeStyle = unlocked?'#e50914':'#555'; ctx.lineWidth=5; ctx.strokeRect(5,5,490,290);
-      ctx.font='bold 24px Inter'; ctx.fillStyle='#fff'; ctx.textAlign='center';
-      ctx.fillText(unlocked?'🏅 30-DAY CHAMPION':'🌱 IN PROGRESS',250,60);
-      ctx.font='16px Inter'; ctx.fillStyle='#aaa';
-      ctx.fillText(`Awarded: ${new Date().toLocaleDateString()}`,250,130);
-      ctx.font='italic 18px Inter'; ctx.fillStyle='#ddd';
-      ctx.fillText(unlocked?'"Small steps, massive transformation"':'"Keep showing up"',250,200);
-      ctx.font='40px sans-serif'; ctx.fillText(unlocked?'⭐🏆⭐':'💪',250,260);
+      const name = nameInput.value.trim() || (unlocked ? 'Health Champion' : 'In Progress');
+      const dateStr = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+      const grad = ctx.createLinearGradient(0,0,500,300); grad.addColorStop(0,'#0b0b12'); grad.addColorStop(1,'#1c1c28');
+      ctx.fillStyle=grad; ctx.fillRect(0,0,500,300); ctx.strokeStyle=unlocked?'#f1c40f':'#7f8c8d'; ctx.lineWidth=6; ctx.strokeRect(4,4,492,292);
+      ctx.strokeStyle=unlocked?'#d4af37':'#95a5a6'; ctx.lineWidth=2; ctx.strokeRect(12,12,476,276);
+      ctx.font='bold 26px Inter'; ctx.fillStyle=unlocked?'#f1c40f':'#bdc3c7'; ctx.textAlign='center'; ctx.fillText(unlocked?'⭐ 30-DAY CHAMPION ⭐':'🌱 JOURNEY IN PROGRESS',250,60);
+      ctx.font='600 22px Inter'; ctx.fillStyle='#fff'; ctx.fillText(name,250,110);
+      ctx.font='500 16px Inter'; ctx.fillStyle='#bbb'; ctx.fillText(unlocked?`Awarded: ${dateStr}`:`As of: ${dateStr}`,250,150);
+      ctx.font='italic 18px Inter'; ctx.fillStyle=unlocked?'#d4af37':'#aaa'; ctx.fillText(unlocked?'"Consistency forged. You earned it."':'"Every rep matters. Keep going."',250,200);
+      ctx.font='36px sans-serif'; ctx.fillStyle=unlocked?'#f39c12':'#5d6d7e'; ctx.fillText(unlocked?'🏆':'💪',250,260);
+      if(unlocked){ ctx.font='20px sans-serif'; ctx.fillStyle='#f1c40f'; ctx.fillText('✨',60,70); ctx.fillText('✨',420,230); }
     }
-    
-    document.getElementById('downloadBadgeBtn').addEventListener('click', ()=>{
-      if(completedDays.length===30){ const a=document.createElement('a'); a.download='HealthPulse_Badge.png'; a.href=canvas.toDataURL(); a.click(); }
-    });
-    document.getElementById('resetProgressBtn').addEventListener('click', ()=>{
-      if(confirm('Reset all 30-day progress?')){ completedDays=[]; saveProgress(); renderWorkoutGrid(); updateBadgeAndProgress(); }
-    });
+    function updateBadgeAndProgress(){
+      const cnt=completedDays.length; document.getElementById('progressStats').textContent=`${cnt}/30 days completed${cnt===30?' 🎉':''}`;
+      const allDone=cnt===30; document.getElementById('badgeStatusMessage').innerHTML=allDone?'🏆 CONGRATULATIONS! Badge Unlocked!':`🔒 ${cnt}/30 · Keep going!`;
+      document.getElementById('motivationLine').innerHTML=allDone?'"Consistency transforms. You did it!"':'"Every day counts. Stay strong."';
+      document.getElementById('downloadBadgeBtn').disabled=!allDone; drawBadge(allDone);
+    }
+    nameInput.addEventListener('input', ()=>drawBadge(completedDays.length===30));
+    document.getElementById('downloadBadgeBtn').addEventListener('click', ()=>{ if(completedDays.length===30){ const a=document.createElement('a'); a.download=`HealthPulse_Badge_${new Date().toISOString().slice(0,10)}.png`; a.href=canvas.toDataURL(); a.click(); } });
+    document.getElementById('resetProgressBtn').addEventListener('click', ()=>{ if(confirm('Reset all 30-day progress?')){ completedDays=[]; saveProgress(); renderWorkoutGrid(); updateBadgeAndProgress(); } });
 
-    // Init
+    // ----- FULL 50-QUESTION QUIZ (RESTORED) -----
+    const quizQuestions = [
+      { question: "What is the recommended amount of moderate-intensity aerobic activity per week for adults?", options: ["60 minutes", "150 minutes", "300 minutes", "90 minutes"], answer: 1, explanation: "WHO recommends at least 150 minutes of moderate-intensity or 75 minutes of vigorous-intensity activity weekly." },
+      { question: "Which vitamin is produced by the body when exposed to sunlight?", options: ["Vitamin A", "Vitamin C", "Vitamin D", "Vitamin B12"], answer: 2, explanation: "Vitamin D is synthesized in the skin upon sun exposure, essential for bone health." },
+      { question: "What is the main function of dietary fiber?", options: ["Build muscle", "Provide quick energy", "Aid digestion and prevent constipation", "Strengthen bones"], answer: 2, explanation: "Fiber promotes healthy bowel movements and feeds beneficial gut bacteria." },
+      { question: "Which of these is a healthy source of unsaturated fat?", options: ["Butter", "Olive oil", "Coconut oil", "Lard"], answer: 1, explanation: "Olive oil is rich in monounsaturated fats, beneficial for heart health." },
+      { question: "How many hours of sleep are generally recommended for adults per night?", options: ["5-6 hours", "7-9 hours", "10-11 hours", "4-5 hours"], answer: 1, explanation: "Most adults need 7–9 hours for optimal cognitive and physical recovery." },
+      { question: "What does BMI stand for?", options: ["Body Muscle Index", "Basal Metabolic Intake", "Body Mass Index", "Bone Mass Indicator"], answer: 2, explanation: "BMI is a screening tool using weight and height to categorize weight status." },
+      { question: "Which mineral is crucial for maintaining healthy blood pressure?", options: ["Iron", "Calcium", "Potassium", "Zinc"], answer: 2, explanation: "Potassium helps counteract sodium's effect and relaxes blood vessel walls." },
+      { question: "What is the leading preventable cause of death worldwide?", options: ["Obesity", "Smoking", "Alcohol", "Road accidents"], answer: 1, explanation: "Tobacco use is responsible for over 8 million deaths annually." },
+      { question: "Which of the following is a complete protein source?", options: ["Lentils", "Quinoa", "Almonds", "Brown rice"], answer: 1, explanation: "Quinoa contains all nine essential amino acids, making it a complete protein." },
+      { question: "What is the normal resting heart rate range for most adults?", options: ["40-50 bpm", "60-100 bpm", "100-120 bpm", "30-40 bpm"], answer: 1, explanation: "A lower resting heart rate generally indicates better cardiovascular fitness." },
+      { question: "Which food is highest in probiotics?", options: ["Yogurt", "Bread", "Pasta", "Steak"], answer: 0, explanation: "Yogurt contains live beneficial bacteria that support gut health." },
+      { question: "What is the primary role of carbohydrates in the body?", options: ["Build enzymes", "Provide energy", "Repair tissues", "Regulate hormones"], answer: 1, explanation: "Carbs are the body's preferred energy source, broken down into glucose." },
+      { question: "Which of these is a symptom of dehydration?", options: ["Dark urine", "Clear urine", "Increased appetite", "Cold hands"], answer: 0, explanation: "Dark yellow or amber urine often indicates inadequate fluid intake." },
+      { question: "What is the 'sunshine vitamin' also known as?", options: ["Vitamin B6", "Vitamin D", "Vitamin E", "Vitamin K"], answer: 1, explanation: "Vitamin D is synthesized when skin is exposed to UVB rays." },
+      { question: "How many grams of sugar is roughly in one teaspoon?", options: ["2 grams", "4 grams", "8 grams", "10 grams"], answer: 1, explanation: "One teaspoon of granulated sugar equals about 4 grams." },
+      { question: "Which type of exercise is best for improving bone density?", options: ["Swimming", "Cycling", "Weight-bearing exercises", "Yoga"], answer: 2, explanation: "Activities like walking, jogging, and resistance training stimulate bone formation." },
+      { question: "What does 'HDL' stand for?", options: ["High-Density Lipoprotein", "Heavy-Duty Lipid", "Human Digestive Liquid", "Hormone Discharge Level"], answer: 0, explanation: "HDL is 'good' cholesterol that helps remove other forms from bloodstream." },
+      { question: "Which of the following is NOT a benefit of regular physical activity?", options: ["Improved mood", "Increased risk of osteoporosis", "Better sleep", "Weight management"], answer: 1, explanation: "Exercise actually reduces osteoporosis risk by strengthening bones." },
+      { question: "What is the recommended daily water intake for an average adult?", options: ["1 liter", "2-3 liters", "4-5 liters", "0.5 liter"], answer: 1, explanation: "About 2-3 liters (8-12 cups) from all beverages and foods." },
+      { question: "Which of these foods is a good source of iron?", options: ["Spinach", "Banana", "White bread", "Cheese"], answer: 0, explanation: "Spinach contains non-heme iron; pair with vitamin C for better absorption." },
+      { question: "What is the maximum recommended daily sodium intake for adults?", options: ["1,500 mg", "2,300 mg", "3,500 mg", "5,000 mg"], answer: 1, explanation: "American Heart Association recommends no more than 2,300 mg, ideally 1,500 mg." },
+      { question: "Which mental health condition is characterized by persistent sadness and loss of interest?", options: ["Anxiety", "Bipolar disorder", "Depression", "ADHD"], answer: 2, explanation: "Depression affects how you feel, think, and handle daily activities." },
+      { question: "What is the main purpose of a warm-up before exercise?", options: ["Burn more calories", "Increase injury risk", "Prepare muscles and joints", "Decrease heart rate"], answer: 2, explanation: "Warming up gradually increases blood flow and flexibility." },
+      { question: "Which vitamin is essential for blood clotting?", options: ["Vitamin A", "Vitamin C", "Vitamin K", "Vitamin E"], answer: 2, explanation: "Vitamin K is necessary for synthesizing proteins involved in coagulation." },
+      { question: "What is a normal blood pressure reading?", options: ["140/90 mmHg", "120/80 mmHg", "160/100 mmHg", "90/60 mmHg"], answer: 1, explanation: "120/80 is considered within the normal, healthy range." },
+      { question: "Which of these is a whole grain?", options: ["White rice", "Oatmeal", "White bread", "Pasta"], answer: 1, explanation: "Oatmeal contains the entire grain kernel—bran, germ, and endosperm." },
+      { question: "How often should you do strength training exercises per week?", options: ["Once a month", "At least 2 times", "Every day", "Never"], answer: 1, explanation: "Major muscle groups should be worked at least twice weekly." },
+      { question: "What is the glycemic index (GI)?", options: ["Measure of fat content", "Measure of how quickly food raises blood sugar", "Protein quality score", "Vitamin density"], answer: 1, explanation: "Low-GI foods cause a slower, more gradual rise in blood glucose." },
+      { question: "Which of the following is a sign of a heart attack?", options: ["Chest discomfort", "Sudden headache", "Blurred vision", "Itchy skin"], answer: 0, explanation: "Chest pain, shortness of breath, and discomfort in arms/back/jaw are common signs." },
+      { question: "What is the primary function of antioxidants?", options: ["Build muscle", "Fight free radicals", "Increase cholesterol", "Store energy"], answer: 1, explanation: "Antioxidants neutralize free radicals, reducing oxidative stress." },
+      { question: "Which of these is a good source of omega-3 fatty acids?", options: ["Salmon", "Chicken breast", "Pork", "Tofu"], answer: 0, explanation: "Fatty fish like salmon provide EPA and DHA, important for brain and heart." },
+      { question: "What is the main health risk associated with high LDL cholesterol?", options: ["Liver disease", "Kidney stones", "Atherosclerosis (plaque buildup)", "Anemia"], answer: 2, explanation: "LDL cholesterol can accumulate in arteries, leading to blockages." },
+      { question: "Which of the following is a mindfulness practice?", options: ["Meditation", "Running", "Weightlifting", "Dancing"], answer: 0, explanation: "Meditation focuses on present-moment awareness and reduces stress." },
+      { question: "What is the recommended daily intake of fiber for adults?", options: ["10-15 grams", "25-38 grams", "50-60 grams", "5 grams"], answer: 1, explanation: "Women need ~25g, men ~38g; most people fall short." },
+      { question: "Which organ is responsible for filtering blood and producing urine?", options: ["Heart", "Lungs", "Kidneys", "Liver"], answer: 2, explanation: "Kidneys remove waste and excess fluid, regulating electrolytes." },
+      { question: "What is the best way to prevent the spread of germs?", options: ["Wearing gloves", "Frequent handwashing", "Taking vitamins", "Avoiding crowds"], answer: 1, explanation: "Hand hygiene is one of the most effective ways to prevent infection." },
+      { question: "What does 'RICE' stand for in injury treatment?", options: ["Rest, Ice, Compression, Elevation", "Run, Ice, Crush, Elevate", "Rest, Inject, Cool, Exercise", "Recover, Ice, Cardio, Eat"], answer: 0, explanation: "RICE helps reduce swelling and pain in acute injuries." },
+      { question: "Which of these is a symptom of type 2 diabetes?", options: ["Increased thirst and urination", "Sudden weight gain", "Hair loss", "Joint stiffness"], answer: 0, explanation: "High blood sugar causes frequent urination and thirst." },
+      { question: "What is the main component of a healthy diet according to MyPlate?", options: ["Half fruits and vegetables", "Mostly grains", "Mostly protein", "Equal parts all groups"], answer: 0, explanation: "MyPlate recommends filling half your plate with fruits and vegetables." },
+      { question: "Which of the following is NOT a benefit of quitting smoking?", options: ["Improved lung function", "Lower cancer risk", "Increased wrinkles", "Better sense of taste"], answer: 2, explanation: "Quitting actually improves skin health and reduces premature aging." },
+      { question: "What is the recommended maximum alcohol intake per day for women?", options: ["1 drink", "2 drinks", "3 drinks", "0 drinks"], answer: 0, explanation: "Moderate drinking: up to 1 drink/day for women, 2 for men." },
+      { question: "Which vitamin is important for immune function and found in citrus fruits?", options: ["Vitamin A", "Vitamin B12", "Vitamin C", "Vitamin D"], answer: 2, explanation: "Vitamin C supports various cellular functions of the immune system." },
+      { question: "What does 'MET' stand for in exercise physiology?", options: ["Metabolic Equivalent of Task", "Maximum Effort Training", "Muscle Endurance Test", "Moderate Exercise Time"], answer: 0, explanation: "MET measures energy cost of physical activities." },
+      { question: "Which of these is a sign of good mental health?", options: ["Constant worry", "Ability to cope with stress", "Isolating from friends", "Sleeping all day"], answer: 1, explanation: "Resilience and coping skills are indicators of mental well-being." },
+      { question: "What is the best way to get enough vitamin D if you have limited sun exposure?", options: ["Eat more bananas", "Take a supplement or fortified foods", "Drink more water", "Exercise more"], answer: 1, explanation: "Supplements or fortified milk/cereal can help maintain levels." },
+      { question: "Which of the following is a healthy coping mechanism for stress?", options: ["Smoking", "Overeating", "Deep breathing exercises", "Ignoring the problem"], answer: 2, explanation: "Deep breathing activates the parasympathetic nervous system, calming the body." },
+      { question: "What is the main purpose of a cool-down after exercise?", options: ["Increase heart rate suddenly", "Prevent blood pooling and dizziness", "Burn extra calories", "Tighten muscles"], answer: 1, explanation: "Gradual cool-down helps return heart rate and blood pressure to normal." },
+      { question: "Which of the following foods is highest in added sugar?", options: ["Plain yogurt", "Soda", "Oatmeal", "Nuts"], answer: 1, explanation: "A single can of soda can contain 9-12 teaspoons of sugar." },
+      { question: "What does 'BMI' not account for?", options: ["Height", "Weight", "Muscle mass", "Age"], answer: 2, explanation: "BMI cannot distinguish between fat and muscle, so athletes may be misclassified." },
+      { question: "Why is breakfast often called the most important meal?", options: ["It jumpstarts metabolism", "It's the largest meal", "It's the only meal with protein", "It prevents all diseases"], answer: 0, explanation: "Eating breakfast replenishes glucose and provides energy for the day." }
+    ];
+
+    let currentQuizIndex = 0;
+    let userAnswers = new Array(quizQuestions.length).fill(null);
+    let quizSubmitted = false;
+    let answerLocked = false;
+    const quizContainer = document.getElementById('quizContainer');
+
+    function initQuiz() {
+      currentQuizIndex = 0;
+      userAnswers = new Array(quizQuestions.length).fill(null);
+      quizSubmitted = false;
+      answerLocked = false;
+      renderQuizQuestion();
+    }
+
+    function renderQuizQuestion() {
+      if (quizSubmitted) { showQuizResults(); return; }
+      const q = quizQuestions[currentQuizIndex];
+      const selectedIdx = userAnswers[currentQuizIndex];
+      const isAnswered = selectedIdx !== null;
+      answerLocked = isAnswered;
+
+      let optionsHtml = '';
+      q.options.forEach((opt, idx) => {
+        let optionClass = 'quiz-option';
+        if (selectedIdx === idx) optionClass += ' selected';
+        if (isAnswered) {
+          if (idx === q.answer) optionClass += ' correct-highlight';
+          else if (selectedIdx === idx) optionClass += ' wrong-highlight';
+        }
+        optionsHtml += `<div class="${optionClass}" data-option-index="${idx}"><span class="option-letter">${String.fromCharCode(65+idx)}</span> ${opt}</div>`;
+      });
+
+      const feedbackHtml = isAnswered ? `
+        <div class="quiz-feedback">
+          <strong><i class="fas fa-${selectedIdx === q.answer ? 'check-circle' : 'times-circle'}"></i> ${selectedIdx === q.answer ? 'Correct!' : 'Not quite.'}</strong><br>
+          ${q.explanation}
+        </div>` : '';
+
+      const html = `
+        <div class="quiz-header"><span><i class="fas fa-question-circle"></i> Question ${currentQuizIndex+1} of ${quizQuestions.length}</span><span class="quiz-progress">${Math.round(((currentQuizIndex+1)/quizQuestions.length)*100)}%</span></div>
+        <div class="quiz-question">${q.question}</div>
+        <div class="quiz-options">${optionsHtml}</div>
+        ${feedbackHtml}
+        <div class="quiz-actions">
+          ${currentQuizIndex > 0 ? '<button class="btn-secondary" id="prevQuizBtn"><i class="fas fa-arrow-left"></i> Previous</button>' : ''}
+          ${isAnswered ? 
+            (currentQuizIndex < quizQuestions.length-1 ? '<button class="btn-primary" id="nextQuizBtn" style="grid-column:auto;">Next <i class="fas fa-arrow-right"></i></button>' : '<button class="btn-primary" id="finishQuizBtn" style="grid-column:auto;">See Results <i class="fas fa-trophy"></i></button>')
+            : '<button class="btn-primary" id="submitAnswerBtn" style="grid-column:auto;" disabled>Submit Answer</button>'}
+        </div>
+      `;
+      quizContainer.innerHTML = html;
+
+      if (!isAnswered) {
+        document.querySelectorAll('.quiz-option').forEach(opt => {
+          opt.addEventListener('click', () => {
+            if (answerLocked) return;
+            document.querySelectorAll('.quiz-option').forEach(o => o.classList.remove('selected'));
+            opt.classList.add('selected');
+            const idx = parseInt(opt.dataset.optionIndex);
+            userAnswers[currentQuizIndex] = idx;
+            document.getElementById('submitAnswerBtn').disabled = false;
+          });
+        });
+        document.getElementById('submitAnswerBtn').addEventListener('click', () => {
+          if (userAnswers[currentQuizIndex] !== null) {
+            answerLocked = true;
+            renderQuizQuestion();
+          }
+        });
+      } else {
+        if (document.getElementById('nextQuizBtn')) document.getElementById('nextQuizBtn').addEventListener('click', () => { currentQuizIndex++; renderQuizQuestion(); });
+        if (document.getElementById('finishQuizBtn')) document.getElementById('finishQuizBtn').addEventListener('click', () => { quizSubmitted = true; showQuizResults(); });
+        if (document.getElementById('prevQuizBtn')) document.getElementById('prevQuizBtn').addEventListener('click', () => { currentQuizIndex--; renderQuizQuestion(); });
+      }
+    }
+
+    function showQuizResults() {
+      let correct = userAnswers.filter((a,i)=> a === quizQuestions[i].answer).length;
+      let reviewHtml = '';
+      quizQuestions.forEach((q,i) => {
+        const userAns = userAnswers[i];
+        reviewHtml += `<div class="review-item"><strong>${i+1}. ${q.question}</strong><br>Your answer: ${userAns!==null?q.options[userAns]:'Not answered'} <span class="${userAns===q.answer?'correct-answer':'wrong-answer'}">(${userAns===q.answer?'✓':'✗'})</span><br><span class="correct-answer">Correct: ${q.options[q.answer]}</span><br><small>${q.explanation}</small></div>`;
+      });
+      quizContainer.innerHTML = `
+        <div class="quiz-result">
+          <i class="fas fa-medal" style="font-size:3rem; color:#e50914;"></i>
+          <div class="quiz-score">${correct} / ${quizQuestions.length}</div>
+          <p style="font-size:1.2rem;">${correct >= 40 ? '🏆 Health Expert!' : correct >= 30 ? '👍 Good knowledge!' : '📚 Keep learning!'}</p>
+          <div class="quiz-actions" style="justify-content:center; margin:1.5rem 0;"><button class="btn-secondary" id="restartQuizBtn"><i class="fas fa-redo-alt"></i> Restart Quiz</button></div>
+          <div class="quiz-review"><h3><i class="fas fa-list"></i> Review Answers</h3>${reviewHtml}</div>
+        </div>`;
+      document.getElementById('restartQuizBtn').addEventListener('click', initQuiz);
+    }
+
+    // Initialize on page load
     window.addEventListener('DOMContentLoaded', ()=>{
       setReportDate();
-      generateReport(); // auto-generate demo
+      generateReport();
       renderWorkoutGrid();
       updateBadgeAndProgress();
+      showView('assessment');
     });
   })();
 </script>
